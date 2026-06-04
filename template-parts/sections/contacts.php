@@ -18,7 +18,7 @@ $contacts_nav = [
     [
         ['label' => 'Кейсы'],
         ['label' => 'FAQ', 'href' => '#faq'],
-        ['label' => 'Политика конфиденциальности'],
+        ['label' => 'Политика конфиденциальности', 'href' => function_exists('screenl_legal_url') ? screenl_legal_url('privacy-policy') : home_url('/privacy-policy/')],
     ],
 ];
 ?>

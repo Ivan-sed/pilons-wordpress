@@ -1,6 +1,15 @@
 <?php
 /** Menu overlay */
 if (!defined('ABSPATH')) exit;
+
+$menu_links = [
+    ['label' => 'Преимущества', 'section' => 'benefits'],
+    ['label' => 'Сценарии применения', 'section' => 'scenarios'],
+    ['label' => 'Конфигурации', 'section' => 'configs'],
+    ['label' => 'Создание контента', 'section' => 'content'],
+    ['label' => 'FAQ', 'section' => 'faq'],
+    ['label' => 'Контакты', 'section' => 'contacts'],
+];
 ?>
 <!-- BURGER MENU OVERLAY -->
 <div class="menu menu--closed" id="menu" aria-hidden="true">
@@ -23,12 +32,9 @@ if (!defined('ABSPATH')) exit;
 
         <nav class="menu__nav">
             <ul class="menu__links">
-                <li><a class="menu__link" href="#benefits">Преимущества</a></li>
-                <li><a class="menu__link" href="#scenarios">Сценарии применения</a></li>
-                <li><a class="menu__link" href="#configs">Конфигурации</a></li>
-                <li><a class="menu__link" href="#content">Создание контента</a></li>
-                <li><a class="menu__link" href="#faq">FAQ</a></li>
-                <li><a class="menu__link" href="#contacts">Контакты</a></li>
+                <?php foreach ($menu_links as $link) : ?>
+                    <li><a class="menu__link" href="<?php echo esc_url(screenl_section_url($link['section'])); ?>"><?php echo esc_html($link['label']); ?></a></li>
+                <?php endforeach; ?>
             </ul>
             <div class="menu__contacts">
                 <div class="menu__contact">

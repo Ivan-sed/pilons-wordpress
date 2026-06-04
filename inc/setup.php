@@ -21,7 +21,9 @@ add_action('wp_enqueue_scripts', 'screenl_dequeue_block_styles', 100);
 
 function screenl_dequeue_block_styles(): void
 {
-    if (!is_front_page()) {
+    $is_legal_page = function_exists('screenl_is_legal_page_request') && screenl_is_legal_page_request();
+
+    if (!is_front_page() && !$is_legal_page) {
         return;
     }
 

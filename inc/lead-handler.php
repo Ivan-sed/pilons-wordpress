@@ -36,6 +36,7 @@ function screenl_handle_lead(): void
             'Имя: ' . $name,
             'Контакт: ' . $contact,
             'Мессенджер: ' . ($messenger !== '' ? $messenger : '—'),
+            'Согласие: подтверждено отправкой формы',
             'Дата: ' . current_time('mysql'),
             'IP: ' . (isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '—'),
             'URL: ' . (isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '—'),

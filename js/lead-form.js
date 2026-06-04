@@ -124,7 +124,8 @@
         nonce: nonce,
         name: result.data.name,
         contact: result.data.contact,
-        messenger: result.data.messenger
+        messenger: result.data.messenger,
+        privacy_acceptance: '1'
       });
 
       fetch(ajaxUrl, {

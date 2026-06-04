@@ -4,6 +4,8 @@
 
   var menu = document.getElementById('menu');
   var hero = document.querySelector('.hero');
+  var legalHero = document.querySelector('.legal-page__hero');
+  var legalLayout = document.querySelector('.legal-page__layout');
   var hideAfter = 120;
   var topOffset = 24;
   var deltaThreshold = 8;
@@ -26,10 +28,20 @@
   }
 
   function getScrolledAfter() {
-    if (!hero) return 40;
+    if (hero) {
+      var heroBottom = hero.getBoundingClientRect().bottom + getScrollY();
+      return Math.max(heroBottom - header.offsetHeight - 48, 40);
+    }
 
-    var heroBottom = hero.getBoundingClientRect().bottom + getScrollY();
-    return Math.max(heroBottom - header.offsetHeight - 48, 40);
+    if (legalLayout) {
+      var layoutTop = legalLayout.getBoundingClientRect().top + getScrollY();
+      return Math.max(layoutTop - header.offsetHeight - 48, 40);
+    }
+
+    if (!legalHero) return 40;
+
+    var legalHeroBottom = legalHero.getBoundingClientRect().bottom + getScrollY();
+    return Math.max(legalHeroBottom - header.offsetHeight - 48, 40);
   }
 
   function setClass(name, active, current) {
