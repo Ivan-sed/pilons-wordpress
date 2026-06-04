@@ -429,48 +429,6 @@
     return tl;
   }
 
-  // The pylons reveal: every column (panel + bezel + shadow, main and mirror)
-  // fades in, staggered by its horizontal centre so the screen lights up
-  // strictly left → right. Layout is untouched — this only drives opacity (and
-  // a small rise on the solid front pieces), so the join can run afterwards.
-  var REVEAL_SWEEP = TIMING.revealSweep != null ? TIMING.revealSweep : 0.75;
-  var REVEAL_STEP = TIMING.revealStep != null ? TIMING.revealStep : 0.5;
-
-  function buildPylonReveal() {
-    function collect(list, rise) {
-      return (list || []).map(function (el) {
-        var r = el.getBoundingClientRect();
-        return { el: el, cx: r.left + r.width / 2, rise: rise };
-      });
-    }
-
-    var items = collect(mainPanels.masks, true)
-      .concat(collect(bezelEls, true))
-      .concat(collect(shadowEls, false))
-      .concat(collect(mirrorPanels.masks, false))
-      .concat(collect(mirrorBezelEls, false));
-    if (!items.length) return null;
-
-    var minX = Infinity;
-    var maxX = -Infinity;
-    items.forEach(function (it) {
-      if (it.cx < minX) minX = it.cx;
-      if (it.cx > maxX) maxX = it.cx;
-    });
-    var span = (maxX - minX) || 1;
-
-    var tl = gsap.timeline();
-    items.forEach(function (it) {
-      var at = (it.cx - minX) / span * REVEAL_SWEEP;
-      var from = it.rise ? { opacity: 0, yPercent: 8 } : { opacity: 0 };
-      var to = it.rise
-        ? { opacity: 1, yPercent: 0, duration: REVEAL_STEP, ease: 'power2.out' }
-        : { opacity: 1, duration: REVEAL_STEP, ease: 'power2.out' };
-      tl.fromTo(it.el, from, to, at);
-    });
-    return tl;
-  }
-
   if (reduceMotion) {
     state.t = 1;
     render(1);
@@ -482,19 +440,18 @@
 
   /* ----------------------------- intro timeline -------------------------- */
 
+  var pylonEls = mainPanels.masks
+    .concat(bezelEls, shadowEls, mirrorPanels.masks, mirrorBezelEls);
+  gsap.set(pylonEls, { opacity: 1, yPercent: 0 });
+
   var introTl = gsap.timeline({ onComplete: markIntroDone });
 
-  // 1) Pylons appear one-by-one from left to right.
-  var pylonReveal = buildPylonReveal();
-  if (pylonReveal) introTl.add(pylonReveal, TIMING.delay);
-
-  // 2) Only then do they slide together into the unified screen.
   introTl.to(state, {
       t: 1,
       duration: TIMING.duration,
       ease: TIMING.ease,
       onUpdate: function () { render(state.t); },
-    }, pylonReveal ? '+=' + (TIMING.joinGap != null ? TIMING.joinGap : 0.15) : TIMING.delay);
+    }, TIMING.delay);
 
   // Translate the pinned bezels + shadows into the joined layout in lockstep
   // with the panels above (same start/duration/ease) — composite-only.

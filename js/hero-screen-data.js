@@ -106,10 +106,6 @@ window.HERO_SCREEN_DATA = {
     ease: 'power2.inOut',
     hold: 0,
     delay: 0.45,
-    // Pylons fade in one-by-one before the join starts.
-    revealSweep: 1.1,  // time for the reveal front to cross all pylons (L→R)
-    revealStep: 0.7,   // fade duration of a single pylon
-    joinGap: 0.25,     // pause between the reveal finishing and the join starting
     productGap: 0.22,
   },
 };

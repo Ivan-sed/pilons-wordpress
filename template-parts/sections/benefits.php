@@ -10,42 +10,53 @@ if (!defined('ABSPATH')) {
 }
 ?>
         <!-- BENEFITS -->
-        <section class="benefits" id="benefits">
+        <section class="benefits" id="benefits" aria-labelledby="benefits-title">
             <div class="benefits__bg" aria-hidden="true">
-                <div class="benefits__bg-inner">
-                    <div class="benefits__bg-blur">
-                        <img alt="" class="benefits__bg-img" src="<?php echo screenl_asset('shared/section-bg-gradient-primary.png'); ?>">
-                        <img alt="" class="benefits__bg-img" src="<?php echo screenl_asset('shared/section-bg-gradient-secondary.png'); ?>">
-                    </div>
-                </div>
+                <img class="benefits__bg-img" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('shared/section-bg-gradient-primary.png'); ?>">
+                <img class="benefits__bg-img" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('shared/section-bg-gradient-secondary.png'); ?>">
             </div>
-            <div class="benefits__column">
-                <h2 class="benefits__title">Ключевые преимущества</h2>
-                <div class="benefits__pills-grid">
-                    <div class="benefits__pill benefits__pill--pos-1">2 пилона - 200х120 см</div>
-                    <div class="benefits__pill benefits__pill--pos-2">Шаг - 1.86</div>
-                    <div class="benefits__pill benefits__pill--pos-3">Разрешение одного сегмента - 320х1080</div>
-                    <div class="benefits__pill benefits__pill--pos-4">Бесшовное соединение пилонов</div>
-                    <div class="benefits__pill benefits__pill--pos-5">Толщина 4 см</div>
-                    <div class="benefits__pill benefits__pill--pos-6">Загрузка контента с планшета</div>
-                    <div class="benefits__pill benefits__pill--pos-7">6 Пилонов - 16:9</div>
-                    <div class="benefits__pill benefits__pill--pos-8">Задняя часть пилонов выглядит презентабельно</div>
-                    <div class="benefits__pill benefits__pill--pos-9">Загрузка контента с планшета</div>
-                    <div class="benefits__pill benefits__pill--pos-10">Нужна только розетка</div>
-                    <div class="benefits__badge benefits__badge--reels">Формат Reels</div>
-                    <div class="benefits__badge benefits__badge--hd">Full HD</div>
-                </div>
+
+            <div class="benefits__content">
+                <h2 class="benefits__title" id="benefits-title">Ключевые преимущества</h2>
+
+                <ul class="benefits__list">
+                    <li class="benefits__row benefits__row--split">
+                        <span class="benefits__item benefits__item--reels">
+                            <span class="benefits__badge">Формат Reels</span>
+                            <span class="benefits__item-text">2 пилона - 200х120 см</span>
+                        </span>
+                        <span class="benefits__item">Шаг - 1.86</span>
+                    </li>
+                    <li class="benefits__row">
+                        <span class="benefits__item">Разрешение одного сегмента - 320х1080</span>
+                    </li>
+                    <li class="benefits__row benefits__row--split">
+                        <span class="benefits__item">Бесшовное соединение пилонов</span>
+                        <span class="benefits__item">Толщина 4 см</span>
+                    </li>
+                    <li class="benefits__row benefits__row--split">
+                        <span class="benefits__item">Загрузка контента с планшета</span>
+                        <span class="benefits__item benefits__item--hd">
+                            <span class="benefits__badge">Full HD</span>
+                            <span class="benefits__item-text">6 Пилонов - 16:9</span>
+                        </span>
+                    </li>
+                    <li class="benefits__row benefits__row--tight">
+                        <span class="benefits__item">Задняя часть пилонов выглядит презентабельно</span>
+                    </li>
+                    <li class="benefits__row benefits__row--split benefits__row--tight">
+                        <span class="benefits__item">Загрузка контента с планшета</span>
+                        <span class="benefits__item">Нужна только розетка</span>
+                    </li>
+                </ul>
+
                 <button class="benefits__cta" type="button" data-modal-open>Получить расчёт</button>
             </div>
-            <div class="benefits__photo" aria-hidden="true">
-                <div class="benefits__photo-main">
-                    <img class="benefits__photo-img" alt="LED пилон" src="<?php echo screenl_asset('benefits/pillar-product.png'); ?>">
-                </div>
-                <div class="benefits__photo-reflection">
-                    <div class="benefits__photo-reflection-inner">
-                        <img class="benefits__photo-reflection-img" alt="" src="<?php echo screenl_asset('benefits/pillar-reflection.png'); ?>">
-                    </div>
-                    <div class="benefits__photo-reflection-fade"></div>
-                </div>
-            </div>
+
+            <figure class="benefits__visual" aria-hidden="true">
+                <img class="benefits__product" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('benefits/pillar-product.png'); ?>">
+                <span class="benefits__reflection">
+                    <img class="benefits__reflection-img" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('benefits/pillar-reflection.png'); ?>">
+                </span>
+            </figure>
         </section>
