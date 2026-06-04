@@ -47,10 +47,20 @@ function screenl_enqueue_assets(): void
         false
     );
 
+    wp_enqueue_script(
+        'lenis',
+        'https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js',
+        [],
+        '1.3.23',
+        false
+    );
+
     $footer_scripts = [
         'screenl-hero-screen-data'     => ['hero-screen-data.js', ['gsap']],
         'screenl-hero-screen-animation' => ['hero-screen-animation.js', ['screenl-hero-screen-data']],
         'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger']],
+        'screenl-smooth-scroll'        => ['smooth-scroll.js', ['lenis', 'gsap-scroll-trigger']],
+        'screenl-section-reveal'       => ['section-reveal.js', ['gsap-scroll-trigger', 'screenl-smooth-scroll']],
         'screenl-configs-slider'       => ['configs-slider.js', []],
         'screenl-content-cubes'        => ['content-cubes.js', ['gsap']],
         'screenl-faq-accordion'        => ['faq-accordion.js', []],
