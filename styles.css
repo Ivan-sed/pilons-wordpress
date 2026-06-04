@@ -1181,48 +1181,49 @@ a {
 /* ========================= CONFIGS ========================= */
 
 .configs {
+    --configs-stage-height: 786px;
+    --configs-active-width: 672px;
+    --configs-active-height: 786px;
+    --configs-inactive-width: 539px;
+    --configs-inactive-height: 671px;
+    --configs-inactive-top: 57.5px;
+    --configs-slot-offset: 492.5px;
+    --configs-card-radius: 40px;
+    --configs-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --configs-duration: 0.55s;
     position: relative;
     z-index: 6;
     margin-top: 302px;
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     padding-inline: clamp(24px, 10.26%, 197px);
 }
 
 .configs__bg {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: -952.61px;
-    top: -218.65px;
-    width: 3399.356px;
-    height: 1481.224px;
-    mix-blend-mode: darken;
-    pointer-events: none;
-}
-
-.configs__bg-blur {
-    transform: rotate(-3.11deg);
-    flex: none;
-    position: relative;
+    left: -919.759px;
+    top: -129.249px;
     width: 3333.654px;
     height: 1302.421px;
+    transform: rotate(-3.11deg);
     filter: blur(84.3px);
+    mix-blend-mode: darken;
+    pointer-events: none;
 }
 
 .configs__bg-img {
     position: absolute;
     inset: 0;
-    max-width: none;
-    object-position: bottom;
     width: 100%;
     height: 100%;
+    max-width: none;
+    object-position: bottom;
 }
 
 .configs__header {
+    position: relative;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -1235,7 +1236,6 @@ a {
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
-    z-index: 1;
 }
 
 .configs__title {
@@ -1249,7 +1249,7 @@ a {
 .configs__subtitle-gradient {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: -0.02em;
     font-size: 30px;
     white-space: nowrap;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 123 38' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(46.72 -7.4652 -39.121 141.26 -36.197 58.652)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(197,210,246,0.75)' offset='0.25'/><stop stop-color='rgba(140,166,237,0.5)' offset='0.5'/><stop stop-color='rgba(82,121,228,0.25)' offset='0.75'/><stop stop-color='rgba(24,76,219,0)' offset='1'/></radialGradient></defs></svg>");
@@ -1275,115 +1275,132 @@ a {
 .configs__slider {
     position: relative;
     width: 100%;
-    min-height: 786px;
+    min-height: var(--configs-stage-height);
 }
 
 .configs__viewport {
     width: 100%;
+    height: var(--configs-stage-height);
     overflow: visible;
 }
 
-.configs__track {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: max-content;
-    margin-inline: 0;
-    will-change: transform;
-    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+.configs__stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .configs__card {
-    position: relative;
-    flex: 0 0 auto;
-    width: 539px;
-    height: 671px;
-    border-radius: 40px;
-    overflow: visible;
+    position: absolute;
+    left: 50%;
+    top: var(--configs-inactive-top);
+    width: var(--configs-inactive-width);
+    height: var(--configs-inactive-height);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition:
+        left var(--configs-duration) var(--configs-ease),
+        top var(--configs-duration) var(--configs-ease),
+        width var(--configs-duration) var(--configs-ease),
+        height var(--configs-duration) var(--configs-ease),
+        opacity 0.45s ease;
+}
+
+.configs__card.is-prev,
+.configs__card.is-next,
+.configs__card.is-current {
+    pointer-events: auto;
+}
+
+.configs__card.is-prev {
+    left: calc(50% - var(--configs-slot-offset));
+    opacity: 0.5;
+}
+
+.configs__card.is-next {
+    left: calc(50% + var(--configs-slot-offset));
+    opacity: 0.5;
+}
+
+.configs__card.is-current {
+    top: 0;
+    z-index: 1;
+    width: var(--configs-active-width);
+    height: var(--configs-active-height);
+    opacity: 1;
+}
+
+.configs__card:not(.is-current):hover {
+    opacity: 0.72;
+}
+
+.configs__card-button {
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    padding: 0;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border: none;
-    background: transparent;
-    text-align: inherit;
-    cursor: pointer;
-    transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-        height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-        padding 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-        gap 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.45s ease,
-        margin 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.configs__card--inactive {
+    width: 100%;
+    height: 100%;
+    padding: 40px 0;
+    overflow: visible;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--configs-card-radius);
     background: rgba(242, 243, 246, 0.3);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    opacity: 0.5;
-    border: 2px solid rgba(255, 255, 255, 0.35);
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 32px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    text-align: inherit;
+    transition:
+        gap var(--configs-duration) var(--configs-ease),
+        padding var(--configs-duration) var(--configs-ease),
+        border-color var(--configs-duration) var(--configs-ease),
+        background-color var(--configs-duration) var(--configs-ease),
+        box-shadow var(--configs-duration) var(--configs-ease);
 }
 
-.configs__card--inactive:hover {
-    opacity: 0.72;
+.configs__card-button:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.9);
+    outline-offset: 6px;
 }
 
-.configs__card--active {
-    width: 672px;
-    height: 786px;
-    margin-inline: -113px;
-    z-index: 1;
-    padding-right: 0;
-    padding-left: 0;
-    padding-top: 60px;
-    padding-bottom: 60px;
+.configs__card.is-current .configs__card-button {
     gap: 28px;
-    opacity: 1;
-    cursor: default;
+    padding: 60px 0;
+    border-color: rgba(255, 255, 255, 0.2);
     background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
         url("./assets/configs/card-active-texture.png");
     background-size: cover;
     background-position: center;
-    border-radius: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.1);
-}
-
-.configs__card-header,
-.configs__card-media,
-.configs__card-desc {
-    position: relative;
-    z-index: 1;
+    cursor: default;
 }
 
 .configs__card-header {
     position: relative;
-    height: 65px;
     width: 254px;
+    height: 65px;
     flex-shrink: 0;
 }
 
 .configs__card-size {
     position: absolute;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.85), 0px 4px 16px rgba(0, 0, 0, 0.06);
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px 25px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
     border-radius: 100px;
-    top: 0;
-    left: 0;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.85), 0px 4px 16px rgba(0, 0, 0, 0.06);
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: -0.02em;
     font-size: 20px;
     color: #6c6c7c;
     white-space: nowrap;
@@ -1391,13 +1408,13 @@ a {
 
 .configs__card-badge {
     position: absolute;
-    background-color: #1a56db;
+    top: -20px;
+    left: 60.5px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
-    top: -20px;
-    left: 60.5px;
+    background-color: #1a56db;
     font-family: "Benzin", sans-serif;
     font-size: 14px;
     color: white;
@@ -1413,80 +1430,73 @@ a {
     position: relative;
     width: 425px;
     height: 480px;
+    margin-bottom: -18px;
     flex-shrink: 0;
     overflow: visible;
-    transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1), height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+        width var(--configs-duration) var(--configs-ease),
+        margin-bottom var(--configs-duration) var(--configs-ease);
 }
 
-.configs__card--active .configs__card-media {
+.configs__card.is-current .configs__card-media {
     width: 100%;
-}
-
-.configs__card-media--inactive {
-    margin-bottom: -18px;
+    margin-bottom: 0;
 }
 
 .configs__card-photo {
     position: absolute;
     inset: 0;
     display: block;
-    width: 100%;
+    width: var(--configs-photo-width, 100%);
     height: 100%;
+    max-width: none;
     object-fit: contain;
+    transform: translateX(var(--configs-photo-x, 0));
     transition: opacity 0.55s ease;
 }
 
-.configs__card-photo--3 {
-    left: -40px;
+.configs__card[data-slide="2"] .configs__card-photo,
+.configs__card[data-slide="3"] .configs__card-photo {
+    --configs-photo-x: -40px;
 }
 
-.configs__card-photo--4 {
-    left: -40px;
+.configs__card[data-slide="4"] .configs__card-photo {
+    --configs-photo-x: -20px;
 }
 
-.configs__card-photo--5 {
-    left: -20px;
+.configs__card[data-slide="5"] .configs__card-photo {
+    --configs-photo-x: -5px;
+    --configs-photo-width: 95%;
 }
 
-.configs__card-photo--6 {
-    left: -5px;
-    width: 95%;
-}
-
-/* Crossfade between inactive and active artwork instead of swapping src */
-.configs__card-photo--active-img {
+.configs__card-photo--active {
     opacity: 0;
 }
 
-.configs__card-photo--inactive-img {
+.configs__card-photo--inactive {
     opacity: 1;
 }
 
-.configs__card--active .configs__card-photo--active-img {
+.configs__card.is-current .configs__card-photo--active {
     opacity: 1;
 }
 
-.configs__card--active .configs__card-photo--inactive-img {
+.configs__card.is-current .configs__card-photo--inactive {
     opacity: 0;
-}
-
-/* Only the active card and its immediate neighbours stay visible */
-.configs__card--hidden {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .configs__card-desc {
+    display: block;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: -0.02em;
     font-size: 20px;
     color: white;
     text-align: center;
     width: 458px;
 }
 
-.configs__card-desc--active {
+.configs__card.is-current .configs__card-desc {
     color: #6c6c7c;
 }
 
@@ -1498,29 +1508,30 @@ a {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    width: 742px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 742px;
     z-index: 2;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 .configs__arrow {
-    position: relative;
-    width: 50px;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 100px;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 100px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 2px 12px rgba(0, 0, 0, 0.06);
-    padding: 0;
     cursor: pointer;
+    pointer-events: auto;
     transition: opacity 0.2s ease;
 }
 
@@ -1533,27 +1544,21 @@ a {
 }
 
 .configs__arrow-svg {
-    position: absolute;
-    width: 114px;
-    height: 114px;
-    left: -32px;
-    top: -28px;
-}
-
-.configs__arrow--prev {
-    transform: rotate(90deg) scaleY(-1);
-}
-
-.configs__arrow--next {
-    transform: rotate(90deg);
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: white;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-    .configs__track,
     .configs__card,
     .configs__card-media,
     .configs__card-photo,
+    .configs__card-button,
     .configs__arrow {
         transition: none;
     }
