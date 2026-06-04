@@ -35,6 +35,6 @@ define('SCREENL_LEAD_EMAIL', 'rent@screenl.ru');
 - Scenarios: pin-stack при скролле
 - Configs: слайдер 1–6 пилонов
 - Menu / modal / формы
-- Масштаб на ширине &lt; 1920px (`zoom`)
+- Desktop adaptive без глобального масштабирования на ширинах 1920 / 1680 / 1440
 
-Сравните с `new/index.html` на тех же разрешениях (1920, 1440, 1280).
+Сравните с `new/index.html` на тех же разрешениях (1920, 1680, 1440).

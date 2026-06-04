@@ -25,14 +25,6 @@
   var lastPinY = null;
   var setPinY = gsap.quickSetter(pin, 'y', 'px');
 
-  function getZoom() {
-    if (typeof window.__designScale === 'number' && window.__designScale > 0) {
-      return window.__designScale;
-    }
-    var z = parseFloat(document.documentElement.style.zoom);
-    return z > 0 ? z : 1;
-  }
-
   function numberOr(value, fallback) {
     var parsed = parseFloat(value);
     return Number.isFinite(parsed) ? parsed : fallback;
@@ -76,12 +68,12 @@
   }
 
   function syncFlowHeight() {
-    root.style.height = (getPinnedHeight() + (getStackDistance() / getZoom())) + 'px';
+    root.style.height = (getPinnedHeight() + getStackDistance()) + 'px';
   }
 
-  function snapPinY(value, zoom) {
+  function snapPinY(value) {
     var ratio = window.devicePixelRatio || 1;
-    return Math.round(value * zoom * ratio) / (zoom * ratio);
+    return Math.round(value * ratio) / ratio;
   }
 
   function applyPin(self) {
@@ -90,11 +82,11 @@
     var pinY = 0;
 
     if (active) {
-      pinY = (window.scrollY - self.start) / getZoom();
+      pinY = window.scrollY - self.start;
     } else if (after) {
-      pinY = (self.end - self.start) / getZoom();
+      pinY = self.end - self.start;
     }
-    pinY = snapPinY(pinY, getZoom());
+    pinY = snapPinY(pinY);
 
     setStacking(active || after);
     setPinning(active);

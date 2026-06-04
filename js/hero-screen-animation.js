@@ -70,6 +70,10 @@
     return (value / base * 100) + '%';
   }
 
+  function rem(value) {
+    return (value / 16) + 'rem';
+  }
+
   /* ------------------------------- assets -------------------------------- */
 
   function bindAssets(scope) {
@@ -120,8 +124,8 @@
 
   function layoutUnifiedChrome(wrap, unified) {
     if (unified) {
-      wrap.style.outline = OUTER_BORDER + 'px solid #29292b';
-      wrap.style.borderRadius = OUTER_BORDER + 'px';
+      wrap.style.outline = rem(OUTER_BORDER) + ' solid #29292b';
+      wrap.style.borderRadius = rem(OUTER_BORDER);
       wrap.style.boxShadow = UNIT_SHADOW;
     } else {
       wrap.style.outline = '';
@@ -155,14 +159,14 @@
 
     mask.style.borderStyle = 'solid';
     mask.style.borderColor = '#29292b';
-    mask.style.borderTopWidth = OUTER_BORDER + 'px';
-    mask.style.borderBottomWidth = OUTER_BORDER + 'px';
-    mask.style.borderLeftWidth = leftW + 'px';
-    mask.style.borderRightWidth = rightW + 'px';
-    mask.style.borderTopLeftRadius = (i === 0 ? OUTER_BORDER : leftW) + 'px';
-    mask.style.borderBottomLeftRadius = (i === 0 ? OUTER_BORDER : leftW) + 'px';
-    mask.style.borderTopRightRadius = (i === count - 1 ? OUTER_BORDER : rightW) + 'px';
-    mask.style.borderBottomRightRadius = (i === count - 1 ? OUTER_BORDER : rightW) + 'px';
+    mask.style.borderTopWidth = rem(OUTER_BORDER);
+    mask.style.borderBottomWidth = rem(OUTER_BORDER);
+    mask.style.borderLeftWidth = rem(leftW);
+    mask.style.borderRightWidth = rem(rightW);
+    mask.style.borderTopLeftRadius = rem(i === 0 ? OUTER_BORDER : leftW);
+    mask.style.borderBottomLeftRadius = rem(i === 0 ? OUTER_BORDER : leftW);
+    mask.style.borderTopRightRadius = rem(i === count - 1 ? OUTER_BORDER : rightW);
+    mask.style.borderBottomRightRadius = rem(i === count - 1 ? OUTER_BORDER : rightW);
     mask.style.boxShadow = (i === 0 || (leftGap != null && leftGap > 0.25)) ? UNIT_SHADOW : 'none';
   }
 
@@ -283,7 +287,7 @@
     var shadowH = SHADOW_RENDER_H * SHADOW_HEIGHT_SCALE;
     var src = shadowSrcJoined;
 
-    shadows.style.left = '4px';
+    shadows.style.left = rem(4);
     shadows.style.width = '100%';
     shadows.style.top = pct(top, SPREAD.unit.height);
     shadows.style.height = pct(shadowH, SPREAD.unit.height);

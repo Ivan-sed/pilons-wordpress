@@ -32,14 +32,6 @@ function screenl_enqueue_assets(): void
     );
 
     wp_enqueue_script(
-        'screenl-responsive-scale',
-        SCREENL_URI . '/js/responsive-scale.js',
-        [],
-        SCREENL_VERSION,
-        false
-    );
-
-    wp_enqueue_script(
         'gsap',
         'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
         [],
@@ -58,7 +50,7 @@ function screenl_enqueue_assets(): void
     $footer_scripts = [
         'screenl-hero-screen-data'     => ['hero-screen-data.js', ['gsap']],
         'screenl-hero-screen-animation' => ['hero-screen-animation.js', ['screenl-hero-screen-data']],
-        'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger', 'screenl-responsive-scale']],
+        'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger']],
         'screenl-configs-slider'       => ['configs-slider.js', []],
         'screenl-content-cubes'        => ['content-cubes.js', ['gsap']],
         'screenl-faq-accordion'        => ['faq-accordion.js', []],

@@ -62,11 +62,11 @@ window.HERO_SCREEN_DATA = {
   },
   reflectionOpacity: 0.05,
   panelUnitShadow:
-    '-13px 0 28px 0 rgba(0, 18, 61, 0.14), ' +
-    '-51px 0 51px 0 rgba(0, 18, 61, 0.12), ' +
-    '-114px 0 69px 0 rgba(0, 18, 61, 0.07), ' +
-    '-203px 0 81px 0 rgba(0, 18, 61, 0.02), ' +
-    '-318px 0 89px 0 rgba(0, 18, 61, 0)',
+    '-0.8125rem 0 1.75rem 0 rgba(0, 18, 61, 0.14), ' +
+    '-3.1875rem 0 3.1875rem 0 rgba(0, 18, 61, 0.12), ' +
+    '-7.125rem 0 4.3125rem 0 rgba(0, 18, 61, 0.07), ' +
+    '-12.6875rem 0 5.0625rem 0 rgba(0, 18, 61, 0.02), ' +
+    '-19.875rem 0 5.5625rem 0 rgba(0, 18, 61, 0)',
   bezel: {
     // Texture cropped to the visible strip (was 1592×1940 → now 420×81); the
     // sprite %s below are remapped so the same window shows through the clip.

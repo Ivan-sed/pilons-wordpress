@@ -14,6 +14,16 @@
   var RETRY_LIMIT = 40;
   var RETRY_DELAY = 50;
   var initialized = false;
+  var DESIGN_ROOT = 16;
+
+  function rem(value) {
+    return (value / DESIGN_ROOT) + 'rem';
+  }
+
+  function designPx(value) {
+    var rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return value * ((Number.isFinite(rootSize) ? rootSize : DESIGN_ROOT) / DESIGN_ROOT);
+  }
 
   function clamp(val, lo, hi) {
     return Math.max(lo, Math.min(hi, val));
@@ -56,10 +66,10 @@
 
       item.className = 'content__cube';
       item.dataset.baseRot = String(cube[4]);
-      item.style.left = cube[0] + 'px';
-      item.style.top = cube[1] + 'px';
-      item.style.width = cube[2] + 'px';
-      item.style.height = cube[3] + 'px';
+      item.style.left = rem(cube[0]);
+      item.style.top = rem(cube[1]);
+      item.style.width = rem(cube[2]);
+      item.style.height = rem(cube[3]);
       if (cube[4]) item.style.transform = 'rotate(' + cube[4] + 'deg)';
 
       img.className = 'content__cube-img';
@@ -83,72 +93,21 @@
     };
   }
 
-  function getZoom() {
-    if (typeof window.__designScale === 'number' && window.__designScale > 0) {
-      return window.__designScale;
-    }
-    var z = parseFloat(document.documentElement.style.zoom);
-    return z > 0 ? z : 1;
-  }
-
-  function getPageOffset(el) {
-    var left = 0;
-    var top = 0;
-    var node = el;
-
-    while (node) {
-      left += node.offsetLeft || 0;
-      top += node.offsetTop || 0;
-      node = node.offsetParent;
-    }
-
-    return { left: left, top: top };
-  }
-
-  function addCandidate(candidates, x, y) {
-    if (!Number.isFinite(x) || !Number.isFinite(y)) return;
-
-    var duplicate = candidates.some(function (candidate) {
-      return Math.abs(candidate.x - x) < 0.5 && Math.abs(candidate.y - y) < 0.5;
-    });
-
-    if (!duplicate) candidates.push({ x: x, y: y });
-  }
-
   function getPointer(container, data, e) {
     var rect = container.getBoundingClientRect();
     var rectScale = getScale(container, rect);
-    var zoom = getZoom();
-    var offset = getPageOffset(container);
-    var candidates = [];
-    var best = null;
+    var x = (e.clientX - rect.left) / (rectScale.x || 1);
+    var y = (e.clientY - rect.top) / (rectScale.y || 1);
+    var minDist = Infinity;
 
-    addCandidate(candidates, (e.clientX - rect.left) / (rectScale.x || 1), (e.clientY - rect.top) / (rectScale.y || 1));
-    addCandidate(candidates, (e.clientX - rect.left) / zoom, (e.clientY - rect.top) / zoom);
-    addCandidate(candidates, e.clientX - rect.left, e.clientY - rect.top);
-    addCandidate(candidates, (e.pageX / zoom) - offset.left, (e.pageY / zoom) - offset.top);
-    addCandidate(candidates, e.pageX - offset.left, e.pageY - offset.top);
-
-    candidates.forEach(function (candidate) {
-      var minDist = Infinity;
-
-      data.forEach(function (d) {
-        var dx = d.cx - candidate.x;
-        var dy = d.cy - candidate.y;
-        var dist = distance(dx, dy);
-        if (dist < minDist) minDist = dist;
-      });
-
-      if (!best || minDist < best.minDist) {
-        best = {
-          x: candidate.x,
-          y: candidate.y,
-          minDist: minDist,
-        };
-      }
+    data.forEach(function (d) {
+      var dx = d.cx - x;
+      var dy = d.cy - y;
+      var dist = distance(dx, dy);
+      if (dist < minDist) minDist = dist;
     });
 
-    return best || { x: 0, y: 0, minDist: Infinity };
+    return { x: x, y: y, minDist: minDist };
   }
 
   function init() {
@@ -160,22 +119,28 @@
     var cubes = renderCubes(container);
     if (!cubes.length) return false;
 
-    var data = Array.prototype.map.call(cubes, function (el) {
-      var s = getComputedStyle(el);
-      var w = parseFloat(s.width);
-      var h = parseFloat(s.height);
-      var baseRot = parseFloat(el.getAttribute('data-base-rot') || '0');
-      return {
-        el: el,
-        left: parseFloat(s.left),
-        top: parseFloat(s.top),
-        w: w,
-        h: h,
-        cx: parseFloat(s.left) + w / 2,
-        cy: parseFloat(s.top) + h / 2,
-        baseRot: baseRot,
-      };
-    });
+    function readData() {
+      return Array.prototype.map.call(cubes, function (el) {
+        var s = getComputedStyle(el);
+        var w = parseFloat(s.width);
+        var h = parseFloat(s.height);
+        var left = parseFloat(s.left);
+        var top = parseFloat(s.top);
+        var baseRot = parseFloat(el.getAttribute('data-base-rot') || '0');
+        return {
+          el: el,
+          left: left,
+          top: top,
+          w: w,
+          h: h,
+          cx: left + w / 2,
+          cy: top + h / 2,
+          baseRot: baseRot,
+        };
+      });
+    }
+
+    var data = readData();
 
     data.forEach(function (d) {
       gsap.set(d.el, { rotation: d.baseRot, transformOrigin: '50% 50%' });
@@ -223,19 +188,21 @@
       var my = pointer.y;
       var b = getBounds();
       var hasForce = false;
+      var radius = designPx(RADIUS);
+      var maxPush = designPx(MAX_PUSH);
 
       data.forEach(function (d) {
         var dx = d.cx - mx;
         var dy = d.cy - my;
         var dist = distance(dx, dy);
 
-        if (dist < RADIUS && dist > 0) {
-          var force = Math.pow(1 - dist / RADIUS, 1.6);
-          var rawX = (dx / dist) * force * MAX_PUSH;
-          var rawY = (dy / dist) * force * MAX_PUSH;
+        if (dist < radius && dist > 0) {
+          var force = Math.pow(1 - dist / radius, 1.6);
+          var rawX = (dx / dist) * force * maxPush;
+          var rawY = (dy / dist) * force * maxPush;
           var spin = 0;
           var push = clampPush(d, rawX, rawY, d.baseRot, b);
-          spin = (push.x / MAX_PUSH) * 18;
+          spin = (push.x / maxPush) * 18;
           push = clampPush(d, rawX, rawY, d.baseRot + spin, b);
           d.active = true;
           hasForce = true;
@@ -302,6 +269,10 @@
 
     window.addEventListener('blur', onLeave);
     document.addEventListener('mouseleave', onLeave);
+    window.addEventListener('resize', function () {
+      data = readData();
+      data.forEach(enforceBounds);
+    });
 
     initialized = true;
     return true;
