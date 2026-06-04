@@ -1,0 +1,26 @@
+@font-face {
+    font-family: "Benzin";
+    src:
+        url("./fonts/Benzin-Bold.woff2") format("woff2"),
+        url("./fonts/Benzin-Bold.woff") format("woff"),
+        url("./fonts/Benzin-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "NeueHaasRoman";
+    src: url("./fonts/fonnts.com-Neue_Haas_Grotesk_Text_Pro_55_Roman.otf") format("opentype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "NeueHaasMedium";
+    src: url("./fonts/fonnts.com-Neue_Haas_Grotesk_Text_Pro_65_Medium.otf") format("opentype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
