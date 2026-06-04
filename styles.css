@@ -2446,15 +2446,19 @@ a {
 .trust {
     position: relative;
     z-index: 8;
-    margin-top: 9.375rem;
+    margin-top: 6rem;
     width: 100%;
     padding-left: clamp(1.5rem, 3.4375%, 4.125rem);
     overflow: visible;
 }
 
 .trust__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
     margin-left: max(0, calc(8.33% + 2.5rem - clamp(1.5rem, 3.4375%, 4.125rem)));
-    margin-bottom: 4.0625rem;
+    margin-bottom: 1.75rem;
     padding-right: clamp(1.5rem, 10.42%, 12.5rem);
 }
 
@@ -2467,52 +2471,91 @@ a {
     white-space: nowrap;
 }
 
+.trust__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.trust__control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    color: #1a56db;
+    background: rgba(255, 255, 255, 0.58);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.75);
+    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.85), 0 0.25rem 1.25rem rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
+    transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+}
+
+.trust__control:hover {
+    transform: translateY(-0.125rem);
+    background: #1a56db;
+    color: white;
+}
+
+.trust__control:focus-visible {
+    outline: 0.125rem solid #1a56db;
+    outline-offset: 0.1875rem;
+}
+
+.trust__control:active {
+    transform: translateY(0);
+}
+
+.trust__control-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
 .trust__marquee {
-    overflow: visible;
+    overflow: hidden;
     width: 100%;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.trust__marquee.is-dragging {
+    cursor: grabbing;
 }
 
 .trust__track {
     display: flex;
     width: max-content;
-    animation: trust-marquee 36s linear infinite;
-}
-
-/* Freeze the scroll while a logo is hovered so the swap stays under the cursor */
-.trust__track:hover {
-    animation-play-state: paused;
+    will-change: transform;
 }
 
 .trust__logos {
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    gap: 2.5rem;
-    padding-right: 2.5rem;
-}
-
-@keyframes trust-marquee {
-    to {
-        transform: translate3d(-50%, 0, 0);
-    }
+    gap: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
     .trust__track {
-        animation: none;
+        transform: translate3d(0, 0, 0);
     }
 }
 
 .trust__logo {
     position: relative;
     flex-shrink: 0;
-    width: 14.375rem;
-    height: 14.375rem;
+    width: 9.5rem;
+    height: 9.5rem;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
     border: 0.0625rem solid rgba(255, 255, 255, 0.55);
-    border-radius: 2.5rem;
+    border-radius: 1.75rem;
     box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.55), 0 0.25rem 2rem rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
@@ -2525,7 +2568,7 @@ a {
     height: 100%;
     max-width: none;
     object-fit: cover;
-    border-radius: 2.5rem;
+    border-radius: 1.75rem;
     transition: opacity 0.3s ease;
 }
 
@@ -2569,12 +2612,12 @@ a {
 .contacts {
     position: relative;
     z-index: 2;
-    margin-top: 12.5rem;
+    margin-top: 2rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 9rem clamp(1.5rem, 10.31%, 12.375rem) 0;
+    padding: 4.75rem clamp(1.5rem, 10.31%, 12.375rem) 0;
 }
 
 .contacts__bg {
@@ -2620,9 +2663,9 @@ a {
 .contacts__headline {
     position: absolute;
     left: 2.625rem;
-    top: -4.125rem;
+    top: -3rem;
     font-family: "Benzin", sans-serif;
-    font-size: 15.375rem;
+    font-size: 10.5rem;
     color: white;
     text-transform: uppercase;
     white-space: nowrap;
@@ -2634,10 +2677,10 @@ a {
     width: 100%;
     background-color: #f2f3f6;
     border-radius: 2.5rem 2.5rem 0 0;
-    padding: 3.75rem 2.625rem;
+    padding: 2.25rem 2.625rem;
     display: flex;
     flex-direction: column;
-    gap: 2.1875rem;
+    gap: 1.5rem;
 }
 
 .contacts__head {
@@ -2655,7 +2698,7 @@ a {
 .contacts__form-area {
     display: flex;
     flex-direction: column;
-    gap: 2.1875rem;
+    gap: 1.5rem;
     align-items: flex-start;
     width: 46.4375rem;
     flex: 0 0 auto;
@@ -2693,7 +2736,7 @@ a {
     border: 0.0625rem solid rgba(255, 255, 255, 0.75);
     box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.85), 0 0.125rem 0.75rem rgba(0, 0, 0, 0.04);
     flex: 1 0 0;
-    height: 4.0625rem;
+    height: 3.75rem;
     border-radius: 1.25rem;
     display: flex;
     align-items: center;
@@ -2770,7 +2813,7 @@ a {
     gap: 5rem;
     align-items: center;
     height: 3.5rem;
-    margin-bottom: 6.75rem;
+    margin-bottom: 3rem;
 }
 
 .contacts__phone,
@@ -2800,15 +2843,14 @@ a {
 .contacts__nav {
     display: flex;
     justify-content: space-between;
-    height: 7.1875rem;
     align-items: center;
-    margin-bottom: 3.125rem;
+    margin-bottom: 2rem;
 }
 
 .contacts__nav-col {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
 }
 
 .contacts__nav-link {

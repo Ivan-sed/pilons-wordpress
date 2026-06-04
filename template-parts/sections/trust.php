@@ -30,9 +30,17 @@ $trust_logos = [
         <section class="trust" id="trust" aria-labelledby="trust-title">
             <header class="trust__header">
                 <h2 class="trust__title" id="trust-title">Нам доверяют</h2>
+                <div class="trust__controls" aria-label="Управление логотипами">
+                    <button class="trust__control trust__control--prev" type="button" data-trust-prev aria-label="Прокрутить логотипы назад">
+                        <svg class="trust__control-icon" fill="none" viewBox="0 0 18 18" aria-hidden="true"><path d="M11.5 4L6.5 9L11.5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <button class="trust__control trust__control--next" type="button" data-trust-next aria-label="Прокрутить логотипы вперёд">
+                        <svg class="trust__control-icon" fill="none" viewBox="0 0 18 18" aria-hidden="true"><path d="M6.5 4L11.5 9L6.5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                </div>
             </header>
 
-            <div class="trust__marquee" aria-label="Логотипы клиентов">
+            <div class="trust__marquee" aria-label="Логотипы клиентов" data-trust-marquee>
                 <div class="trust__track">
                     <div class="trust__logos">
                         <?php foreach ($trust_logos as $index => $alt) : ?>
