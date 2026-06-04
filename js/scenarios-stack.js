@@ -18,12 +18,9 @@
   cards.forEach(function (card, index) {
     card.style.setProperty('--stack-index', index + 1);
   });
+  root.classList.add('scenarios--ready');
 
   var refreshFrame = null;
-  var pinFrame = null;
-  var pendingTrigger = null;
-  var lastPinY = null;
-  var setPinY = gsap.quickSetter(pin, 'y', 'px');
 
   function numberOr(value, fallback) {
     var parsed = parseFloat(value);
@@ -71,38 +68,21 @@
     root.style.height = (getPinnedHeight() + getStackDistance()) + 'px';
   }
 
-  function snapPinY(value) {
-    var ratio = window.devicePixelRatio || 1;
-    return Math.round(value * ratio) / ratio;
+  function resetPinState() {
+    setStacking(false);
+    setPinning(false);
   }
 
-  function applyPin(self) {
+  function syncPinState(self) {
     var active = self ? self.isActive : false;
     var after = self ? self.progress >= 1 : false;
-    var pinY = 0;
-
-    if (active) {
-      pinY = window.scrollY - self.start;
-    } else if (after) {
-      pinY = self.end - self.start;
-    }
-    pinY = snapPinY(pinY);
 
     setStacking(active || after);
     setPinning(active);
-    if (lastPinY !== pinY) {
-      setPinY(pinY);
-      lastPinY = pinY;
-    }
   }
 
   function syncState(self) {
-    pendingTrigger = self;
-    if (pinFrame) return;
-    pinFrame = requestAnimationFrame(function () {
-      pinFrame = null;
-      applyPin(pendingTrigger);
-    });
+    syncPinState(self);
   }
 
   function requestRefresh() {
@@ -118,16 +98,18 @@
 
   var timeline = gsap.timeline({
     scrollTrigger: {
-      trigger: label,
+      trigger: root,
       start: 'top top',
       end: function () {
         return '+=' + getStackDistance();
       },
+      pin: pin,
+      pinSpacing: false,
+      anticipatePin: 1,
       scrub: true,
       invalidateOnRefresh: true,
       onRefreshInit: function () {
-        setPinY(0);
-        lastPinY = null;
+        resetPinState();
         root.style.removeProperty('height');
       },
       onRefresh: function (self) {

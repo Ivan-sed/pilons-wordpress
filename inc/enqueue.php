@@ -58,6 +58,7 @@ function screenl_enqueue_assets(): void
         'screenl-scenarios-gallery'    => ['scenarios-gallery-marquee.js', []],
         'screenl-overlay-lock'         => ['overlay-lock.js', []],
         'screenl-menu'                 => ['menu.js', ['screenl-overlay-lock']],
+        'screenl-sticky-header'        => ['sticky-header.js', ['screenl-menu']],
         'screenl-lead-form'            => ['lead-form.js', ['screenl-hero-screen-data']],
         'screenl-modal'                => ['modal.js', ['screenl-overlay-lock']],
     ];

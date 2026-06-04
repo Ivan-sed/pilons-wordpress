@@ -27,6 +27,7 @@ if (!defined('ABSPATH')) exit;
                 <li><a class="menu__link" href="#scenarios">Сценарии применения</a></li>
                 <li><a class="menu__link" href="#configs">Конфигурации</a></li>
                 <li><a class="menu__link" href="#content">Создание контента</a></li>
+                <li><a class="menu__link" href="#faq">FAQ</a></li>
                 <li><a class="menu__link" href="#contacts">Контакты</a></li>
             </ul>
             <div class="menu__contacts">
