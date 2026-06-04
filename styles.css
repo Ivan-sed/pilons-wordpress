@@ -19,6 +19,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+body.is-overlay-locked {
+    overflow: hidden;
+}
+
 img {
     display: block;
 }
@@ -27,6 +31,10 @@ button {
     cursor: pointer;
     border: none;
     background: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
 }
 
 ul {
@@ -149,6 +157,7 @@ a {
 }
 
 .hero__social-icon {
+    display: block;
     position: relative;
     flex-shrink: 0;
     width: 30px;
@@ -419,7 +428,7 @@ a {
 .hero__subtitle {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 32px;
     width: 517px;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 517 80' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(221.8 -29.25 -41.93 375.96 -373 129.5)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(197,210,246,0.75)' offset='0.25'/><stop stop-color='rgba(140,166,237,0.5)' offset='0.5'/><stop stop-color='rgba(82,121,228,0.25)' offset='0.75'/><stop stop-color='rgba(24,76,219,0)' offset='1'/></radialGradient></defs></svg>");
@@ -452,7 +461,7 @@ a {
 .hero__response-note {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #d9d9d9;
     width: 175px;
@@ -512,7 +521,7 @@ a {
 .hero__feature-text {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: rgba(255, 255, 255, 0.6);
     white-space: nowrap;
@@ -715,17 +724,40 @@ a {
     --scenarios-card-height: 830px;
     --scenarios-card-radius: 60px;
     --scenarios-gallery-radius: 40px;
+    position: relative;
+    z-index: 4;
     margin-top: 200px;
     width: 100%;
     max-width: 1840px;
 }
 
+.scenarios--pinning {
+    z-index: 9;
+}
+
+.scenarios--pinning + .configs {
+    z-index: 1;
+}
+
+.scenarios--pinning + .configs .configs__bg {
+    opacity: 0;
+    mix-blend-mode: normal;
+}
+
 .scenarios__pin {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--scenarios-gap);
     width: 100%;
     background-color: #f2f3f6;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.scenarios__pin--pinning {
+    z-index: 20;
+    isolation: isolate;
     will-change: transform;
 }
 
@@ -737,7 +769,8 @@ a {
     will-change: transform;
 }
 
-.scenarios--stacking .scenarios__stack {
+.scenarios--stacking .scenarios__stack,
+.scenarios__pin--stacking .scenarios__stack {
     overflow: visible;
     height: var(--scenarios-card-height);
 }
@@ -1193,6 +1226,7 @@ a {
     --configs-duration: 0.55s;
     position: relative;
     z-index: 6;
+    isolation: isolate;
     margin-top: 302px;
     display: flex;
     flex-direction: column;
@@ -1689,7 +1723,7 @@ a {
     margin: 0;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: white;
     width: 783px;
@@ -1715,7 +1749,7 @@ a {
     border-radius: 100px;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: white;
     white-space: nowrap;
@@ -1732,7 +1766,7 @@ a {
     margin: 0;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     background-clip: text;
     -webkit-background-clip: text;
@@ -1784,7 +1818,7 @@ a {
     flex: 1 1 auto;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: white;
 }
@@ -1828,7 +1862,7 @@ a {
 .faq__subtitle {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: #6c6c7c;
 }
@@ -1902,7 +1936,7 @@ a {
     white-space: normal;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     line-height: 1.3;
     color: #6c6c7c;
@@ -1987,7 +2021,7 @@ a {
 .faq__answer {
     font-family: "NeueHaasRoman", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     line-height: 1.4;
     color: #6c6c7c;
@@ -1998,7 +2032,7 @@ a {
     color: #1a56db;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2245,7 +2279,7 @@ a {
 .contacts__form-sub {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #6c6c7c;
     width: 553px;
@@ -2274,15 +2308,6 @@ a {
     min-width: 1px;
 }
 
-.contacts__placeholder {
-    font-family: "NeueHaasMedium", sans-serif;
-    font-weight: 600;
-    letter-spacing: -2%;
-    font-size: 17px;
-    color: #6c6c7c;
-    white-space: nowrap;
-}
-
 .contacts__messengers {
     display: flex;
     flex-direction: column;
@@ -2293,7 +2318,7 @@ a {
 .contacts__messenger-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #060b20;
 }
@@ -2319,16 +2344,10 @@ a {
     cursor: pointer;
 }
 
-.contacts__messenger-radio-svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-}
-
 .contacts__messenger-option-text {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: #6c6c7c;
     white-space: nowrap;
@@ -2371,7 +2390,7 @@ a {
 .contacts__contact-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 15px;
     color: #6c6c7c;
     line-height: 21px;
@@ -2380,7 +2399,7 @@ a {
 .contacts__contact-value {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: #060b20;
 }
@@ -2400,12 +2419,17 @@ a {
 }
 
 .contacts__nav-link {
+    display: block;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     color: #060b20;
     white-space: nowrap;
+}
+
+.contacts__nav-link--disabled {
+    cursor: default;
 }
 
 .contacts__socials-block {
@@ -2417,7 +2441,7 @@ a {
 .contacts__socials-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 15px;
     color: #6c6c7c;
     line-height: 21px;
@@ -2430,6 +2454,7 @@ a {
 }
 
 .contacts__social-icon {
+    display: block;
     position: relative;
     flex-shrink: 0;
     width: 40px;
@@ -2600,7 +2625,7 @@ a {
 .menu__contact-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 15px;
     line-height: 21px;
     color: rgba(255, 255, 255, 0.6);
@@ -2609,7 +2634,7 @@ a {
 .menu__contact-value {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     line-height: 25px;
     color: white;
@@ -2625,7 +2650,7 @@ a {
 .menu__socials-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 15px;
     line-height: 21px;
     color: rgba(255, 255, 255, 0.6);
@@ -2638,6 +2663,7 @@ a {
 }
 
 .menu__social-icon {
+    display: block;
     position: relative;
     flex-shrink: 0;
     width: 40px;
@@ -2682,7 +2708,7 @@ a {
 .menu__form-sub {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     line-height: 23px;
     color: white;
@@ -2710,15 +2736,6 @@ a {
     padding: 20px 30px;
 }
 
-.menu__placeholder {
-    font-family: "NeueHaasMedium", sans-serif;
-    font-weight: 600;
-    letter-spacing: -2%;
-    font-size: 17px;
-    line-height: 21px;
-    color: white;
-}
-
 .menu__messengers {
     display: flex;
     flex-direction: column;
@@ -2729,7 +2746,7 @@ a {
 .menu__messenger-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     line-height: 23px;
     color: white;
@@ -2771,7 +2788,7 @@ a {
 .menu__chip-text {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 20px;
     line-height: 25px;
     color: white;
@@ -2807,7 +2824,7 @@ a {
     outline: none;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 17px;
 }
 
@@ -2931,7 +2948,7 @@ a {
 .modal__error {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 16px;
     color: #e02424;
     margin: -10px 0 0;
@@ -2980,7 +2997,7 @@ a {
 .modal__success-text {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
 }
 
@@ -3079,7 +3096,7 @@ a {
 .modal__sub {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #6c6c7c;
 }
@@ -3122,7 +3139,7 @@ a {
 .modal__messenger-label {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #060b20;
 }
@@ -3150,7 +3167,7 @@ a {
 .modal__messenger-option-text {
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: 0;
     font-size: 18px;
     color: #6c6c7c;
     white-space: nowrap;

@@ -20,6 +20,17 @@
     }
   }
 
+  function clearSuccess(form) {
+    form.classList.remove('is-sent');
+    var success = form.querySelector('.js-form-success');
+    if (success) success.hidden = true;
+  }
+
+  function setSubmitting(form, isSubmitting) {
+    var submitBtn = form.querySelector('[type="submit"]');
+    if (submitBtn) submitBtn.disabled = isSubmitting;
+  }
+
   function showError(form, message, input) {
     var errBox = form.querySelector('.js-form-error');
     if (errBox) {
@@ -79,11 +90,13 @@
     form.addEventListener('input', function (e) {
       var field = fieldOf(e.target);
       if (field) field.classList.remove('is-error');
+      clearErrors(form);
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       clearErrors(form);
+      clearSuccess(form);
 
       var result = validate(form);
       if (!result.ok) {
@@ -91,8 +104,7 @@
         return;
       }
 
-      var submitBtn = form.querySelector('[type="submit"]');
-      if (submitBtn) submitBtn.disabled = true;
+      setSubmitting(form, true);
 
       var ajaxUrl = (typeof screenlTheme !== 'undefined' && screenlTheme.ajaxUrl)
         ? screenlTheme.ajaxUrl
@@ -103,7 +115,7 @@
 
       if (!ajaxUrl) {
         showError(form, 'Форма недоступна. Обновите страницу.', null);
-        if (submitBtn) submitBtn.disabled = false;
+        setSubmitting(form, false);
         return;
       }
 
@@ -132,10 +144,11 @@
           var success = form.querySelector('.js-form-success');
           if (success) success.hidden = false;
           form.classList.add('is-sent');
+          setSubmitting(form, false);
         })
         .catch(function (err) {
           showError(form, err.message || 'Не удалось отправить заявку', null);
-          if (submitBtn) submitBtn.disabled = false;
+          setSubmitting(form, false);
         });
     });
   });

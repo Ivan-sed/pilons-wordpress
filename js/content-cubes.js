@@ -11,9 +11,16 @@
 
   var RADIUS = 180;
   var MAX_PUSH = 100;
+  var RETRY_LIMIT = 40;
+  var RETRY_DELAY = 50;
+  var initialized = false;
 
   function clamp(val, lo, hi) {
     return Math.max(lo, Math.min(hi, val));
+  }
+
+  function distance(x, y) {
+    return Math.sqrt(x * x + y * y);
   }
 
   function getRotatedExtents(w, h, deg) {
@@ -38,24 +45,120 @@
   }
 
   function renderCubes(container) {
-    container.innerHTML = CUBES.map(function (cube) {
-      var style = 'left:' + cube[0] + 'px;top:' + cube[1] + 'px;width:' + cube[2] + 'px;height:' + cube[3] + 'px;';
-      if (cube[4]) style += 'transform:rotate(' + cube[4] + 'deg);';
-      return '<div class="content__cube" data-base-rot="' + cube[4] + '" style="' + style + '">' +
-        '<img class="content__cube-img" alt="" src="' + cube[5] + '" loading="lazy" decoding="async">' +
-      '</div>';
-    }).join('');
+    var fragment = document.createDocumentFragment();
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    CUBES.forEach(function (cube) {
+      var item = document.createElement('div');
+      var img = document.createElement('img');
+
+      item.className = 'content__cube';
+      item.dataset.baseRot = String(cube[4]);
+      item.style.left = cube[0] + 'px';
+      item.style.top = cube[1] + 'px';
+      item.style.width = cube[2] + 'px';
+      item.style.height = cube[3] + 'px';
+      if (cube[4]) item.style.transform = 'rotate(' + cube[4] + 'deg)';
+
+      img.className = 'content__cube-img';
+      img.alt = '';
+      img.src = cube[5];
+      img.loading = 'lazy';
+      img.decoding = 'async';
+
+      item.appendChild(img);
+      fragment.appendChild(item);
+    });
+
+    container.appendChild(fragment);
     return container.querySelectorAll('.content__cube');
+  }
+
+  function getScale(el, rect) {
+    return {
+      x: el.offsetWidth ? rect.width / el.offsetWidth : 1,
+      y: el.offsetHeight ? rect.height / el.offsetHeight : 1,
+    };
+  }
+
+  function getZoom() {
+    if (typeof window.__designScale === 'number' && window.__designScale > 0) {
+      return window.__designScale;
+    }
+    var z = parseFloat(document.documentElement.style.zoom);
+    return z > 0 ? z : 1;
+  }
+
+  function getPageOffset(el) {
+    var left = 0;
+    var top = 0;
+    var node = el;
+
+    while (node) {
+      left += node.offsetLeft || 0;
+      top += node.offsetTop || 0;
+      node = node.offsetParent;
+    }
+
+    return { left: left, top: top };
+  }
+
+  function addCandidate(candidates, x, y) {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+
+    var duplicate = candidates.some(function (candidate) {
+      return Math.abs(candidate.x - x) < 0.5 && Math.abs(candidate.y - y) < 0.5;
+    });
+
+    if (!duplicate) candidates.push({ x: x, y: y });
+  }
+
+  function getPointer(container, data, e) {
+    var rect = container.getBoundingClientRect();
+    var rectScale = getScale(container, rect);
+    var zoom = getZoom();
+    var offset = getPageOffset(container);
+    var candidates = [];
+    var best = null;
+
+    addCandidate(candidates, (e.clientX - rect.left) / (rectScale.x || 1), (e.clientY - rect.top) / (rectScale.y || 1));
+    addCandidate(candidates, (e.clientX - rect.left) / zoom, (e.clientY - rect.top) / zoom);
+    addCandidate(candidates, e.clientX - rect.left, e.clientY - rect.top);
+    addCandidate(candidates, (e.pageX / zoom) - offset.left, (e.pageY / zoom) - offset.top);
+    addCandidate(candidates, e.pageX - offset.left, e.pageY - offset.top);
+
+    candidates.forEach(function (candidate) {
+      var minDist = Infinity;
+
+      data.forEach(function (d) {
+        var dx = d.cx - candidate.x;
+        var dy = d.cy - candidate.y;
+        var dist = distance(dx, dy);
+        if (dist < minDist) minDist = dist;
+      });
+
+      if (!best || minDist < best.minDist) {
+        best = {
+          x: candidate.x,
+          y: candidate.y,
+          minDist: minDist,
+        };
+      }
+    });
+
+    return best || { x: 0, y: 0, minDist: Infinity };
   }
 
   function init() {
     var section = document.querySelector('.content');
     var container = document.querySelector('.content__cubes');
     var screenArea = document.querySelector('.content__screen-area');
-    if (!section || !container || !screenArea || typeof gsap === 'undefined') return;
+    if (initialized || !section || !container || !screenArea || typeof gsap === 'undefined') return false;
 
     var cubes = renderCubes(container);
-    if (!cubes.length) return;
+    if (!cubes.length) return false;
 
     var data = Array.prototype.map.call(cubes, function (el) {
       var s = getComputedStyle(el);
@@ -79,13 +182,11 @@
     });
 
     function getBounds() {
-      var cr = container.getBoundingClientRect();
-      var sr = screenArea.getBoundingClientRect();
       return {
-        left: sr.left - cr.left,
-        top: sr.top - cr.top,
-        right: sr.right - cr.left,
-        bottom: sr.bottom - cr.top,
+        left: screenArea.offsetLeft,
+        top: screenArea.offsetTop,
+        right: screenArea.offsetLeft + screenArea.offsetWidth,
+        bottom: screenArea.offsetTop + screenArea.offsetHeight,
       };
     }
 
@@ -102,6 +203,7 @@
     }
 
     function resetCube(d, duration, ease) {
+      d.active = false;
       gsap.to(d.el, {
         x: 0,
         y: 0,
@@ -116,15 +218,16 @@
     }
 
     function onMove(e) {
-      var r = container.getBoundingClientRect();
-      var mx = e.clientX - r.left;
-      var my = e.clientY - r.top;
+      var pointer = getPointer(container, data, e);
+      var mx = pointer.x;
+      var my = pointer.y;
       var b = getBounds();
+      var hasForce = false;
 
       data.forEach(function (d) {
         var dx = d.cx - mx;
         var dy = d.cy - my;
-        var dist = Math.hypot(dx, dy);
+        var dist = distance(dx, dy);
 
         if (dist < RADIUS && dist > 0) {
           var force = Math.pow(1 - dist / RADIUS, 1.6);
@@ -134,6 +237,8 @@
           var push = clampPush(d, rawX, rawY, d.baseRot, b);
           spin = (push.x / MAX_PUSH) * 18;
           push = clampPush(d, rawX, rawY, d.baseRot + spin, b);
+          d.active = true;
+          hasForce = true;
 
           gsap.to(d.el, {
             x: push.x,
@@ -146,10 +251,12 @@
               enforceBounds(d);
             },
           });
-        } else {
+        } else if (d.active) {
           resetCube(d, 1.3, 'elastic.out(1, 0.35)');
         }
       });
+
+      return hasForce;
     }
 
     function onLeave() {
@@ -158,13 +265,61 @@
       });
     }
 
-    section.addEventListener('mousemove', onMove);
-    section.addEventListener('mouseleave', onLeave);
+    var active = false;
+    var lastMove = {
+      x: null,
+      y: null,
+      time: 0,
+    };
+
+    function handleMove(e) {
+      var now = Date.now();
+      if (
+        lastMove.x === e.clientX
+        && lastMove.y === e.clientY
+        && now - lastMove.time < 24
+      ) {
+        return;
+      }
+      lastMove.x = e.clientX;
+      lastMove.y = e.clientY;
+      lastMove.time = now;
+
+      var hasForce = onMove(e);
+
+      if (hasForce) {
+        active = true;
+      } else if (active) {
+        active = false;
+        onLeave();
+      }
+    }
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    if (window.PointerEvent) {
+      window.addEventListener('pointermove', handleMove, { passive: true });
+    }
+
+    window.addEventListener('blur', onLeave);
+    document.addEventListener('mouseleave', onLeave);
+
+    initialized = true;
+    return true;
+  }
+
+  function initWhenReady(attempt) {
+    if (init()) return;
+    if (attempt >= RETRY_LIMIT) return;
+    setTimeout(function () {
+      initWhenReady(attempt + 1);
+    }, RETRY_DELAY);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', function () {
+      initWhenReady(0);
+    });
   } else {
-    init();
+    initWhenReady(0);
   }
 })();

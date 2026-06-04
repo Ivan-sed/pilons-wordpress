@@ -5,6 +5,7 @@
   var track = marquee.querySelector('.trust__track');
   var row = marquee.querySelector('.trust__logos');
   if (!track || !row) return;
+  if (track.getAttribute('data-marquee-ready') === 'true') return;
 
   var clone = row.cloneNode(true);
   clone.setAttribute('aria-hidden', 'true');
@@ -12,4 +13,5 @@
     img.alt = '';
   });
   track.appendChild(clone);
+  track.setAttribute('data-marquee-ready', 'true');
 })();

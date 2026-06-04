@@ -4,23 +4,23 @@
   if (!menu || !openBtn) return;
 
   var closeBtn = menu.querySelector('.menu__close');
+  var lockKey = 'menu';
+  var overlayLock = window.screenlOverlayLock;
 
   function setOpen(open) {
     menu.classList.toggle('menu--closed', !open);
     menu.setAttribute('aria-hidden', open ? 'false' : 'true');
     openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    document.body.style.overflow = open ? 'hidden' : '';
+
+    if (open) {
+      if (overlayLock) overlayLock.lock(lockKey);
+    } else if (overlayLock) {
+      overlayLock.unlock(lockKey);
+    }
   }
 
   openBtn.addEventListener('click', function () {
     setOpen(true);
-  });
-
-  openBtn.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      setOpen(true);
-    }
   });
 
   if (closeBtn) {

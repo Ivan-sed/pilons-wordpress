@@ -4,11 +4,18 @@
 
   // Remember the element that opened the modal so focus can return to it.
   var lastTrigger = null;
+  var lockKey = 'modal';
+  var overlayLock = window.screenlOverlayLock;
 
   function setOpen(open) {
     modal.classList.toggle('modal--closed', !open);
     modal.setAttribute('aria-hidden', open ? 'false' : 'true');
-    document.body.style.overflow = open ? 'hidden' : '';
+
+    if (open) {
+      if (overlayLock) overlayLock.lock(lockKey);
+    } else if (overlayLock) {
+      overlayLock.unlock(lockKey);
+    }
   }
 
   function resetForm() {
@@ -26,6 +33,8 @@
     }
     var success = form.querySelector('.js-form-success');
     if (success) success.hidden = true;
+    var submit = form.querySelector('[type="submit"]');
+    if (submit) submit.disabled = false;
   }
 
   function openModal(trigger) {

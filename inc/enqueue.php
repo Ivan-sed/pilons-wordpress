@@ -60,13 +60,14 @@ function screenl_enqueue_assets(): void
         'screenl-hero-screen-animation' => ['hero-screen-animation.js', ['screenl-hero-screen-data']],
         'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger', 'screenl-responsive-scale']],
         'screenl-configs-slider'       => ['configs-slider.js', []],
-        'screenl-content-cubes'        => ['content-cubes.js', []],
+        'screenl-content-cubes'        => ['content-cubes.js', ['gsap']],
         'screenl-faq-accordion'        => ['faq-accordion.js', []],
         'screenl-trust-marquee'        => ['trust-marquee.js', []],
         'screenl-scenarios-gallery'    => ['scenarios-gallery-marquee.js', []],
-        'screenl-menu'                 => ['menu.js', []],
+        'screenl-overlay-lock'         => ['overlay-lock.js', []],
+        'screenl-menu'                 => ['menu.js', ['screenl-overlay-lock']],
         'screenl-lead-form'            => ['lead-form.js', ['screenl-hero-screen-data']],
-        'screenl-modal'                => ['modal.js', []],
+        'screenl-modal'                => ['modal.js', ['screenl-overlay-lock']],
     ];
 
     foreach ($footer_scripts as $handle => $config) {

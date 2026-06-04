@@ -8,9 +8,7 @@
   if (!pin || !label || !stack || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reducedMotion) {
-    return;
-  }
+  if (reducedMotion) return;
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -21,11 +19,11 @@
     card.style.setProperty('--stack-index', index + 1);
   });
 
-  var releaseOffsetActive = false;
-  var spacerCompensated = false;
-  var fixedPinCompensated = false;
-  var compensateFrame = null;
   var refreshFrame = null;
+  var pinFrame = null;
+  var pendingTrigger = null;
+  var lastPinY = null;
+  var setPinY = gsap.quickSetter(pin, 'y', 'px');
 
   function getZoom() {
     if (typeof window.__designScale === 'number' && window.__designScale > 0) {
@@ -62,113 +60,56 @@
     return (cards.length - 1) * getStep();
   }
 
+  function getPinnedHeight() {
+    return label.offsetHeight + getGap() + getCardHeight();
+  }
+
   function setStacking(active) {
     root.classList.toggle('scenarios--stacking', active);
+    pin.classList.toggle('scenarios__pin--stacking', active);
   }
 
-  function clearReleaseOffset() {
-    if (!releaseOffsetActive) return;
-    gsap.set([label, stack], { clearProps: 'y' });
-    releaseOffsetActive = false;
+  function setPinning(active) {
+    root.classList.toggle('scenarios--pinning', active);
+    pin.classList.toggle('scenarios__pin--pinning', active);
+    pin.style.zIndex = active ? '20' : '';
   }
 
-  function setReleaseOffset(trigger, active) {
-    var z = getZoom();
-    if (!active || z >= 1 || !trigger) {
-      clearReleaseOffset();
-      return;
+  function syncFlowHeight() {
+    root.style.height = (getPinnedHeight() + (getStackDistance() / getZoom())) + 'px';
+  }
+
+  function snapPinY(value, zoom) {
+    var ratio = window.devicePixelRatio || 1;
+    return Math.round(value * zoom * ratio) / (zoom * ratio);
+  }
+
+  function applyPin(self) {
+    var active = self ? self.isActive : false;
+    var after = self ? self.progress >= 1 : false;
+    var pinY = 0;
+
+    if (active) {
+      pinY = (window.scrollY - self.start) / getZoom();
+    } else if (after) {
+      pinY = (self.end - self.start) / getZoom();
     }
+    pinY = snapPinY(pinY, getZoom());
 
-    var distance = Math.max(0, trigger.end - trigger.start);
-    gsap.set([label, stack], {
-      y: distance * (1 - z) / z,
-      force3D: true,
-    });
-    releaseOffsetActive = true;
-  }
-
-  function getPinSpacer(trigger) {
-    if (!trigger) return null;
-    if (trigger.spacer) return trigger.spacer;
-
-    var node = trigger.pin;
-    while (node && node.parentNode) {
-      node = node.parentNode;
-      if (node.classList && node.classList.contains('pin-spacer')) return node;
+    setStacking(active || after);
+    setPinning(active);
+    if (lastPinY !== pinY) {
+      setPinY(pinY);
+      lastPinY = pinY;
     }
-    return null;
   }
 
-  function clearSpacerCompensation() {
-    if (!spacerCompensated || !timeline || !timeline.scrollTrigger) return;
-
-    var spacer = getPinSpacer(timeline.scrollTrigger);
-    if (!spacer) return;
-
-    spacer.style.removeProperty('padding-bottom');
-    spacer.style.removeProperty('height');
-    spacer.style.removeProperty('box-sizing');
-    spacerCompensated = false;
-  }
-
-  function clearFixedPinCompensation() {
-    if (!fixedPinCompensated) return;
-
-    pin.style.removeProperty('left');
-    pin.style.removeProperty('width');
-    pin.style.removeProperty('max-width');
-    fixedPinCompensated = false;
-  }
-
-  function compensateFixedPin() {
-    if (!timeline || !timeline.scrollTrigger) return;
-
-    var z = getZoom();
-    if (z >= 1 || window.getComputedStyle(pin).position !== 'fixed') return;
-
-    var rootRect = root.getBoundingClientRect();
-    var rootWidth = root.offsetWidth;
-    if (!(rootWidth > 0)) return;
-
-    pin.style.left = (rootRect.left / z) + 'px';
-    pin.style.width = rootWidth + 'px';
-    pin.style.maxWidth = rootWidth + 'px';
-    fixedPinCompensated = true;
-  }
-
-  function compensatePinSpacer() {
-    var trigger = timeline.scrollTrigger;
-    if (!trigger || !trigger.pin) return;
-
-    var spacer = getPinSpacer(trigger);
-    if (!spacer) return;
-
-    var z = getZoom();
-    if (z >= 1) return;
-
-    var scrollDistance = trigger.end - trigger.start;
-    if (!(scrollDistance > 0)) return;
-
-    var cardHeight = getCardHeight();
-    var naturalHeight = label.offsetHeight + getGap() + cardHeight;
-    var targetPadding = scrollDistance / z;
-
-    spacer.style.boxSizing = 'border-box';
-    spacer.style.paddingBottom = targetPadding + 'px';
-    spacer.style.height = naturalHeight + targetPadding + 'px';
-    spacerCompensated = true;
-  }
-
-  function scheduleCompensate() {
-    if (compensateFrame) return;
-    compensateFrame = requestAnimationFrame(function () {
-      compensateFrame = null;
-      compensatePinSpacer();
-      compensateFixedPin();
-      requestAnimationFrame(function () {
-        compensatePinSpacer();
-        compensateFixedPin();
-      });
+  function syncState(self) {
+    pendingTrigger = self;
+    if (pinFrame) return;
+    pinFrame = requestAnimationFrame(function () {
+      pinFrame = null;
+      applyPin(pendingTrigger);
     });
   }
 
@@ -176,10 +117,12 @@
     if (refreshFrame) return;
     refreshFrame = requestAnimationFrame(function () {
       refreshFrame = null;
+      syncFlowHeight();
       ScrollTrigger.refresh();
-      scheduleCompensate();
     });
   }
+
+  syncFlowHeight();
 
   var timeline = gsap.timeline({
     scrollTrigger: {
@@ -188,40 +131,22 @@
       end: function () {
         return '+=' + getStackDistance();
       },
-      pin: pin,
-      pinType: 'fixed',
       scrub: true,
-      anticipatePin: 1,
       invalidateOnRefresh: true,
       onRefreshInit: function () {
-        clearReleaseOffset();
-        clearSpacerCompensation();
-        clearFixedPinCompensation();
+        setPinY(0);
+        lastPinY = null;
+        root.style.removeProperty('height');
       },
       onRefresh: function (self) {
-        setStacking(self.progress > 0);
-        setReleaseOffset(self, self.progress >= 1);
-        scheduleCompensate();
+        syncFlowHeight();
+        syncState(self);
       },
-      onUpdate: scheduleCompensate,
-      onEnter: function () {
-        setStacking(true);
-        clearReleaseOffset();
-        scheduleCompensate();
-      },
-      onLeave: function (self) {
-        setStacking(true);
-        setReleaseOffset(self, true);
-        scheduleCompensate();
-      },
-      onEnterBack: function () {
-        setStacking(true);
-        clearReleaseOffset();
-      },
-      onLeaveBack: function () {
-        setStacking(false);
-        clearReleaseOffset();
-      },
+      onUpdate: syncState,
+      onEnter: syncState,
+      onLeave: syncState,
+      onEnterBack: syncState,
+      onLeaveBack: syncState,
     },
   });
 
@@ -236,8 +161,9 @@
     }, index);
   });
 
-  ScrollTrigger.addEventListener('refresh', scheduleCompensate);
-  scheduleCompensate();
+  ScrollTrigger.addEventListener('refresh', function () {
+    syncFlowHeight();
+  });
 
   window.addEventListener('load', requestRefresh);
   window.addEventListener('resize', requestRefresh);
