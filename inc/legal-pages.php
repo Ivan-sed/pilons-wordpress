@@ -169,6 +169,27 @@ function screenl_is_legal_page_request(): bool
     return screenl_get_legal_page_key() !== '';
 }
 
+function screenl_legal_title_html(string $title, string $key): string
+{
+    $title_html = esc_html($title);
+
+    if ($key !== 'privacy-policy') {
+        return $title_html;
+    }
+
+    $parts = preg_split('/\s+/u', $title_html, 2);
+    if (!is_array($parts) || count($parts) < 2) {
+        return $title_html;
+    }
+
+    $chars = preg_split('//u', $parts[1], -1, PREG_SPLIT_NO_EMPTY);
+    if (!is_array($chars) || count($chars) <= 10) {
+        return $title_html;
+    }
+
+    return $parts[0] . ' ' . implode('', array_slice($chars, 0, 10)) . '<wbr>' . implode('', array_slice($chars, 10));
+}
+
 function screenl_render_legal_page(string $key): void
 {
     $pages = screenl_legal_pages();
@@ -186,7 +207,7 @@ function screenl_render_legal_page(string $key): void
         <div class="legal-page__canvas">
             <section class="legal-page__hero">
                 <p class="legal-page__eyebrow"><?php echo esc_html($page['eyebrow']); ?></p>
-                <h1 class="legal-page__title"><?php echo esc_html($page['title']); ?></h1>
+                <h1 class="legal-page__title"><?php echo screenl_legal_title_html($page['title'], $key); ?></h1>
                 <p class="legal-page__lead"><?php echo esc_html($page['lead']); ?></p>
             </section>
 

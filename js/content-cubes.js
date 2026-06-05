@@ -15,6 +15,21 @@
   var RETRY_DELAY = 50;
   var initialized = false;
   var DESIGN_ROOT = 16;
+  var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var desktopPointerQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+
+  function canUseCubes() {
+    return desktopPointerQuery.matches && !reducedMotionQuery.matches;
+  }
+
+  function clearCubes() {
+    var container = document.querySelector('.content__cubes');
+    if (!container || initialized) return;
+
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  }
 
   function rem(value) {
     return (value / DESIGN_ROOT) + 'rem';
@@ -114,7 +129,7 @@
     var section = document.querySelector('.content');
     var container = document.querySelector('.content__cubes');
     var screenArea = document.querySelector('.content__screen-area');
-    if (initialized || !section || !container || !screenArea || typeof gsap === 'undefined') return false;
+    if (initialized || !canUseCubes() || !section || !container || !screenArea || typeof gsap === 'undefined') return false;
 
     var cubes = renderCubes(container);
     if (!cubes.length) return false;
@@ -240,6 +255,8 @@
     };
 
     function handleMove(e) {
+      if (!canUseCubes()) return;
+
       var now = Date.now();
       if (
         lastMove.x === e.clientX
@@ -279,6 +296,11 @@
   }
 
   function initWhenReady(attempt) {
+    if (!canUseCubes()) {
+      clearCubes();
+      return;
+    }
+
     if (init()) return;
     if (attempt >= RETRY_LIMIT) return;
     setTimeout(function () {
@@ -293,4 +315,19 @@
   } else {
     initWhenReady(0);
   }
+
+  function bindQuery(query) {
+    if (query.addEventListener) {
+      query.addEventListener('change', function () {
+        if (!initialized) initWhenReady(0);
+      });
+    } else if (query.addListener) {
+      query.addListener(function () {
+        if (!initialized) initWhenReady(0);
+      });
+    }
+  }
+
+  bindQuery(desktopPointerQuery);
+  bindQuery(reducedMotionQuery);
 })();

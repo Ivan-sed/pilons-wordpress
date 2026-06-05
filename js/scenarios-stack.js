@@ -7,20 +7,19 @@
   var stack = root.querySelector('[data-scenarios-stack]');
   if (!pin || !label || !stack || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reducedMotion) return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
+  var desktopQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var cards = gsap.utils.toArray('[data-scenarios-card]', stack);
   if (cards.length < 2) return;
 
-  cards.forEach(function (card, index) {
-    card.style.setProperty('--stack-index', index + 1);
-  });
-  root.classList.add('scenarios--ready');
+  gsap.registerPlugin(ScrollTrigger);
 
+  var timeline = null;
   var refreshFrame = null;
+
+  function canPin() {
+    return desktopQuery.matches && !reducedMotionQuery.matches;
+  }
 
   function numberOr(value, fallback) {
     var parsed = parseFloat(value);
@@ -65,6 +64,7 @@
   }
 
   function syncFlowHeight() {
+    if (!canPin()) return;
     root.style.height = (getPinnedHeight() + getStackDistance()) + 'px';
   }
 
@@ -86,59 +86,121 @@
   }
 
   function requestRefresh() {
-    if (refreshFrame) return;
+    if (!timeline || refreshFrame) return;
     refreshFrame = requestAnimationFrame(function () {
       refreshFrame = null;
+      if (!timeline || !canPin()) return;
       syncFlowHeight();
       ScrollTrigger.refresh();
     });
   }
 
-  syncFlowHeight();
+  function clearInlineState() {
+    root.style.removeProperty('height');
+    pin.style.removeProperty('z-index');
+    root.classList.remove('scenarios--ready', 'scenarios--stacking', 'scenarios--pinning');
+    pin.classList.remove('scenarios__pin--stacking', 'scenarios__pin--pinning');
 
-  var timeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: root,
-      start: 'top top',
-      end: function () {
-        return '+=' + getStackDistance();
-      },
-      pin: pin,
-      pinSpacing: false,
-      anticipatePin: 1,
-      scrub: true,
-      invalidateOnRefresh: true,
-      onRefreshInit: function () {
-        resetPinState();
-        root.style.removeProperty('height');
-      },
-      onRefresh: function (self) {
-        syncFlowHeight();
-        syncState(self);
-      },
-      onUpdate: syncState,
-      onEnter: syncState,
-      onLeave: syncState,
-      onEnterBack: syncState,
-      onLeaveBack: syncState,
-    },
-  });
+    gsap.set(stack, { clearProps: 'transform' });
+    gsap.set(cards, { clearProps: 'transform' });
+  }
 
-  cards.slice(1).forEach(function (card, index) {
-    timeline.to(card, {
-      y: function () {
-        return -((index + 1) * getStep());
+  function destroyStack() {
+    if (refreshFrame) {
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = null;
+    }
+
+    if (timeline) {
+      if (timeline.scrollTrigger) {
+        timeline.scrollTrigger.kill();
+      }
+      timeline.kill();
+      timeline = null;
+    }
+
+    clearInlineState();
+    ScrollTrigger.refresh();
+  }
+
+  function createStack() {
+    if (timeline || !canPin()) return;
+
+    cards.forEach(function (card, index) {
+      card.style.setProperty('--stack-index', index + 1);
+    });
+    root.classList.add('scenarios--ready');
+    syncFlowHeight();
+
+    timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: 'top top',
+        end: function () {
+          return '+=' + getStackDistance();
+        },
+        pin: pin,
+        pinSpacing: false,
+        anticipatePin: 1,
+        scrub: true,
+        invalidateOnRefresh: true,
+        onRefreshInit: function () {
+          resetPinState();
+          root.style.removeProperty('height');
+        },
+        onRefresh: function (self) {
+          syncFlowHeight();
+          syncState(self);
+        },
+        onUpdate: syncState,
+        onEnter: syncState,
+        onLeave: syncState,
+        onEnterBack: syncState,
+        onLeaveBack: syncState,
       },
-      ease: 'none',
-      duration: 1,
-      force3D: true,
-    }, index);
-  });
+    });
+
+    cards.slice(1).forEach(function (card, index) {
+      timeline.to(card, {
+        y: function () {
+          return -((index + 1) * getStep());
+        },
+        ease: 'none',
+        duration: 1,
+        force3D: true,
+      }, index);
+    });
+  }
+
+  function syncMode() {
+    if (canPin()) {
+      createStack();
+      requestRefresh();
+    } else {
+      destroyStack();
+    }
+  }
+
+  function bindQuery(query) {
+    if (query.addEventListener) {
+      query.addEventListener('change', syncMode);
+    } else if (query.addListener) {
+      query.addListener(syncMode);
+    }
+  }
 
   ScrollTrigger.addEventListener('refresh', function () {
-    syncFlowHeight();
+    if (timeline && canPin()) {
+      syncFlowHeight();
+    }
   });
 
+  bindQuery(desktopQuery);
+  bindQuery(reducedMotionQuery);
   window.addEventListener('load', requestRefresh);
-  window.addEventListener('resize', requestRefresh);
+  window.addEventListener('resize', function () {
+    requestAnimationFrame(syncMode);
+  });
+
+  syncMode();
 })();

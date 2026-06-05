@@ -38,8 +38,11 @@
   var frameW = DATA.frame.width;
   var frameH = DATA.frame.height;
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var state = { t: reduceMotion ? 1 : 0 };
+  var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var desktopMotionQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var reduceMotion = reduceMotionQuery.matches;
+  var useIntroMotion = desktopMotionQuery.matches && !reduceMotion;
+  var state = { t: useIntroMotion ? 0 : 1 };
 
   /* ----------------------------- math helpers ---------------------------- */
 
@@ -433,11 +436,24 @@
     return tl;
   }
 
-  if (reduceMotion) {
+  if (!useIntroMotion) {
     state.t = 1;
     render(1);
     gsap.set(bezelEls, { x: function (i) { return bezelDeltaPx[i]; } });
     gsap.set(shadowEls, { x: function (i) { return shadowDeltaPx[i]; } });
+    if (product) {
+      gsap.set(product.querySelectorAll('.hero__title-line, .hero__subtitle, .hero__cta-row, .hero__screenl, .hero__feature'), {
+        clearProps: 'opacity,visibility,transform',
+      });
+      gsap.set([
+        product.querySelector('.hero__title-block'),
+        product.querySelector('.hero__cta-row'),
+        product.querySelector('.hero__screenl'),
+        product.querySelector('.hero__features'),
+      ].filter(Boolean), {
+        clearProps: 'opacity,visibility,transform',
+      });
+    }
     markIntroDone();
     return;
   }

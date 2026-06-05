@@ -76,6 +76,8 @@ $configs = [
                     <?php
                     $is_current = 1 === $index;
                     $state      = $is_current ? 'is-current' : (0 === $index ? 'is-prev' : (2 === $index ? 'is-next' : 'is-hidden'));
+                    $loading    = $is_current ? 'eager' : 'lazy';
+                    $priority   = $is_current ? ' fetchpriority="high"' : '';
                     ?>
                     <article class="configs__card <?php echo esc_attr($state); ?>" data-config-card data-slide="<?php echo esc_attr((string) $index); ?>" <?php echo 'is-hidden' === $state ? 'aria-hidden="true"' : ''; ?>>
                         <button
@@ -93,8 +95,8 @@ $configs = [
                             </span>
 
                             <span class="configs__card-media" aria-hidden="true">
-                                <img class="configs__card-photo configs__card-photo--inactive" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset($config['inactive_asset']); ?>">
-                                <img class="configs__card-photo configs__card-photo--active" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset($config['active_asset']); ?>">
+                                <img class="configs__card-photo configs__card-photo--inactive" alt="" loading="<?php echo esc_attr($loading); ?>" decoding="async"<?php echo $priority; ?> src="<?php echo screenl_asset($config['inactive_asset']); ?>">
+                                <img class="configs__card-photo configs__card-photo--active" alt="" loading="<?php echo esc_attr($loading); ?>" decoding="async"<?php echo $priority; ?> src="<?php echo screenl_asset($config['active_asset']); ?>">
                             </span>
 
                             <span class="configs__card-desc">
