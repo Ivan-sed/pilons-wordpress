@@ -7,7 +7,7 @@
   var stack = root.querySelector('[data-scenarios-stack]');
   if (!pin || !label || !stack || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  var desktopQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var desktopQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
   var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var cards = gsap.utils.toArray('[data-scenarios-card]', stack);
   if (cards.length < 2) return;
@@ -100,6 +100,9 @@
     pin.style.removeProperty('z-index');
     root.classList.remove('scenarios--ready', 'scenarios--stacking', 'scenarios--pinning');
     pin.classList.remove('scenarios__pin--stacking', 'scenarios__pin--pinning');
+    cards.forEach(function (card) {
+      card.style.removeProperty('z-index');
+    });
 
     gsap.set(stack, { clearProps: 'transform' });
     gsap.set(cards, { clearProps: 'transform' });
@@ -127,7 +130,7 @@
     if (timeline || !canPin()) return;
 
     cards.forEach(function (card, index) {
-      card.style.setProperty('--stack-index', index + 1);
+      card.style.zIndex = String(index + 1);
     });
     root.classList.add('scenarios--ready');
     syncFlowHeight();

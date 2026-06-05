@@ -4,7 +4,7 @@
   var lenis = null;
   var tickerAdded = false;
   var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var desktopQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var desktopQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
   var overlayLocked = document.body.classList.contains('is-overlay-locked');
 
   function canUseLenis() {

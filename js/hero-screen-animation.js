@@ -39,7 +39,7 @@
   var frameH = DATA.frame.height;
 
   var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var desktopMotionQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var desktopMotionQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
   var reduceMotion = reduceMotionQuery.matches;
   var useIntroMotion = desktopMotionQuery.matches && !reduceMotion;
   var state = { t: useIntroMotion ? 0 : 1 };

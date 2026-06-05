@@ -16,7 +16,7 @@
   var initialized = false;
   var DESIGN_ROOT = 16;
   var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var desktopPointerQuery = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+  var desktopPointerQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
 
   function canUseCubes() {
     return desktopPointerQuery.matches && !reducedMotionQuery.matches;
