@@ -2579,7 +2579,6 @@ a {
     left: 0;
     width: 100%;
     height: 63.25rem;
-    overflow: hidden;
     background: linear-gradient(to top, rgba(242, 243, 246, 0) 60.34%, #f2f3f6 100%);
 }
 
@@ -4662,7 +4661,7 @@ a {
     }
 
     .benefits__content {
-        align-items: stretch;
+        align-items: flex-start;
     }
 
     .benefits__title,
@@ -4674,8 +4673,11 @@ a {
     }
 
     .benefits__list {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: min(100%, 54rem);
         gap: clamp(0.875rem, 2vw, 1.25rem);
     }
 
@@ -4685,7 +4687,9 @@ a {
     }
 
     .benefits__item {
-        width: 100%;
+        width: auto;
+        max-width: 100%;
+        flex: 0 1 auto;
         min-height: 4.25rem;
         border-radius: 1.75rem;
         background: rgba(255, 255, 255, 0.16);
@@ -5171,7 +5175,6 @@ a {
 
     .contacts__bg {
         top: -12rem;
-        height: clamp(44rem, 65vw, 58rem);
     }
 
     .contacts__headline {
@@ -5202,7 +5205,14 @@ a {
 
     .contacts__messenger-options {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .menu__messenger-options,
+    .modal__messenger-options {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.75rem;
     }
 
@@ -5345,10 +5355,6 @@ a {
         width: min(100%, 42rem);
     }
 
-    .benefits__list {
-        grid-template-columns: 1fr 1fr;
-    }
-
     .scenarios__card-layout {
         grid-template-columns: 1fr;
         min-height: 0;
@@ -5371,7 +5377,7 @@ a {
     }
 
     .contacts__messenger-options {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .menu__content {
@@ -5533,10 +5539,6 @@ a {
         padding-inline: 1rem;
     }
 
-    .benefits__list {
-        grid-template-columns: 1fr;
-    }
-
     .benefits__item,
     .scenarios__card-pill,
     .content__pill {
@@ -5660,7 +5662,7 @@ a {
     }
 
     .contacts__messenger-options {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .contacts__field,
@@ -5688,11 +5690,16 @@ a {
         gap: 1.25rem;
     }
 
-    .menu__fields,
+    .menu__fields {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
     .menu__messenger-options,
     .modal__messenger-options {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.75rem;
     }
 

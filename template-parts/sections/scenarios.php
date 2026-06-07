@@ -162,10 +162,10 @@ if (!defined('ABSPATH')) {
                         </div>
 
                         <ul class="scenarios__card-pills">
-                            <li class="scenarios__card-pill"><span>Свадьбы </span><span>— велком-зоны, схема рассадки, фотозоны</span></li>
-                            <li class="scenarios__card-pill"><span>Вечеринки</span><span> — афиши, оформление DJ-зоны, бренд-зоны</span></li>
-                            <li class="scenarios__card-pill"><span>Арт-показы</span><span> — digital-инсталляции, медиа-арт, сопровождение экспозиций</span></li>
-                            <li class="scenarios__card-pill"><span>Интерьерные</span><span> — digital-арт, навигация, оформление лобби</span></li>
+                            <li class="scenarios__card-pill"><span>Свадьбы — велком-зоны, схема рассадки, фотозоны</span></li>
+                            <li class="scenarios__card-pill"><span>Вечеринки — афиши, оформление DJ-зоны, бренд-зоны</span></li>
+                            <li class="scenarios__card-pill"><span>Арт-показы — digital-инсталляции, медиа-арт, сопровождение экспозиций</span></li>
+                            <li class="scenarios__card-pill"><span>Интерьерные — digital-арт, навигация, оформление лобби</span></li>
                         </ul>
                     </div>
 
