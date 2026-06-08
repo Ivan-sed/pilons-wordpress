@@ -32,10 +32,10 @@ $trust_logos = [
                 <h2 class="trust__title" id="trust-title">Нам доверяют</h2>
                 <div class="trust__controls" aria-label="Управление логотипами">
                     <button class="trust__control trust__control--prev" type="button" data-trust-prev aria-label="Прокрутить логотипы назад">
-                        <svg class="trust__control-icon" fill="none" viewBox="0 0 18 18" aria-hidden="true"><path d="M11.5 4L6.5 9L11.5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        <svg class="trust__control-icon" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L5 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </button>
                     <button class="trust__control trust__control--next" type="button" data-trust-next aria-label="Прокрутить логотипы вперёд">
-                        <svg class="trust__control-icon" fill="none" viewBox="0 0 18 18" aria-hidden="true"><path d="M6.5 4L11.5 9L6.5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        <svg class="trust__control-icon" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </button>
                 </div>
             </header>

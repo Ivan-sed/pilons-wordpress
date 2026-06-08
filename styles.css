@@ -2437,19 +2437,22 @@ a {
     justify-content: center;
     width: 3rem;
     height: 3rem;
+    padding: 0;
     border-radius: 50%;
     color: #1a56db;
-    background: rgba(255, 255, 255, 0.58);
-    border: 0.0625rem solid rgba(255, 255, 255, 0.75);
-    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.85), 0 0.25rem 1.25rem rgba(0, 0, 0, 0.06);
-    backdrop-filter: blur(0.75rem);
-    -webkit-backdrop-filter: blur(0.75rem);
-    transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+    background: rgba(255, 255, 255, 0.5);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.7), 0 0.25rem 1.25rem rgba(13, 18, 38, 0.14);
+    backdrop-filter: blur(0.625rem);
+    -webkit-backdrop-filter: blur(0.625rem);
+    cursor: pointer;
+    transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .trust__control:hover {
     transform: translateY(-0.125rem);
     background: #1a56db;
+    border-color: rgba(26, 86, 219, 0.9);
     color: white;
 }
 
@@ -2463,12 +2466,13 @@ a {
 }
 
 .trust__control-icon {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .trust__marquee {
-    overflow: hidden;
+    padding-block: 2rem;
+    margin-block: -2rem;
     width: 100%;
     cursor: grab;
     touch-action: pan-y;
@@ -2520,7 +2524,7 @@ a {
     width: 100%;
     height: 100%;
     max-width: none;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 1.75rem;
     transition: opacity 0.3s ease;
 }
@@ -2538,27 +2542,7 @@ a {
     opacity: 1;
 }
 
-.trust__logo--2 .trust__logo-img {
-    object-fit: unset;
-}
-
-.trust__logo--3 .trust__logo-img {
-    object-fit: unset;
-}
-
-.trust__logo--4 .trust__logo-img {
-
-    object-fit: unset;
-    border-radius: 0;
-}
-
-.trust__logo--6 .trust__logo-img {
-    object-fit: unset;
-}
-
-.trust__logo--7 .trust__logo-img {
-    object-fit: unset;
-}
+/* All logos use object-fit: contain (base rule) so wide wordmark logos show fully without cropping or distortion. */
 
 /* ========================= CONTACTS ========================= */
 
