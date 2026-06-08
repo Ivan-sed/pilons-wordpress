@@ -14,7 +14,10 @@ $configs = [
         'size'           => '1 пилон - 200х60 см',
         'inactive_asset' => 'configs/1-pillar-inactive.png',
         'active_asset'   => 'configs/1-pillar.png',
-        'description'    => ['Компактное решение для навигации, расписания и брендинга'],
+        'description'    => [
+            'Компактное решение ',
+            ['text' => 'для навигации, расписания и брендинга', 'accent' => true],
+        ],
     ],
     [
         'size'           => '2 пилона - 200х120 см',
@@ -24,34 +27,46 @@ $configs = [
         'active_asset'   => 'configs/2-pillars.png',
         'description'    => [
             'Возможность транслировать ',
-            ['text' => 'готовый контент из соцсетей ', 'accent' => true],
-            'без адаптации',
+            ['text' => 'готовый контент из соцсетей', 'accent' => true],
+            ' без адаптации',
         ],
     ],
     [
         'size'           => '3 пилона - 200х180 см',
         'inactive_asset' => 'configs/3-pillars-inactive.png',
         'active_asset'   => 'configs/3-pillars.png',
-        'description'    => ['Заметный digital-акцент для бренд-зон и фотозон'],
+        'description'    => [
+            'Заметный digital-акцент для ',
+            ['text' => 'бренд-зон и фотозон', 'accent' => true],
+        ],
     ],
     [
         'size'           => '4 пилона - 200х240 см',
         'inactive_asset' => 'configs/4-pillars-inactive.png',
         'active_asset'   => 'configs/4-pillars.png',
-        'description'    => ['Широкий формат для презентаций и брендинга в больших залах'],
+        'description'    => [
+            ['text' => 'Решение для', 'accent' => true],
+            ' бренд-зон и выставочных стендов',
+        ],
     ],
     [
         'size'           => '5 пилонов - 200х300 см',
         'inactive_asset' => 'configs/5-pillars-inactive.png',
         'active_asset'   => 'configs/5-pillars.png',
-        'description'    => ['Панорамный экран для масштабных инсталляций и сцен'],
+        'description'    => [
+            'Визуальный акцент для ',
+            ['text' => 'сцен, презентаций и центральных зон', 'accent' => true],
+        ],
     ],
     [
         'size'           => '6 пилонов - 200х360 см',
-        'badge'          => 'Формат 16:9',
+        'badge'          => 'Соотношение сторон 16:9',
         'inactive_asset' => 'configs/6-pillars-inactive.png',
         'active_asset'   => 'configs/6-pillars.png',
-        'description'    => ['Кинематографичный формат 16:9 для видео, трансляций и шоу'],
+        'description'    => [
+            ['text' => 'Единая Full HD-стена', 'accent' => true],
+            ' без громоздких конструкций',
+        ],
     ],
 ];
 ?>

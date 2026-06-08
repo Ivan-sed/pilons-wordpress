@@ -223,6 +223,9 @@
         duration: duration,
         ease: ease,
         overwrite: 'auto',
+        onUpdate: function () {
+          enforceBounds(d);
+        },
         onComplete: function () {
           enforceBounds(d);
         },
@@ -263,6 +266,9 @@
             duration: 0.25,
             ease: 'power3.out',
             overwrite: 'auto',
+            onUpdate: function () {
+              enforceBounds(d);
+            },
             onComplete: function () {
               enforceBounds(d);
             },

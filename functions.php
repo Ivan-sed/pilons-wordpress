@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('SCREENL_VERSION', '1.0.26');
+define('SCREENL_VERSION', '1.0.27');
 define('SCREENL_DIR', get_template_directory());
 define('SCREENL_URI', get_template_directory_uri());
 
