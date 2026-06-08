@@ -14,6 +14,7 @@
   var tx = x;
   var ty = y;
   var visible = false;
+  var rafId = null;
   var hoverSelector = [
     'a',
     'button',
@@ -29,16 +30,39 @@
   ].join(',');
 
   function render() {
+    rafId = null;
+
     x += (tx - x) * 0.22;
     y += (ty - y) * 0.22;
     cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-    window.requestAnimationFrame(render);
+
+    if (visible && (Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1)) {
+      rafId = window.requestAnimationFrame(render);
+    }
+  }
+
+  function requestRender() {
+    if (!rafId) {
+      rafId = window.requestAnimationFrame(render);
+    }
+  }
+
+  function cancelRender() {
+    if (!rafId) return;
+    window.cancelAnimationFrame(rafId);
+    rafId = null;
   }
 
   function setVisible(nextVisible) {
     if (visible === nextVisible) return;
     visible = nextVisible;
     cursor.classList.toggle('custom-cursor--visible', visible);
+
+    if (visible) {
+      requestRender();
+    } else {
+      cancelRender();
+    }
   }
 
   document.addEventListener('pointermove', function (event) {
@@ -46,6 +70,7 @@
     tx = event.clientX;
     ty = event.clientY;
     setVisible(true);
+    requestRender();
   }, { passive: true });
 
   document.addEventListener('pointerover', function (event) {
@@ -72,5 +97,9 @@
     setVisible(false);
   });
 
-  render();
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      setVisible(false);
+    }
+  });
 })();

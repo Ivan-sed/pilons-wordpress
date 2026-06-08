@@ -6,9 +6,17 @@
   var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var desktopQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
   var overlayLocked = document.body.classList.contains('is-overlay-locked');
+  var isSafari = (function () {
+    var ua = navigator.userAgent || '';
+    var vendor = navigator.vendor || '';
+
+    return /Safari/i.test(ua)
+      && /Apple Computer/i.test(vendor)
+      && !/(Chrome|Chromium|CriOS|FxiOS|Edg|OPR|Opera)/i.test(ua);
+  })();
 
   function canUseLenis() {
-    return Boolean(window.Lenis) && desktopQuery.matches && !reduceMotionQuery.matches;
+    return Boolean(window.Lenis) && desktopQuery.matches && !reduceMotionQuery.matches && !isSafari;
   }
 
   function getHeaderOffset() {
