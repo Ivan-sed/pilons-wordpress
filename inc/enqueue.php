@@ -103,6 +103,8 @@ function screenl_enqueue_assets(): void
         'screenl-sticky-header'        => ['sticky-header.js', ['screenl-menu']],
         'screenl-lead-form'            => ['lead-form.js', ['screenl-hero-screen-data']],
         'screenl-modal'                => ['modal.js', ['screenl-overlay-lock']],
+        'screenl-video-player'         => ['video-player.js', ['screenl-overlay-lock']],
+        'screenl-custom-cursor'        => ['custom-cursor.js', []],
     ];
 
     foreach ($footer_scripts as $handle => $config) {

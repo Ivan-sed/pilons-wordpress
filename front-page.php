@@ -28,4 +28,5 @@ get_header();
 <?php
 get_template_part('template-parts/overlays/menu');
 get_template_part('template-parts/overlays/modal');
+get_template_part('template-parts/overlays/video-player');
 get_footer();
