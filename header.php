@@ -21,25 +21,12 @@ if (!defined('ABSPATH')) {
 <div class="site-preloader" id="sitePreloader" aria-hidden="true">
     <div class="site-preloader__inner">
         <div class="site-preloader__mark">
-            <span class="site-preloader__beam site-preloader__beam--top"></span>
-            <span class="site-preloader__beam site-preloader__beam--bottom"></span>
-            <span class="site-preloader__panel site-preloader__panel--left">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-            <span class="site-preloader__panel site-preloader__panel--center">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-            <span class="site-preloader__panel site-preloader__panel--right">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
+            <div class="site-preloader__screenl" data-preloader-screenl>
+                <div class="site-preloader__screenl-layer site-preloader__screenl-layer--base"></div>
+                <div class="site-preloader__screenl-layer site-preloader__screenl-layer--glow"></div>
+                <span class="site-preloader__fallback">SCREENL</span>
+            </div>
         </div>
-        <p class="site-preloader__brand">SCREENL</p>
         <span class="site-preloader__progress"><span></span></span>
     </div>
 </div>
