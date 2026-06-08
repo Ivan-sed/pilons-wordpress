@@ -5609,7 +5609,7 @@ a {
         top: auto;
         display: block;
         width: calc(100% - clamp(2rem, 7vw, 3rem));
-        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 2.083333rem - 5.55rem - 3rem);
+        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 3.5rem - 5.55rem - 3rem);
         min-height: 0;
         margin: 0 auto;
         padding: 0;
@@ -5781,11 +5781,12 @@ a {
     .hero__features {
         position: absolute;
         left: 50%;
-        top: calc(100% + 2.083333rem);
+        top: calc(100% + 3.5rem);
         bottom: auto;
         z-index: 3;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
         gap: clamp(0.5rem, 2vw, 0.875rem) clamp(1rem, 4vw, 2rem);
         width: min(calc(100vw - clamp(2rem, 7vw, 3rem)), 35rem);
         margin: 0;
@@ -5793,12 +5794,13 @@ a {
     }
 
     .hero__feature {
-        min-height: auto;
         justify-content: flex-start;
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
+        align-self: stretch;
+        min-height: 0;
+        padding: 0.5rem 0.875rem 0.5rem 0.6rem;
+        border: 0.0625rem solid rgba(26, 86, 219, 0.2);
+        border-radius: 6.25rem;
+        background: rgba(26, 86, 219, 0.07);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         box-shadow: none;
@@ -5815,11 +5817,11 @@ a {
     }
 
     .hero__feature-arrow-svg path {
-        fill: #23262d;
+        fill: #1a56db;
     }
 
     .hero__feature-text {
-        color: #23262d;
+        color: #060b20;
         font-size: clamp(1.05rem, 3.35vw, 1.32rem);
         line-height: 1.18;
         white-space: normal;
@@ -5873,18 +5875,33 @@ a {
         position: relative;
         z-index: 2;
         order: 2;
-        display: grid;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        gap: clamp(0.25rem, 1vw, 0.45rem);
+        gap: clamp(0.4rem, 1.5vw, 0.6rem);
         height: auto;
         color: #060b20;
     }
 
     .benefits__row,
-    .benefits__row--split,
     .benefits__row--tight {
         display: contents;
         margin-top: 0;
+    }
+
+    .benefits__row--split {
+        display: flex;
+        flex-direction: row;
+        gap: clamp(0.4rem, 1.5vw, 0.6rem);
+        align-items: stretch;
+        margin-top: 0;
+    }
+
+    .benefits__row--split > .benefits__item {
+        flex: 1 1 0;
+        min-width: 0;
+        width: auto;
+        align-self: stretch;
     }
 
     .benefits__row:nth-child(n+4) {
@@ -5900,14 +5917,16 @@ a {
     }
 
     .benefits__item {
-        display: block;
-        width: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
         max-width: 100%;
-        min-height: 0;
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
+        min-height: 3.25rem;
+        padding: 0.75rem 1.25rem;
+        border: 0.0625rem solid rgba(26, 86, 219, 0.14);
+        border-radius: 1rem;
+        background: rgba(26, 86, 219, 0.06);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         box-shadow: none;
@@ -6171,7 +6190,7 @@ a {
     }
 
     .hero__features {
-        top: calc(100% + 2.083333rem);
+        top: calc(100% + 3.5rem);
     }
 
     .hero__social-icon {
@@ -6230,7 +6249,7 @@ a {
 @media (max-width: 576px) {
     .hero__product {
         width: calc(100% - clamp(2.5rem, 8vw, 3.75rem));
-        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 2.083333rem - 5.3rem - 3rem);
+        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 3.5rem - 5.3rem - 3rem);
         padding-bottom: 0;
     }
 
@@ -6253,10 +6272,6 @@ a {
 
     .hero__features {
         gap: 0.625rem clamp(0.9rem, 3.6vw, 1.5rem);
-    }
-
-    .hero__feature {
-        border-radius: 0;
     }
 
     .configs,
@@ -6335,7 +6350,7 @@ a {
 
 @media (max-width: 480px) {
     .hero__product {
-        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 2.083333rem - 4.116667rem - 3rem);
+        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 3.5rem - 4.116667rem - 3rem);
     }
 
     .hero__social-icon {
@@ -6547,7 +6562,7 @@ a {
 
     .hero__product {
         width: calc(100% - 1.25rem);
-        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 2.083333rem - 3.9rem - 3rem);
+        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 3.5rem - 3.9rem - 3rem);
     }
 
     .hero__features {
@@ -6620,7 +6635,7 @@ a {
 
     .hero__product {
         width: calc(100% - 1.25rem);
-        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 2.083333rem - 3.9rem - 3rem);
+        height: calc(100svh - clamp(4.5rem, 12svh, 6.25rem) - 3.5rem - 3.9rem - 3rem);
     }
 
     .hero__header {
