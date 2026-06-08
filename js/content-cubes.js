@@ -14,12 +14,12 @@
   var RETRY_LIMIT = 40;
   var RETRY_DELAY = 50;
   var initialized = false;
-  var DESIGN_ROOT = 16;
+  var CANVAS_WIDTH = 760;
+  var CANVAS_HEIGHT = 945;
   var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var desktopPointerQuery = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
 
   function canUseCubes() {
-    return desktopPointerQuery.matches && !reducedMotionQuery.matches;
+    return !reducedMotionQuery.matches;
   }
 
   function clearCubes() {
@@ -31,13 +31,15 @@
     }
   }
 
-  function rem(value) {
-    return (value / DESIGN_ROOT) + 'rem';
+  function designPx(value) {
+    var container = document.querySelector('.content__cubes');
+    var rect = container ? container.getBoundingClientRect() : null;
+    var scale = rect && rect.width ? rect.width / CANVAS_WIDTH : 1;
+    return value * scale;
   }
 
-  function designPx(value) {
-    var rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    return value * ((Number.isFinite(rootSize) ? rootSize : DESIGN_ROOT) / DESIGN_ROOT);
+  function percent(value, size) {
+    return (value / size * 100) + '%';
   }
 
   function clamp(val, lo, hi) {
@@ -81,10 +83,10 @@
 
       item.className = 'content__cube';
       item.dataset.baseRot = String(cube[4]);
-      item.style.left = rem(cube[0]);
-      item.style.top = rem(cube[1]);
-      item.style.width = rem(cube[2]);
-      item.style.height = rem(cube[3]);
+      item.style.left = percent(cube[0], CANVAS_WIDTH);
+      item.style.top = percent(cube[1], CANVAS_HEIGHT);
+      item.style.width = percent(cube[2], CANVAS_WIDTH);
+      item.style.height = percent(cube[3], CANVAS_HEIGHT);
       if (cube[4]) item.style.transform = 'rotate(' + cube[4] + 'deg)';
 
       img.className = 'content__cube-img';
@@ -127,9 +129,10 @@
 
   function init() {
     var section = document.querySelector('.content');
+    var visual = document.querySelector('.content__visual');
     var container = document.querySelector('.content__cubes');
     var screenArea = document.querySelector('.content__screen-area');
-    if (initialized || !canUseCubes() || !section || !container || !screenArea || typeof gsap === 'undefined') return false;
+    if (initialized || !canUseCubes() || !section || !visual || !container || !screenArea || typeof gsap === 'undefined') return false;
 
     var cubes = renderCubes(container);
     if (!cubes.length) return false;
@@ -157,17 +160,46 @@
 
     var data = readData();
 
-    data.forEach(function (d) {
-      gsap.set(d.el, { rotation: d.baseRot, transformOrigin: '50% 50%' });
-    });
-
     function getBounds() {
+      var containerRect = container.getBoundingClientRect();
+      var screenRect = screenArea.getBoundingClientRect();
+      var scale = getScale(container, containerRect);
+
       return {
-        left: screenArea.offsetLeft,
-        top: screenArea.offsetTop,
-        right: screenArea.offsetLeft + screenArea.offsetWidth,
-        bottom: screenArea.offsetTop + screenArea.offsetHeight,
+        left: (screenRect.left - containerRect.left) / (scale.x || 1),
+        top: (screenRect.top - containerRect.top) / (scale.y || 1),
+        right: (screenRect.right - containerRect.left) / (scale.x || 1),
+        bottom: (screenRect.bottom - containerRect.top) / (scale.y || 1),
       };
+    }
+
+    function updateHome(d, bounds) {
+      var home = clampPush(d, 0, 0, d.baseRot, bounds);
+      d.homeX = home.x;
+      d.homeY = home.y;
+      d.cx = d.left + d.w / 2 + d.homeX;
+      d.cy = d.top + d.h / 2 + d.homeY;
+    }
+
+    function updateHomes() {
+      var b = getBounds();
+
+      data.forEach(function (d) {
+        updateHome(d, b);
+      });
+    }
+
+    function setCubesHome() {
+      updateHomes();
+
+      data.forEach(function (d) {
+        gsap.set(d.el, {
+          x: d.homeX,
+          y: d.homeY,
+          rotation: d.baseRot,
+          transformOrigin: '50% 50%',
+        });
+      });
     }
 
     function enforceBounds(d) {
@@ -185,8 +217,8 @@
     function resetCube(d, duration, ease) {
       d.active = false;
       gsap.to(d.el, {
-        x: 0,
-        y: 0,
+        x: d.homeX,
+        y: d.homeY,
         rotation: d.baseRot,
         duration: duration,
         ease: ease,
@@ -213,11 +245,13 @@
 
         if (dist < radius && dist > 0) {
           var force = Math.pow(1 - dist / radius, 1.6);
-          var rawX = (dx / dist) * force * maxPush;
-          var rawY = (dy / dist) * force * maxPush;
+          var repelX = (dx / dist) * force * maxPush;
+          var repelY = (dy / dist) * force * maxPush;
+          var rawX = d.homeX + repelX;
+          var rawY = d.homeY + repelY;
           var spin = 0;
           var push = clampPush(d, rawX, rawY, d.baseRot, b);
-          spin = (push.x / maxPush) * 18;
+          spin = ((push.x - d.homeX) / maxPush) * 18;
           push = clampPush(d, rawX, rawY, d.baseRot + spin, b);
           d.active = true;
           hasForce = true;
@@ -246,6 +280,8 @@
         resetCube(d, 1.8, 'elastic.out(1, 0.3)');
       });
     }
+
+    setCubesHome();
 
     var active = false;
     var lastMove = {
@@ -280,15 +316,87 @@
     }
 
     window.addEventListener('mousemove', handleMove, { passive: true });
+
+    var activeTouch = {
+      pointerId: null,
+      x: 0,
+      y: 0,
+      dragging: false,
+    };
+
+    function isTouchPointer(e) {
+      return e.pointerType === 'touch' || e.pointerType === 'pen';
+    }
+
+    function resetTouch() {
+      activeTouch.pointerId = null;
+      activeTouch.started = false;
+      activeTouch.dragging = false;
+    }
+
+    function onPointerDown(e) {
+      if (!canUseCubes() || !isTouchPointer(e) || activeTouch.pointerId !== null) return;
+
+      activeTouch.pointerId = e.pointerId;
+      activeTouch.x = e.clientX;
+      activeTouch.y = e.clientY;
+      activeTouch.dragging = false;
+      if (visual.setPointerCapture) {
+        try {
+          visual.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+      handleMove(e);
+    }
+
+    function onPointerMove(e) {
+      if (!canUseCubes() || !isTouchPointer(e)) return;
+
+      if (activeTouch.pointerId === null) {
+        handleMove(e);
+        return;
+      }
+
+      if (e.pointerId !== activeTouch.pointerId) return;
+
+      var dx = e.clientX - activeTouch.x;
+      var dy = e.clientY - activeTouch.y;
+
+      if (!activeTouch.dragging && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 0.8) {
+        activeTouch.dragging = true;
+      }
+
+      if (activeTouch.dragging && e.cancelable) {
+        e.preventDefault();
+      }
+
+      handleMove(e);
+    }
+
+    function onPointerEnd(e) {
+      if (activeTouch.pointerId !== null && e.pointerId !== activeTouch.pointerId) return;
+      if (visual.releasePointerCapture) {
+        try {
+          visual.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+      resetTouch();
+      onLeave();
+    }
+
     if (window.PointerEvent) {
-      window.addEventListener('pointermove', handleMove, { passive: true });
+      visual.addEventListener('pointerdown', onPointerDown);
+      visual.addEventListener('pointermove', onPointerMove);
+      visual.addEventListener('pointerup', onPointerEnd);
+      visual.addEventListener('pointercancel', onPointerEnd);
+      visual.addEventListener('lostpointercapture', onPointerEnd);
     }
 
     window.addEventListener('blur', onLeave);
     document.addEventListener('mouseleave', onLeave);
     window.addEventListener('resize', function () {
       data = readData();
-      data.forEach(enforceBounds);
+      setCubesHome();
     });
 
     initialized = true;
@@ -328,6 +436,5 @@
     }
   }
 
-  bindQuery(desktopPointerQuery);
   bindQuery(reducedMotionQuery);
 })();

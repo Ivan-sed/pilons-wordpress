@@ -2007,12 +2007,24 @@ a {
     white-space: nowrap;
 }
 
+.content__visual {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 47.5rem;
+    height: 59.0625rem;
+    z-index: 2;
+    pointer-events: auto;
+    touch-action: pan-y;
+}
+
 .content__screen-area {
     position: absolute;
     left: 12.625rem;
     top: 0.6875rem;
     width: 34.3125rem;
     height: 54.75rem;
+    pointer-events: none;
 }
 
 .content__screen-panel {
@@ -2031,8 +2043,9 @@ a {
     top: 0;
     width: 47.5rem;
     height: 59.0625rem;
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 2;
+    touch-action: pan-y;
 }
 
 .content__cube {
@@ -3996,16 +4009,24 @@ a {
         white-space: normal;
     }
 
-    .content__screen-area {
+    .content__visual {
         position: relative;
         left: auto;
         top: auto;
         grid-column: 1;
         grid-row: 1 / span 2;
-        width: min(34.3125rem, 34vw);
+        width: min(47.5rem, 47vw);
+        height: auto;
+        aspect-ratio: 47.5 / 59.0625;
+        justify-self: center;
+    }
+
+    .content__screen-area {
+        left: 26.578947%;
+        top: 1.164021%;
+        width: 72.236842%;
         height: auto;
         aspect-ratio: 34.3125 / 54.75;
-        justify-self: center;
     }
 
     .content__screen-panel {
@@ -4017,7 +4038,9 @@ a {
     }
 
     .content__cubes {
-        display: none;
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 
     .content__text {
@@ -4369,8 +4392,8 @@ a {
         gap: clamp(1.5rem, 3vw, 3rem) clamp(2.5rem, 4vw, 4.5rem);
     }
 
-    .content__screen-area {
-        width: min(31rem, 32vw);
+    .content__visual {
+        width: min(43rem, 44vw);
     }
 
     .contacts__body {
@@ -4420,8 +4443,8 @@ a {
         flex-shrink: 0;
     }
 
-    .content__screen-area {
-        width: min(29rem, 31vw);
+    .content__visual {
+        width: min(40rem, 43vw);
     }
 
     .contacts__headline {
@@ -5080,11 +5103,16 @@ a {
         box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.16), 0 1.5rem 4rem rgba(0, 12, 71, 0.14);
     }
 
-    .content__screen-area {
+    .content__visual {
         grid-column: 1;
         grid-row: 3;
-        width: min(52vw, 26rem);
+        width: min(72vw, 36rem);
         margin-inline: auto;
+        transform: translateX(-12.7%);
+    }
+
+    .content__cubes {
+        clip-path: inset(1.164% 1.184% 6.138% 26.579%);
     }
 
     .content__screen-panel {
@@ -5376,8 +5404,8 @@ a {
         max-width: 48rem;
     }
 
-    .content__screen-area {
-        width: min(50vw, 24rem);
+    .content__visual {
+        width: min(70vw, 34rem);
     }
 
     .contacts__messenger-options {
@@ -5440,8 +5468,8 @@ a {
         flex-direction: column;
     }
 
-    .content__screen-area {
-        width: min(54vw, 23rem);
+    .content__visual {
+        width: min(74vw, 33rem);
     }
 
     .contacts__headline {
@@ -5947,8 +5975,8 @@ a {
         border-radius: 1.75rem;
     }
 
-    .content__screen-area {
-        width: min(72vw, 22rem);
+    .content__visual {
+        width: min(86vw, 30rem);
     }
 
     .content__interactive-title {
@@ -6246,8 +6274,8 @@ a {
         height: 26rem;
     }
 
-    .content__screen-area {
-        width: min(78vw, 20rem);
+    .content__visual {
+        width: min(88vw, 28rem);
     }
 
     .contacts__headline {
@@ -6330,8 +6358,8 @@ a {
         height: 24.5rem;
     }
 
-    .content__screen-area {
-        width: min(82vw, 18rem);
+    .content__visual {
+        width: min(90vw, 25rem);
     }
 
     .contacts__panel {
@@ -6529,8 +6557,8 @@ a {
         height: 23rem;
     }
 
-    .content__screen-area {
-        width: min(86vw, 16.5rem);
+    .content__visual {
+        width: min(92vw, 23rem);
     }
 
     .contacts__headline {

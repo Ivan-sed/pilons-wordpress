@@ -33,11 +33,13 @@ $content_pills = [
 
             <p class="content__badge">Дополнительные опции</p>
 
-            <div class="content__screen-area" aria-hidden="true">
-                <img class="content__screen-panel" src="<?php echo screenl_asset('content/screen-panel.png'); ?>" alt="" loading="lazy" decoding="async">
-            </div>
+            <div class="content__visual" aria-hidden="true">
+                <div class="content__screen-area">
+                    <img class="content__screen-panel" src="<?php echo screenl_asset('content/screen-panel.png'); ?>" alt="" loading="lazy" decoding="async">
+                </div>
 
-            <div class="content__cubes" aria-hidden="true"></div>
+                <div class="content__cubes"></div>
+            </div>
 
             <div class="content__text">
                 <h2 class="content__title" id="content-title">Создание контента</h2>
