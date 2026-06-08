@@ -6,3 +6,6 @@ Thumbs.db
 .idea/
 .vscode/
 node_modules/
+
+# Local FTP deploy helper — holds credentials, never commit
+deploy.sh

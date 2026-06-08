@@ -117,14 +117,14 @@ $configs = [
         <div class="configs__arrows">
             <button type="button" class="configs__arrow configs__arrow--prev" aria-label="Предыдущая конфигурация">
                 <svg class="configs__arrow-svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M15 5L8 12L15 19" />
-                    <path d="M9 12H21" />
+                    <path d="M12 5L5 12L12 19" />
+                    <path d="M5 12H19" />
                 </svg>
             </button>
             <button type="button" class="configs__arrow configs__arrow--next" aria-label="Следующая конфигурация">
                 <svg class="configs__arrow-svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9 5L16 12L9 19" />
-                    <path d="M15 12H3" />
+                    <path d="M12 5L19 12L12 19" />
+                    <path d="M19 12H5" />
                 </svg>
             </button>
         </div>

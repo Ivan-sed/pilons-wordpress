@@ -93,7 +93,6 @@ function screenl_enqueue_assets(): void
         'screenl-hero-screen-animation' => ['hero-screen-animation.js', ['screenl-hero-screen-data']],
         'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger']],
         'screenl-smooth-scroll'        => ['smooth-scroll.js', ['lenis', 'gsap-scroll-trigger']],
-        'screenl-section-reveal'       => ['section-reveal.js', ['gsap-scroll-trigger', 'screenl-smooth-scroll']],
         'screenl-configs-slider'       => ['configs-slider.js', []],
         'screenl-content-cubes'        => ['content-cubes.js', ['gsap']],
         'screenl-faq-accordion'        => ['faq-accordion.js', []],
