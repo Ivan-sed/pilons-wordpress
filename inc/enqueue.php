@@ -33,6 +33,14 @@ function screenl_enqueue_assets(): void
         SCREENL_VERSION
     );
 
+    wp_enqueue_script(
+        'screenl-preloader',
+        SCREENL_URI . '/js/preloader.js',
+        [],
+        SCREENL_VERSION,
+        false
+    );
+
     if ($is_legal_page) {
         $legal_scripts = [
             'screenl-overlay-lock'  => ['overlay-lock.js', []],

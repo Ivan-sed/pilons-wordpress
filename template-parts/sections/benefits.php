@@ -12,8 +12,8 @@ if (!defined('ABSPATH')) {
         <!-- BENEFITS -->
         <section class="benefits" id="benefits" aria-labelledby="benefits-title">
             <div class="benefits__bg" aria-hidden="true">
-                <img class="benefits__bg-img" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('shared/section-bg-gradient-primary.png'); ?>">
-                <img class="benefits__bg-img" alt="" loading="lazy" decoding="async" src="<?php echo screenl_asset('shared/section-bg-gradient-secondary.png'); ?>">
+                <span class="benefits__bg-img benefits__bg-img--primary"></span>
+                <span class="benefits__bg-img benefits__bg-img--secondary"></span>
             </div>
 
             <div class="benefits__content">
