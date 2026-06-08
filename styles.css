@@ -2508,12 +2508,7 @@ a {
     flex-shrink: 0;
     width: 9.5rem;
     height: 9.5rem;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
-    border: 0.0625rem solid rgba(255, 255, 255, 0.55);
-    border-radius: 1.75rem;
-    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.55), 0 0.25rem 2rem rgba(0, 0, 0, 0.1);
+    background: transparent;
     overflow: hidden;
 }
 
@@ -2525,7 +2520,6 @@ a {
     height: 100%;
     max-width: none;
     object-fit: contain;
-    border-radius: 1.75rem;
     transition: opacity 0.3s ease;
 }
 
@@ -3185,7 +3179,6 @@ a {
 
 .lead-consent {
     width: 100%;
-    margin-top: -1.25rem;
     font-family: "NeueHaasMedium", sans-serif;
     font-weight: 600;
     letter-spacing: 0;
