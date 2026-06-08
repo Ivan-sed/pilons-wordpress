@@ -4525,6 +4525,7 @@ a {
         min-height: 2.75rem;
         padding: 0.1875rem 0 0.1875rem 0.625rem;
         gap: 0.5rem;
+        flex-direction: row;
     }
 
     .hero__menu-chevron {
@@ -5113,6 +5114,10 @@ a {
         height: 3.5rem;
     }
 
+    .configs__arrow-svg {
+        stroke: #1a56db;
+    }
+
     .content {
         display: grid;
         grid-template-columns: 1fr;
@@ -5123,10 +5128,15 @@ a {
     }
 
     .content__bg {
-        left: -35%;
-        top: -24rem;
-        width: 170%;
-        height: 95rem;
+        left: -54%;
+        top: -29rem;
+        width: 225%;
+        height: 118rem;
+    }
+
+    .content__bg-blur {
+        width: 132rem;
+        height: 99rem;
     }
 
     .content__badge {
@@ -5151,8 +5161,19 @@ a {
         grid-column: 1;
         grid-row: 3;
         width: min(78vw, 42rem);
+        margin-top: clamp(3rem, 7vw, 5rem);
         margin-inline: auto;
         transform: translateX(-12.7%);
+    }
+
+    .content__screen-area {
+        transform: scale(1.1);
+        transform-origin: center center;
+    }
+
+    .content__cubes {
+        transform: scale(1.1);
+        transform-origin: 62.7% 47.5%;
     }
 
     .content__cubes {
@@ -5573,7 +5594,7 @@ a {
     }
 
     .hero__menu {
-        flex-direction: row-reverse;
+        flex-direction: row;
         min-height: 2.75rem;
         gap: clamp(0.65rem, 2.4vw, 0.95rem);
         padding: 0;
@@ -6044,6 +6065,11 @@ a {
         width: min(92vw, 34rem);
     }
 
+    .content__screen-area,
+    .content__cubes {
+        transform: scale(1.12);
+    }
+
     .content__interactive-title {
         font-size: clamp(1.3rem, 4.5vw, 1.75rem);
     }
@@ -6339,6 +6365,11 @@ a {
         width: min(92vw, 32rem);
     }
 
+    .content__screen-area,
+    .content__cubes {
+        transform: scale(1.12);
+    }
+
     .contacts__headline {
         font-size: clamp(3.35rem, 13vw, 4.75rem);
     }
@@ -6421,6 +6452,11 @@ a {
 
     .content__visual {
         width: min(92vw, 29rem);
+    }
+
+    .content__screen-area,
+    .content__cubes {
+        transform: scale(1.14);
     }
 
     .contacts__panel {
@@ -6620,6 +6656,11 @@ a {
 
     .content__visual {
         width: min(92vw, 26rem);
+    }
+
+    .content__screen-area,
+    .content__cubes {
+        transform: scale(1.14);
     }
 
     .contacts__headline {
