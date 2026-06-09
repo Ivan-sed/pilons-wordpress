@@ -3566,6 +3566,11 @@ a {
     color: #6c6c7c;
 }
 
+.lead-consent--contacts, .lead-consent--modal {
+    color: #6c6c7c;
+    padding-bottom: 15px;
+}
+
 .lead-consent--menu {
     color: rgba(255, 255, 255, 0.66);
 }
@@ -7622,4 +7627,24 @@ a {
     .configs__card.is-current .configs__card-media {
         height: 21.5rem;
     }
+}
+
+/* Keep benefits pills visually glassy without live backdrop repaint flicker. */
+.benefits__item,
+.benefits__badge {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.benefits__item {
+    isolation: isolate;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.13) 100%);
+    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.24), 0 0.45rem 1.45rem rgba(0, 12, 71, 0.12);
+}
+
+.benefits__badge {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.84) 100%);
+    box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.68), 0 0.25rem 0.75rem rgba(0, 12, 71, 0.1);
 }
