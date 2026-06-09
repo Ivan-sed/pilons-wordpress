@@ -3574,7 +3574,8 @@ a {
     color: #6c6c7c;
 }
 
-.lead-consent--contacts, .lead-consent--modal {
+.lead-consent--contacts,
+.lead-consent--modal {
     color: #6c6c7c;
     padding-bottom: 15px;
 }
@@ -7595,6 +7596,7 @@ a {
 }
 
 @media (max-width: 767px) {
+
     .configs__viewport,
     .configs__stage {
         height: clamp(36rem, 84vw, 42.5rem);
@@ -7607,6 +7609,7 @@ a {
 }
 
 @media (max-width: 576px) {
+
     .configs__viewport,
     .configs__stage {
         height: 41rem;
@@ -7619,6 +7622,7 @@ a {
 }
 
 @media (max-width: 360px) {
+
     .configs__viewport,
     .configs__stage {
         height: 39.5rem;
@@ -7631,6 +7635,7 @@ a {
 }
 
 @media (max-width: 320px) {
+
     .configs__viewport,
     .configs__stage {
         height: 38.5rem;
@@ -7660,4 +7665,47 @@ a {
 .benefits__badge {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.84) 100%);
     box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.68), 0 0.25rem 0.75rem rgba(0, 12, 71, 0.1);
+}
+
+@media (min-width: 1025px) {
+    .configs__card[data-slide="5"] .configs__card-photo {
+        width: 94%;
+        height: 94%;
+    }
+
+    .configs__card[data-slide="5"] .configs__card-photo--active {
+        --configs-photo-x: -1.4%;
+        --configs-photo-y: 3%;
+    }
+
+    .configs__card[data-slide="5"] .configs__card-photo--inactive {
+        --configs-photo-x: 3%;
+        --configs-photo-y: 3%;
+    }
+}
+
+@media (max-width: 767px) {
+    .trust {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .trust__header {
+        display: contents;
+    }
+
+    .trust__title {
+        order: 1;
+        margin-bottom: clamp(3.75rem, 6vw, 2.75rem);
+    }
+
+    .trust__marquee {
+        order: 2;
+    }
+
+    .trust__controls {
+        order: 3;
+        align-self: center;
+        margin-top: clamp(1.5rem, 6vw, 2.25rem);
+    }
 }

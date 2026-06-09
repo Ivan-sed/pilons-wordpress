@@ -60,7 +60,7 @@ $configs = [
     ],
     [
         'size'           => '6 пилонов - 200х360 см',
-        'badge'          => 'Соотношение сторон 16:9',
+        'badge'          => 'Full HD',
         'inactive_asset' => 'configs/6-pillars-inactive.png',
         'active_asset'   => 'configs/6-pillars.png',
         'description'    => [
