@@ -88,7 +88,8 @@ window.HERO_SCREEN_DATA = {
       ? screenlTheme.assetsUri
       : './assets';
     return {
-      screen: base + '/hero/screen-panel.png',
+      screen: base + '/hero/screen-panel.webp',
+      screenFallback: base + '/hero/screen-panel.png',
       bezel: base + '/hero/bezel-texture.png',
       bezelFallback: base + '/hero/bezel-texture-fallback.png',
       shadowPanels: base + '/hero/shadow-panels-joined.png',

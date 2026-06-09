@@ -1053,10 +1053,12 @@ a {
 
 .benefits__bg-img--primary {
     background-image: url("assets/shared/section-bg-gradient-primary.png");
+    background-image: image-set(url("assets/shared/section-bg-gradient-primary.webp") type("image/webp"), url("assets/shared/section-bg-gradient-primary.png") type("image/png"));
 }
 
 .benefits__bg-img--secondary {
     background-image: url("assets/shared/section-bg-gradient-secondary.png");
+    background-image: image-set(url("assets/shared/section-bg-gradient-secondary.webp") type("image/webp"), url("assets/shared/section-bg-gradient-secondary.png") type("image/png"));
 }
 
 .benefits__content {
@@ -1337,6 +1339,10 @@ a {
         linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
         url("assets/scenarios/card-bg-secondary.png"),
         url("assets/scenarios/card-bg-primary.png");
+    background-image:
+        linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
+        image-set(url("assets/scenarios/card-bg-secondary.webp") type("image/webp"), url("assets/scenarios/card-bg-secondary.png") type("image/png")),
+        image-set(url("assets/scenarios/card-bg-primary.webp") type("image/webp"), url("assets/scenarios/card-bg-primary.png") type("image/png"));
     background-position: center;
     background-size: cover;
 }
@@ -2066,6 +2072,8 @@ a {
     border-color: rgba(255, 255, 255, 0.2);
     background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
         url("./assets/configs/card-active-texture.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
+        image-set(url("./assets/configs/card-active-texture.webp") type("image/webp"), url("./assets/configs/card-active-texture.png") type("image/png"));
     background-size: cover;
     background-position: center;
     box-shadow: 0 0.25rem 2rem 0 rgba(0, 0, 0, 0.1);
@@ -6055,6 +6063,7 @@ a {
         border-radius: 0.18rem;
         background-color: #040917;
         background-image: url("assets/hero/screen-panel.png");
+        background-image: image-set(url("assets/hero/screen-panel.webp") type("image/webp"), url("assets/hero/screen-panel.png") type("image/png"));
         background-size: 132% 106%;
         background-position: 50% 50%;
         box-shadow:
@@ -6310,6 +6319,10 @@ a {
             linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
             url("assets/scenarios/card-bg-secondary.png"),
             url("assets/scenarios/card-bg-primary.png");
+        background-image:
+            linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
+            image-set(url("assets/scenarios/card-bg-secondary.webp") type("image/webp"), url("assets/scenarios/card-bg-secondary.png") type("image/png")),
+            image-set(url("assets/scenarios/card-bg-primary.webp") type("image/webp"), url("assets/scenarios/card-bg-primary.png") type("image/png"));
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
