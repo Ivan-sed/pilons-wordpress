@@ -63,7 +63,15 @@
 
     baseLayer.appendChild(heroSvg.cloneNode(true));
     glowLayer.appendChild(heroSvg.cloneNode(true));
-    mark.classList.add('site-preloader__screenl--ready');
+
+    window.requestAnimationFrame(function () {
+      var mountedSvg = baseLayer.querySelector('svg');
+      var box = mountedSvg ? mountedSvg.getBoundingClientRect() : null;
+
+      if (box && box.width > 0 && box.height > 0) {
+        mark.classList.add('site-preloader__screenl--ready');
+      }
+    });
   }
 
   function markReady() {

@@ -24,7 +24,6 @@ if (!defined('ABSPATH')) {
             <div class="site-preloader__screenl" data-preloader-screenl>
                 <div class="site-preloader__screenl-layer site-preloader__screenl-layer--base"></div>
                 <div class="site-preloader__screenl-layer site-preloader__screenl-layer--glow"></div>
-                <span class="site-preloader__fallback">SCREENL</span>
             </div>
         </div>
         <span class="site-preloader__progress"><span></span></span>

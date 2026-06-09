@@ -105,9 +105,12 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: clamp(1.25rem, 4vw, 2rem);
     width: min(72rem, 86vw);
     padding-block: clamp(1rem, 5vw, 3rem);
-    overflow: hidden;
+    overflow: visible;
+    text-align: center;
 }
 
 .site-preloader__inner::before,
@@ -139,6 +142,10 @@ a {
 
 .site-preloader__screenl {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     height: 100%;
     filter: drop-shadow(0 1.25rem 2.5rem rgba(14, 52, 150, 0.2));
 }
@@ -165,17 +172,16 @@ a {
 }
 
 .site-preloader__screenl-layer--glow {
-    clip-path: inset(0 calc(100% - var(--preloader-progress, 0%)) 0 0);
     color: #1a56db;
     filter:
-        drop-shadow(0 0 0.55rem rgba(255, 255, 255, 0.94))
-        drop-shadow(0 0 1.15rem rgba(26, 86, 219, 0.7))
-        drop-shadow(0 0 2.35rem rgba(26, 86, 219, 0.42));
-    transition: clip-path 0.28s ease, filter 0.28s ease;
+        drop-shadow(0 0 0.55rem rgba(255, 255, 255, 0.94)) drop-shadow(0 0 1.15rem rgba(26, 86, 219, 0.7)) drop-shadow(0 0 2.35rem rgba(26, 86, 219, 0.42));
+    transition: filter 0.28s ease;
 }
 
 .site-preloader__screenl-layer--glow svg {
+    clip-path: inset(0 calc(100% - var(--preloader-progress, 0%)) 0 0);
     opacity: 0.98;
+    transition: clip-path 0.28s ease;
 }
 
 .site-preloader__screenl-layer--base svg path,
@@ -187,26 +193,12 @@ a {
     display: none;
 }
 
-.site-preloader__fallback {
-    display: block;
-    color: #071536;
-    font-family: "Benzin", sans-serif;
-    font-size: clamp(1.9rem, 8vw, 5.25rem);
-    line-height: 1;
-    letter-spacing: 0;
-    opacity: 0.16;
-    transition: opacity 0.2s ease;
-}
-
-.site-preloader__screenl--ready .site-preloader__fallback {
-    opacity: 0;
-}
-
 .site-preloader__progress {
     display: block;
     width: min(21rem, 58vw);
     height: 0.1875rem;
-    margin-top: clamp(1.25rem, 4vw, 2rem);
+    margin-top: 0;
+    margin-inline: auto;
     border-radius: 999rem;
     background: rgba(26, 86, 219, 0.16);
     overflow: hidden;
@@ -2790,7 +2782,7 @@ a {
     justify-content: space-between;
     gap: 2rem;
     margin-left: max(0, calc(8.33% + 2.5rem - clamp(1.5rem, 3.4375%, 4.125rem)));
-    margin-bottom: 1.75rem;
+    margin-bottom: 3.75rem;
     padding-right: clamp(1.5rem, 10.42%, 12.5rem);
 }
 
@@ -2976,8 +2968,8 @@ a {
 
 .contacts__headline {
     position: absolute;
-    left: 2.625rem;
-    top: -3rem;
+    /* left: 2.625rem; */
+    top: -8rem;
     font-family: "Benzin", sans-serif;
     font-size: 10.5rem;
     color: white;
@@ -6856,7 +6848,8 @@ a {
     }
 
     .contacts__headline {
-        font-size: clamp(3.35rem, 13vw, 4.75rem);
+        font-size: clamp(3.35rem, 12vw, 4.75rem);
+        top: -1rem;
     }
 
     .legal-page__bg {
@@ -6960,6 +6953,7 @@ a {
 
     .contacts__panel {
         padding: 1rem;
+        margin-top: 1rem;
     }
 
     .modal__title,
@@ -7249,5 +7243,383 @@ a {
     .legal-page__content,
     .legal-page__aside {
         padding: 1rem;
+    }
+}
+
+/* Unified lead CTA style. Kept last to override section-specific variants. */
+.hero__btn,
+.benefits__cta,
+.scenarios__card-cta,
+.scenarios__card-cta--blue,
+.scenarios__card-cta--gray,
+.configs__cta,
+.faq__cta,
+.contacts__submit,
+.menu__submit,
+.modal__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.0625rem;
+    padding: 1.875rem 2.5rem;
+    border-radius: 6.25rem;
+    background: #1a56db;
+    color: #ffffff;
+    filter: drop-shadow(0 0.3125rem 0.34375rem rgba(0, 12, 71, 0.1)) drop-shadow(0 1.1875rem 0.59375rem rgba(0, 12, 71, 0.09)) drop-shadow(0 2.75rem 0.8125rem rgba(0, 12, 71, 0.05));
+    box-shadow: none;
+    font-family: "Benzin", sans-serif;
+    font-size: 1.25rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    text-shadow: none;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hero__btn:hover,
+.benefits__cta:hover,
+.scenarios__card-cta:hover,
+.configs__cta:hover,
+.faq__cta:hover,
+.contacts__submit:hover,
+.menu__submit:hover,
+.modal__submit:hover {
+    transform: translateY(-0.125rem);
+}
+
+.hero__btn:active,
+.benefits__cta:active,
+.scenarios__card-cta:active,
+.configs__cta:active,
+.faq__cta:active,
+.contacts__submit:active,
+.menu__submit:active,
+.modal__submit:active {
+    transform: translateY(0);
+}
+
+.contacts__submit,
+.menu__submit,
+.modal__submit {
+    align-self: flex-start;
+}
+
+@media (max-width: 1439px) {
+
+    .hero__btn,
+    .benefits__cta,
+    .scenarios__card-cta,
+    .configs__cta,
+    .faq__cta,
+    .contacts__submit,
+    .menu__submit,
+    .modal__submit {
+        min-height: 4rem;
+        padding: clamp(1.35rem, 1.9vw, 1.875rem) clamp(1.75rem, 2.6vw, 2.5rem);
+        font-size: clamp(0.95rem, 1.2vw, 1.25rem);
+    }
+}
+
+@media (max-width: 767px) {
+
+    .hero__btn,
+    .benefits__cta,
+    .scenarios__card-cta,
+    .configs__cta,
+    .faq__cta,
+    .contacts__submit,
+    .menu__submit,
+    .modal__submit {
+        width: 100%;
+        min-height: 4.25rem;
+        padding: 1.25rem 1.25rem;
+        white-space: normal;
+    }
+
+    .contacts__submit,
+    .menu__submit,
+    .modal__submit {
+        align-self: stretch;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .hero__btn,
+    .benefits__cta,
+    .scenarios__card-cta,
+    .configs__cta,
+    .faq__cta,
+    .contacts__submit,
+    .menu__submit,
+    .modal__submit {
+        min-height: 4rem;
+        padding-inline: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Trust section spacing and mobile tap-to-flip cards. */
+.trust {
+    margin-top: clamp(8.5rem, 9vw, 11rem);
+    padding-bottom: clamp(7.5rem, 8vw, 10rem);
+}
+
+.trust__marquee {
+    padding-block: 2.75rem;
+    margin-block: -2.75rem;
+}
+
+.trust__logo {
+    transform-style: preserve-3d;
+}
+
+.trust__logo-img {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+@media (hover: none),
+(pointer: coarse) {
+    .trust {
+        margin-top: clamp(6.75rem, 18vw, 9.25rem);
+        padding-bottom: clamp(6rem, 16vw, 8.5rem);
+    }
+
+    .trust__marquee {
+        padding-block: 3rem;
+        margin-block: -3rem;
+    }
+
+    .trust__logo {
+        perspective: 60rem;
+        transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .trust__logo-img {
+        transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0s linear 0.24s;
+    }
+
+    .trust__logo-img--base {
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+
+    .trust__logo-img--hover {
+        opacity: 0;
+        transform: rotateY(180deg);
+    }
+
+    .trust__logo:hover .trust__logo-img--base {
+        opacity: 1;
+    }
+
+    .trust__logo:hover .trust__logo-img--hover {
+        opacity: 0;
+    }
+
+    .trust__logo.is-flipped .trust__logo-img--base {
+        opacity: 0;
+        transform: rotateY(-180deg);
+    }
+
+    .trust__logo.is-flipped .trust__logo-img--hover {
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+
+    .trust__logo.is-flipped:hover .trust__logo-img--base {
+        opacity: 0;
+    }
+
+    .trust__logo.is-flipped:hover .trust__logo-img--hover {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 767px) {
+    .trust {
+        margin-top: clamp(6.25rem, 17vw, 8.25rem);
+        padding-bottom: clamp(1.5rem, 14vw, 7.5rem);
+    }
+}
+
+/* Config card labels stay centered on every breakpoint. */
+.configs__card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: center;
+    width: min(100%, 21rem);
+    height: auto;
+    min-height: 4.25rem;
+    margin-inline: auto;
+}
+
+.configs__card-size {
+    position: relative;
+    inset: auto;
+    max-width: 100%;
+    margin-inline: auto;
+    text-align: center;
+    line-height: 1.18;
+}
+
+.configs__card-badge,
+.configs__card-badge--reels {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Centered contacts headline. */
+.contacts__headline {
+    left: 50%;
+    top: -5rem;
+    transform: translateX(-50%);
+    font-size: 15.375rem;
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+@media (max-width: 1439px) {
+    .contacts__headline {
+        left: 50%;
+        top: clamp(-3rem, -2.4vw, -2rem);
+        transform: translateX(-50%);
+        font-size: clamp(7.5rem, 10.2vw, 10.5rem);
+    }
+}
+
+@media (max-width: 991px) {
+    .contacts__headline {
+        font-size: clamp(4rem, 12vw, 6.75rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .contacts__headline {
+        top: -1rem;
+        font-size: clamp(3.35rem, 12vw, 4.75rem);
+    }
+}
+
+@media (max-width: 360px) {
+    .contacts__headline {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .contacts__headline {
+        font-size: 2.7rem;
+    }
+}
+
+.scenarios__card:first-child .scenarios__card-cta,
+.scenarios__card:last-child .scenarios__card-cta {
+    background: #ffffff;
+    color: #1a56db;
+}
+
+@media (max-width: 1024px) {
+    .configs__slider {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1.25rem, 3vw, 1.75rem);
+        min-height: 0;
+    }
+
+    .configs__viewport,
+    .configs__stage {
+        height: clamp(37rem, 66vw, 44rem);
+        overflow: hidden;
+    }
+
+    .configs__card,
+    .configs__card.is-prev,
+    .configs__card.is-next,
+    .configs__card.is-hidden,
+    .configs__card.is-current {
+        height: 100%;
+    }
+
+    .configs__card-button,
+    .configs__card.is-current .configs__card-button {
+        gap: clamp(0.875rem, 2vw, 1.25rem);
+        padding-block: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .configs__card-media,
+    .configs__card.is-current .configs__card-media {
+        height: clamp(21rem, 41vw, 28rem);
+    }
+
+    .configs__arrows {
+        position: static;
+        width: min(12rem, 100%);
+        margin-inline: auto;
+        transform: none;
+        pointer-events: auto;
+    }
+
+    .configs__arrow {
+        color: #ffffff;
+        background: rgba(26, 86, 219, 0.72);
+        border-color: rgba(255, 255, 255, 0.68);
+        box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.42), 0 0.45rem 1.35rem rgba(0, 12, 71, 0.18);
+    }
+
+    .configs__arrow-svg {
+        stroke: #ffffff;
+    }
+}
+
+@media (max-width: 767px) {
+    .configs__viewport,
+    .configs__stage {
+        height: clamp(36rem, 84vw, 42.5rem);
+    }
+
+    .configs__card-media,
+    .configs__card.is-current .configs__card-media {
+        height: clamp(20rem, 51vw, 26rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .configs__viewport,
+    .configs__stage {
+        height: 41rem;
+    }
+
+    .configs__card-media,
+    .configs__card.is-current .configs__card-media {
+        height: 24rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .configs__viewport,
+    .configs__stage {
+        height: 39.5rem;
+    }
+
+    .configs__card-media,
+    .configs__card.is-current .configs__card-media {
+        height: 22.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .configs__viewport,
+    .configs__stage {
+        height: 38.5rem;
+    }
+
+    .configs__card-media,
+    .configs__card.is-current .configs__card-media {
+        height: 21.5rem;
     }
 }

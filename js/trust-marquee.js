@@ -8,6 +8,7 @@
   if (track.getAttribute('data-marquee-ready') === 'true') return;
 
   var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var tapFlipQuery = window.matchMedia('(hover: none), (pointer: coarse)');
   var prevButton = document.querySelector('[data-trust-prev]');
   var nextButton = document.querySelector('[data-trust-next]');
   var clone = row.cloneNode(true);
@@ -20,6 +21,8 @@
   var isDragging = false;
   var dragStartX = 0;
   var dragStartOffset = 0;
+  var dragMoved = false;
+  var suppressTapFlip = false;
   var activePointerId = null;
   var nudge = null;
 
@@ -109,6 +112,7 @@
     if (event.button != null && event.button !== 0) return;
 
     isDragging = true;
+    dragMoved = false;
     activePointerId = event.pointerId;
     dragStartX = getClientX(event);
     dragStartOffset = offset;
@@ -125,7 +129,12 @@
     if (!isDragging) return;
     if (activePointerId != null && event.pointerId !== activePointerId) return;
 
-    offset = dragStartOffset - (getClientX(event) - dragStartX);
+    var dragDelta = getClientX(event) - dragStartX;
+    if (Math.abs(dragDelta) > 8) {
+      dragMoved = true;
+    }
+
+    offset = dragStartOffset - dragDelta;
     render();
     event.preventDefault();
   }
@@ -139,6 +148,39 @@
     offset = normalize(offset);
     marquee.classList.remove('is-dragging');
     pauseFor(900);
+
+    if (dragMoved) {
+      suppressTapFlip = true;
+      window.setTimeout(function () {
+        suppressTapFlip = false;
+      }, 250);
+    }
+    dragMoved = false;
+  }
+
+  function clearFlipped(except) {
+    track.querySelectorAll('.trust__logo.is-flipped').forEach(function (logo) {
+      if (logo !== except) {
+        logo.classList.remove('is-flipped');
+      }
+    });
+  }
+
+  function onLogoTap(event) {
+    if (!tapFlipQuery.matches) return;
+
+    if (suppressTapFlip) {
+      suppressTapFlip = false;
+      return;
+    }
+
+    var logo = event.target.closest && event.target.closest('.trust__logo');
+    if (!logo || !marquee.contains(logo)) return;
+
+    var shouldFlip = !logo.classList.contains('is-flipped');
+    clearFlipped(logo);
+    logo.classList.toggle('is-flipped', shouldFlip);
+    pauseFor(1400);
   }
 
   marquee.addEventListener('pointerdown', onPointerDown);
@@ -146,6 +188,7 @@
   marquee.addEventListener('pointerup', stopDragging);
   marquee.addEventListener('pointercancel', stopDragging);
   marquee.addEventListener('lostpointercapture', stopDragging);
+  marquee.addEventListener('click', onLogoTap);
   marquee.addEventListener('mouseenter', function () {
     isHovering = true;
   });
