@@ -8,8 +8,16 @@
   var targetProgress = 0;
   var loader = null;
   var rafId = 0;
+  var hiddenEventDispatched = false;
 
   root.classList.add('has-site-preloader');
+
+  function dispatchHiddenEvent() {
+    if (hiddenEventDispatched) return;
+
+    hiddenEventDispatched = true;
+    window.dispatchEvent(new Event('screenl:preloader-hidden'));
+  }
 
   function setProgress(value) {
     progress = Math.max(0, Math.min(100, value));
@@ -99,6 +107,8 @@
       if (loader && loader.parentNode) {
         loader.parentNode.removeChild(loader);
       }
+
+      dispatchHiddenEvent();
     }, 830);
   }
 

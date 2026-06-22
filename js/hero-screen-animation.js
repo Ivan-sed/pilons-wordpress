@@ -464,7 +464,7 @@
     .concat(bezelEls, shadowEls, mirrorPanels.masks, mirrorBezelEls);
   gsap.set(pylonEls, { opacity: 1, yPercent: 0 });
 
-  var introTl = gsap.timeline({ onComplete: markIntroDone });
+  var introTl = gsap.timeline({ paused: true, onComplete: markIntroDone });
 
   introTl.to(state, {
       t: 1,
@@ -493,7 +493,20 @@
     introTl.call(markIntroDone);
   }
 
-  introTl.play(0);
+  function isPreloaderFullyHidden() {
+    return !document.getElementById('sitePreloader') &&
+      !document.documentElement.classList.contains('has-site-preloader');
+  }
+
+  function playIntro() {
+    introTl.play(0);
+  }
+
+  if (isPreloaderFullyHidden()) {
+    playIntro();
+  } else {
+    window.addEventListener('screenl:preloader-hidden', playIntro, { once: true });
+  }
 
   var resizeRaf;
   window.addEventListener('resize', function () {
