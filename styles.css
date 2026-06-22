@@ -827,11 +827,11 @@ body {
 .hero__title-block {
     position: absolute;
     left: 3.125rem;
-    top: 3.125rem;
+    top: 1.125rem;
     width: 42.1875rem;
     display: flex;
     flex-direction: column;
-    gap: 0.3125rem;
+    gap: 1rem;
 }
 
 .hero__title {
@@ -840,7 +840,7 @@ body {
     color: white;
     text-transform: uppercase;
     letter-spacing: 0.12rem;
-    line-height: 88.545%;
+    /* line-height: 88.545%; */
 }
 
 .hero__title-line {
@@ -862,7 +862,7 @@ body {
 .hero__cta-row {
     position: absolute;
     left: calc(60% + 1.50125rem);
-    top: 3.6875rem;
+    top: 1.125rem;
     display: flex;
     gap: 1.25rem;
     align-items: center;
@@ -965,7 +965,7 @@ body {
     top: -14.6585rem;
     width: 100.240313rem;
     height: 73.222688rem;
-    transform: scaleY(-1) rotate(35.81deg);
+    transform: rotate(-18.19deg);
     transform-origin: center;
     filter: blur(3.803125rem);
     mix-blend-mode: darken;
@@ -1886,10 +1886,8 @@ body {
     letter-spacing: 0;
     font-size: 1.875rem;
     white-space: nowrap;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 123 38' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(46.72 -7.4652 -39.121 141.26 -36.197 58.652)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(197,210,246,0.75)' offset='0.25'/><stop stop-color='rgba(140,166,237,0.5)' offset='0.5'/><stop stop-color='rgba(82,121,228,0.25)' offset='0.75'/><stop stop-color='rgba(24,76,219,0)' offset='1'/></radialGradient></defs></svg>");
-    background-clip: text;
     -webkit-background-clip: text;
-    color: transparent;
+    color: white;
 }
 
 .configs__cta {
@@ -2291,19 +2289,20 @@ body {
 
 .content__badge {
     position: absolute;
-    left: 79.375rem;
-    top: -0.625rem;
+    left: 81rem;
+    top: 0.0rem;
     margin: 0;
     background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(0.625rem);
     -webkit-backdrop-filter: blur(0.625rem);
     border: 0.0625rem solid rgba(255, 255, 255, 0.55);
     box-shadow: inset 0 0.0625rem 0.0625rem rgba(255, 255, 255, 0.6), 0 0 0.7375rem rgba(9, 0, 137, 0.25);
-    padding: 0.625rem 1.25rem;
+    padding: 0.325rem 1.25rem;
     font-family: "Benzin", sans-serif;
     font-size: 1rem;
     color: #1a56db;
     white-space: nowrap;
+    line-height: 23px;
 }
 
 .content__visual {
@@ -2439,7 +2438,7 @@ body {
 }
 
 .content__interactive-sub {
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 839 50' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(263.84 -9.6053 -220.11 155.14 301.5 75)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(197,210,246,0.75)' offset='0.25'/><stop stop-color='rgba(140,166,237,0.5)' offset='0.5'/><stop stop-color='rgba(82,121,228,0.25)' offset='0.75'/><stop stop-color='rgba(24,76,219,0)' offset='1'/></radialGradient></defs></svg>");
+    color: white;
 }
 
 .content__ai-note {

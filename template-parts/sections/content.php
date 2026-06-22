@@ -18,7 +18,6 @@ $content_pills = [
     'Расписание, навигацию и инфографику',
     'Брендирование площадки, заставки, фотозоны',
     'Анимацию, видео, визуальные эффекты',
-    'Загрузка контента с планшета',
 ];
 ?>
         <!-- CONTENT CREATION -->
@@ -31,7 +30,7 @@ $content_pills = [
                 </div>
             </div>
 
-            <p class="content__badge">Дополнительные опции</p>
+            <p class="content__badge">Дополнительная опция</p>
 
             <div class="content__visual" aria-hidden="true">
                 <div class="content__screen-area">

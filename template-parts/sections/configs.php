@@ -15,8 +15,8 @@ $configs = [
         'inactive_asset' => 'configs/1-pillar-inactive.png',
         'active_asset'   => 'configs/1-pillar.png',
         'description'    => [
-            'Компактное решение ',
-            ['text' => 'для навигации, расписания и брендинга', 'accent' => true],
+            'Компактное решение для',
+            ['text' => 'навигации, расписания и брендинга', 'accent' => true],
         ],
     ],
     [
@@ -45,8 +45,8 @@ $configs = [
         'inactive_asset' => 'configs/4-pillars-inactive.png',
         'active_asset'   => 'configs/4-pillars.png',
         'description'    => [
-            ['text' => 'Решение для', 'accent' => true],
-            ' бренд-зон и выставочных стендов',
+            ' Решение для',
+            ['text' => 'бренд-зон и выставочных стендов', 'accent' => true]
         ],
     ],
     [

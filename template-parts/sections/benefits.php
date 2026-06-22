@@ -25,10 +25,10 @@ if (!defined('ABSPATH')) {
                             <span class="benefits__badge">Формат Reels</span>
                             <span class="benefits__item-text">2 пилона - 200х120 см</span>
                         </span>
-                        <span class="benefits__item">Шаг - 1.86</span>
+                        <span class="benefits__item">Шаг - 1.86 мм</span>
                     </li>
                     <li class="benefits__row">
-                        <span class="benefits__item">Разрешение одного сегмента - 320х1080</span>
+                        <span class="benefits__item">Разрешение одного пилона - 320х1080</span>
                     </li>
                     <li class="benefits__row benefits__row--split">
                         <span class="benefits__item">Бесшовное соединение пилонов</span>
@@ -42,11 +42,11 @@ if (!defined('ABSPATH')) {
                         </span>
                     </li>
                     <li class="benefits__row benefits__row--tight">
-                        <span class="benefits__item">Задняя часть пилонов выглядит презентабельно</span>
+                        <span class="benefits__item">Аккуратная конструкция без технических элементов на виду</span>
                     </li>
                     <li class="benefits__row benefits__row--split benefits__row--tight">
                         <span class="benefits__item">Загрузка контента с планшета</span>
-                        <span class="benefits__item">Нужна только розетка</span>
+                        <span class="benefits__item">Нужна только розетка 220 В</span>
                     </li>
                 </ul>
 
