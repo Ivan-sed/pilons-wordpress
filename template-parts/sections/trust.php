@@ -65,10 +65,14 @@ $trust_items = [
                 <div class="trust__track">
                     <div class="trust__logos">
                         <?php foreach ($trust_items as $item_index => $trust_item) : ?>
-                            <?php $index = (string) ($item_index + 1); ?>
+                            <?php
+                            $index      = (string) ($item_index + 1);
+                            $is_visible = $item_index < 8;
+                            $loading    = $is_visible ? 'eager' : 'lazy';
+                            ?>
                             <div class="trust__logo trust__logo--<?php echo esc_attr($index); ?>">
-                                <img class="trust__logo-img trust__logo-img--base" alt="<?php echo esc_attr($trust_item['name']); ?>" width="230" height="230" loading="lazy" decoding="async" src="<?php echo screenl_asset('trust/' . $trust_item['base']); ?>">
-                                <img class="trust__logo-img trust__logo-img--hover" alt="" aria-hidden="true" width="230" height="230" loading="lazy" decoding="async" src="<?php echo screenl_asset('trust/' . $trust_item['hover']); ?>">
+                                <img class="trust__logo-img trust__logo-img--base" alt="<?php echo esc_attr($trust_item['name']); ?>" width="230" height="230" loading="<?php echo esc_attr($loading); ?>" decoding="auto" src="<?php echo screenl_asset('trust/' . $trust_item['base']); ?>">
+                                <img class="trust__logo-img trust__logo-img--hover" alt="" aria-hidden="true" width="230" height="230" loading="lazy" decoding="auto" src="<?php echo screenl_asset('trust/' . $trust_item['hover']); ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>

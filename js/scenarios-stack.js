@@ -146,6 +146,7 @@
         pinSpacing: false,
         anticipatePin: 1,
         scrub: true,
+        fastScrollEnd: true,
         invalidateOnRefresh: true,
         onRefreshInit: function () {
           resetPinState();

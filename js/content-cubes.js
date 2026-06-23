@@ -96,8 +96,8 @@
         img.onerror = null;
         img.src = cube[5].replace(/\.webp$/i, '.png');
       };
-      img.loading = 'lazy';
-      img.decoding = 'async';
+      img.loading = 'eager';
+      img.decoding = 'auto';
 
       item.appendChild(img);
       fragment.appendChild(item);

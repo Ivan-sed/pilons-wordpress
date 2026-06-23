@@ -25,6 +25,8 @@
   var suppressTapFlip = false;
   var activePointerId = null;
   var nudge = null;
+  var rafId = null;
+  var isVisible = true;
 
   clone.setAttribute('aria-hidden', 'true');
   clone.querySelectorAll('img').forEach(function (img) {
@@ -101,7 +103,17 @@
       render();
     }
 
-    window.requestAnimationFrame(tick);
+    if (isVisible) {
+      rafId = window.requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function resumeTick() {
+    if (!rafId && isVisible) {
+      rafId = window.requestAnimationFrame(tick);
+    }
   }
 
   function getClientX(event) {
@@ -222,5 +234,15 @@
   }
 
   measure();
-  window.requestAnimationFrame(tick);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      isVisible = entries[0] && entries[0].isIntersecting;
+      if (isVisible) {
+        resumeTick();
+      }
+    }, { threshold: 0 }).observe(marquee);
+  }
+
+  resumeTick();
 })();

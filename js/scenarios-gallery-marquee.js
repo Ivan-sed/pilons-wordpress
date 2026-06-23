@@ -23,4 +23,16 @@
 
     track.setAttribute('data-marquee-ready', 'true');
   });
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.style.animationPlayState = entry.isIntersecting ? '' : 'paused';
+      });
+    }, { threshold: 0 });
+
+    tracks.forEach(function (track) {
+      observer.observe(track);
+    });
+  }
 })();

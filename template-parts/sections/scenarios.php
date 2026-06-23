@@ -38,17 +38,17 @@ if (!defined('ABSPATH')) {
                             <div class="scenarios__gallery-col scenarios__gallery-col--left">
                                 <div class="scenarios__gallery-marquee" data-scenarios-marquee>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-01.png'); ?>">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-02.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-01.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-02.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-03.png'); ?>">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-04.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-03.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-04.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-05.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-05.png'); ?>">
                                         <span class="scenarios__gallery-clip">
-                                            <img class="scenarios__gallery-clip-img scenarios__gallery-clip-img--a" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-01.png'); ?>">
+                                            <img class="scenarios__gallery-clip-img scenarios__gallery-clip-img--a" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-01.png'); ?>">
                                         </span>
                                     </div>
                                 </div>
@@ -57,17 +57,17 @@ if (!defined('ABSPATH')) {
                             <div class="scenarios__gallery-col scenarios__gallery-col--right">
                                 <div class="scenarios__gallery-marquee" data-scenarios-marquee>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-06.png'); ?>">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-07.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-06.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-07.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
                                         <span class="scenarios__gallery-clip">
-                                            <img class="scenarios__gallery-clip-img scenarios__gallery-clip-img--b" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-b.png'); ?>">
+                                            <img class="scenarios__gallery-clip-img scenarios__gallery-clip-img--b" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-b.png'); ?>">
                                         </span>
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-08.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-08.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-09.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-09.png'); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -93,8 +93,8 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="scenarios__media scenarios__media--brand" aria-hidden="true">
-                        <img class="scenarios__brand-bg" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-decor-background.png'); ?>">
-                        <img class="scenarios__brand-circle" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-decor-circle.png'); ?>">
+                        <img class="scenarios__brand-bg" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-background.png'); ?>">
+                        <img class="scenarios__brand-circle" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-circle.png'); ?>">
                         <svg class="scenarios__brand-mask" fill="none" preserveAspectRatio="none" viewBox="0 0 312.5 625">
                             <path d="M312.5 625C139.911 625 0 485.089 0 312.5C0 139.911 139.911 0 312.5 0V625Z" fill="#060B20"/>
                         </svg>
@@ -118,8 +118,8 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="scenarios__media scenarios__media--sport" aria-hidden="true">
-                        <img class="scenarios__sport-img scenarios__sport-img--front" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-sport-front.png'); ?>">
-                        <img class="scenarios__sport-img scenarios__sport-img--back" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-sport-back.png'); ?>">
+                        <img class="scenarios__sport-img scenarios__sport-img--front" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-sport-front.png'); ?>">
+                        <img class="scenarios__sport-img scenarios__sport-img--back" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-sport-back.png'); ?>">
                     </div>
                 </div>
             </article>
@@ -141,13 +141,13 @@ if (!defined('ABSPATH')) {
 
                     <div class="scenarios__media scenarios__media--shots" aria-hidden="true">
                         <div class="scenarios__shot">
-                            <img class="scenarios__shot-img scenarios__shot-img--one" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-photo-shot-01.png'); ?>">
+                            <img class="scenarios__shot-img scenarios__shot-img--one" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-photo-shot-01.png'); ?>">
                         </div>
                         <div class="scenarios__shot">
-                            <img class="scenarios__shot-img scenarios__shot-img--two" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-photo-shot-02.png'); ?>">
+                            <img class="scenarios__shot-img scenarios__shot-img--two" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-photo-shot-02.png'); ?>">
                         </div>
                         <div class="scenarios__shot">
-                            <img class="scenarios__shot-img scenarios__shot-img--three" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/card-photo-shot-03.png'); ?>">
+                            <img class="scenarios__shot-img scenarios__shot-img--three" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-photo-shot-03.png'); ?>">
                         </div>
                     </div>
                 </div>
@@ -174,13 +174,13 @@ if (!defined('ABSPATH')) {
                             <div class="scenarios__gallery-col scenarios__gallery-col--photo-left">
                                 <div class="scenarios__gallery-marquee" data-scenarios-marquee>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-10.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-10.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-photo-11.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-photo-11.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-c.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-c.png'); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -188,11 +188,11 @@ if (!defined('ABSPATH')) {
                             <div class="scenarios__gallery-col scenarios__gallery-col--photo-right">
                                 <div class="scenarios__gallery-marquee" data-scenarios-marquee>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-b.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-b.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
                                         <button class="scenarios__video-preview" type="button" data-video-open data-video-src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>" aria-label="Смотреть видео">
-                                            <video class="scenarios__gallery-img scenarios__video-thumb" muted autoplay loop playsinline preload="auto" src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>"></video>
+                                            <video class="scenarios__gallery-img scenarios__video-thumb" muted autoplay loop playsinline preload="metadata" src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>"></video>
                                             <span class="scenarios__video-play" aria-hidden="true">
                                                 <svg class="scenarios__video-play-svg" viewBox="0 0 24 24" fill="none">
                                                     <path d="M8 5.5L18 12L8 18.5V5.5Z" fill="currentColor"/>
@@ -201,7 +201,7 @@ if (!defined('ABSPATH')) {
                                         </button>
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <img class="scenarios__gallery-img" alt="" decoding="async" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-d.png'); ?>">
+                                        <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-d.png'); ?>">
                                     </div>
                                 </div>
                             </div>

@@ -10,6 +10,38 @@ if (!defined('ABSPATH')) {
 }
 
 add_action('wp_enqueue_scripts', 'screenl_enqueue_assets');
+add_action('wp_head', 'screenl_preload_critical_assets', 1);
+
+function screenl_preload_critical_assets(): void
+{
+    $fonts = [
+        SCREENL_URI . '/fonts/Benzin-Bold.woff2'                            => 'font/woff2',
+        SCREENL_URI . '/fonts/fonnts.com-Neue_Haas_Grotesk_Text_Pro_55_Roman.otf' => 'font/otf',
+        SCREENL_URI . '/fonts/fonnts.com-Neue_Haas_Grotesk_Text_Pro_65_Medium.otf' => 'font/otf',
+    ];
+
+    foreach ($fonts as $url => $type) {
+        printf(
+            '<link rel="preload" href="%s" as="font" type="%s" crossorigin="anonymous">' . "\n",
+            esc_url($url),
+            esc_attr($type)
+        );
+    }
+
+    $images = [
+        screenl_asset('hero/background-gradient.png'),
+        screenl_asset('benefits/pillar-product.png'),
+        screenl_asset('content/screen-panel.png'),
+        screenl_asset('shared/section-bg-blur.png'),
+    ];
+
+    foreach ($images as $url) {
+        printf(
+            '<link rel="preload" href="%s" as="image">' . "\n",
+            esc_url($url)
+        );
+    }
+}
 
 function screenl_enqueue_assets(): void
 {
@@ -101,6 +133,7 @@ function screenl_enqueue_assets(): void
         'screenl-hero-screen-animation' => ['hero-screen-animation.js', ['screenl-hero-screen-data']],
         'screenl-scenarios-stack'      => ['scenarios-stack.js', ['gsap-scroll-trigger']],
         'screenl-smooth-scroll'        => ['smooth-scroll.js', ['lenis', 'gsap-scroll-trigger']],
+        'screenl-section-snap'         => ['section-snap.js', ['screenl-smooth-scroll', 'screenl-scenarios-stack', 'gsap-scroll-trigger']],
         'screenl-configs-slider'       => ['configs-slider.js', []],
         'screenl-content-cubes'        => ['content-cubes.js', ['gsap']],
         'screenl-faq-accordion'        => ['faq-accordion.js', []],
