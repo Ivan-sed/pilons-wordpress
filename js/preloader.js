@@ -92,6 +92,7 @@
     hidden = true;
     targetProgress = 100;
     setProgress(100);
+    loader.classList.add('site-preloader--complete');
 
     if (rafId) {
       window.cancelAnimationFrame(rafId);
