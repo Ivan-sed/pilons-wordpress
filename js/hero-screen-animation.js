@@ -387,6 +387,19 @@
 
   var hero = document.querySelector('.hero');
   var product = document.querySelector('.hero__product');
+  var resizeRaf;
+
+  function bindResize() {
+    window.addEventListener('resize', function () {
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(function () {
+        measureChrome();
+        gsap.set(bezelEls, { x: function (i) { return bezelDeltaPx[i] * state.t; } });
+        gsap.set(shadowEls, { x: function (i) { return shadowDeltaPx[i] * state.t; } });
+        render(state.t);
+      });
+    });
+  }
 
   function markIntroDone() {
     if (hero) hero.classList.add('hero--intro-done');
@@ -455,6 +468,7 @@
       });
     }
     markIntroDone();
+    bindResize();
     return;
   }
 
@@ -508,14 +522,5 @@
     window.addEventListener('screenl:preloader-hidden', playIntro, { once: true });
   }
 
-  var resizeRaf;
-  window.addEventListener('resize', function () {
-    cancelAnimationFrame(resizeRaf);
-    resizeRaf = requestAnimationFrame(function () {
-      measureChrome();
-      gsap.set(bezelEls, { x: function (i) { return bezelDeltaPx[i] * state.t; } });
-      gsap.set(shadowEls, { x: function (i) { return shadowDeltaPx[i] * state.t; } });
-      render(state.t);
-    });
-  });
+  bindResize();
 })();
