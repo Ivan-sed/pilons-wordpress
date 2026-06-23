@@ -56,6 +56,7 @@ button {
     font: inherit;
     color: inherit;
     text-align: inherit;
+    touch-action: manipulation;
 }
 
 ul {
