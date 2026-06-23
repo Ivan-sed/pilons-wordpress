@@ -6070,14 +6070,12 @@ body {
         width: calc(100% - clamp(2rem, 6vw, 2.75rem));
     }
 
-    .hero__header .hero__social-icon--max,
-    .hero__header .hero__social-icon--tg,
+    .hero__header .hero__social-icon,
     .hero__header .hero__menu {
-        color: #1a56db;
+        color: inherit;
     }
 
-    .hero__header .hero__social-icon--max .hero__social-icon-svg path,
-    .hero__header .hero__social-icon--tg .hero__social-icon-svg path,
+    .hero__header .hero__social-icon-svg path,
     .hero__header .hero__menu-chevron-svg path {
         fill: currentColor !important;
     }
@@ -6438,7 +6436,7 @@ body {
     .benefits__item {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         width: 100%;
         max-width: 100%;
         min-height: 3.85rem;
@@ -6482,6 +6480,8 @@ body {
 
     .benefits__item-text {
         display: block;
+        width: 100%;
+        text-align: center;
     }
 
     .benefits__visual {
