@@ -83,7 +83,6 @@ body {
     --preloader-progress: 0%;
     --preloader-ratio: 0;
     background:
-        radial-gradient(circle at 50% 42%, rgba(26, 86, 219, 0.2), rgba(26, 86, 219, 0) 34%),
         linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(227, 234, 252, 0.94) 48%, rgba(242, 243, 246, 0.98) 100%),
         #f2f3f6;
     opacity: 0;
@@ -152,7 +151,6 @@ body {
     justify-content: center;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 1.25rem 2.5rem rgba(14, 52, 150, 0.2));
 }
 
 .site-preloader__screenl-layer {
@@ -176,17 +174,26 @@ body {
     opacity: 0.42;
 }
 
+.site-preloader__screenl-glow-holder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--preloader-progress, 0%);
+    height: 100%;
+    overflow: hidden;
+}
+
 .site-preloader__screenl-layer--glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--site-preloader-screenl-width, 100%);
+    height: 100%;
     color: #1a56db;
-    filter:
-        drop-shadow(0 0 0.55rem rgba(255, 255, 255, 0.94)) drop-shadow(0 0 1.15rem rgba(26, 86, 219, 0.7)) drop-shadow(0 0 2.35rem rgba(26, 86, 219, 0.42));
-    transition: filter 0.28s ease;
 }
 
 .site-preloader__screenl-layer--glow svg {
-    clip-path: inset(0 calc(100% - var(--preloader-progress, 0%)) 0 0);
     opacity: 0.98;
-    transition: clip-path 0.28s ease;
 }
 
 .site-preloader__screenl-layer--base svg path,
@@ -1549,6 +1556,7 @@ body {
     height: 100%;
     background: #060b20;
     object-fit: cover;
+    pointer-events: none;
 }
 
 .scenarios__video-play {
@@ -5927,7 +5935,7 @@ body {
     .hero {
         --hero-mobile-panel-gutter: clamp(1rem, 3.5vw, 1.5rem);
         --hero-mobile-panel-top: clamp(4.5rem, 12svh, 6.25rem);
-        --hero-mobile-panel-height: clamp(32rem, 156vw, 39rem);
+        --hero-mobile-panel-height: min(clamp(36rem, 175vw, 54rem), calc(100svh - 6rem));
     }
 
     .hero__screen-anim,
@@ -6184,7 +6192,7 @@ body {
         left: clamp(2rem, 6vw, 3.75rem);
         right: clamp(2rem, 6vw, 3.75rem);
         top: auto;
-        bottom: clamp(6.9rem, 12vw, 7.85rem);
+        bottom: clamp(8rem, 14vw, 9rem);
         z-index: 4;
         display: grid;
         grid-template-columns: minmax(0, 1.1fr) minmax(8.6rem, 0.9fr);
@@ -6246,7 +6254,7 @@ body {
         top: auto;
         left: clamp(1.25rem, 5vw, 2rem);
         right: clamp(1.25rem, 5vw, 2rem);
-        bottom: clamp(2.4rem, 5vw, 3.15rem);
+        bottom: clamp(4.5rem, 9vw, 5.5rem);
         z-index: 2;
         width: auto;
         height: auto;
@@ -6254,6 +6262,10 @@ body {
         margin: 0;
         opacity: 0.68;
         filter: drop-shadow(0 0 1.35rem rgba(26, 86, 219, 0.28));
+    }
+
+    .hero__screenl-svg {
+        height: auto;
     }
 
     .benefits,
@@ -6451,6 +6463,7 @@ body {
         font-size: clamp(1rem, 3.55vw, 1.22rem);
         line-height: 1.2;
         white-space: normal;
+        text-align: center;
     }
 
     .benefits__badge,
@@ -6743,11 +6756,11 @@ body {
 
 @media (max-width: 640px) {
     .hero__cta-row {
-        bottom: clamp(6.55rem, 11vw, 7.25rem);
+        bottom: clamp(7.5rem, 13vw, 8.5rem);
     }
 
     .hero__screenl {
-        bottom: clamp(2.25rem, 5vw, 3rem);
+        bottom: clamp(4.25rem, 8.5vw, 5.25rem);
     }
 
     .hero__features {
@@ -7051,12 +7064,12 @@ body {
     }
 
     .hero__screenl {
-        bottom: clamp(3.2rem, 6vw, 3rem);
+        bottom: clamp(4.5rem, 9vw, 5.5rem);
         margin-top: 0;
     }
 
     .hero__cta-row {
-        bottom: clamp(7.55rem, 13vw, 6.65rem);
+        bottom: clamp(7.5rem, 12vw, 8rem);
     }
 
     .hero__btn {
@@ -7073,6 +7086,11 @@ body {
         width: calc(100% - 1.5rem);
         min-height: clamp(44rem, 140vw, 58rem);
         padding: 2.25rem 1.25rem 1.5rem;
+    }
+
+    .benefits__title {
+        font-size: clamp(1.7rem, 7.5vw, 2rem);
+        overflow-wrap: break-word;
     }
 
     .benefits__visual {
