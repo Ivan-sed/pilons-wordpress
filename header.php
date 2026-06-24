@@ -23,7 +23,9 @@ if (!defined('ABSPATH')) {
         <div class="site-preloader__mark">
             <div class="site-preloader__screenl" data-preloader-screenl>
                 <div class="site-preloader__screenl-layer site-preloader__screenl-layer--base"></div>
-                <div class="site-preloader__screenl-layer site-preloader__screenl-layer--glow"></div>
+                <div class="site-preloader__screenl-glow-holder">
+                    <div class="site-preloader__screenl-layer site-preloader__screenl-layer--glow"></div>
+                </div>
             </div>
         </div>
         <span class="site-preloader__progress"><span></span></span>

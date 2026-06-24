@@ -91,7 +91,7 @@ $configs = [
                     <?php
                     $is_current = 1 === $index;
                     $state      = $is_current ? 'is-current' : (0 === $index ? 'is-prev' : (2 === $index ? 'is-next' : 'is-hidden'));
-                    $loading    = $is_current ? 'eager' : 'lazy';
+                    $loading    = 'eager';
                     $priority   = $is_current ? ' fetchpriority="high"' : '';
                     ?>
                     <article class="configs__card <?php echo esc_attr($state); ?>" data-config-card data-slide="<?php echo esc_attr((string) $index); ?>" <?php echo 'is-hidden' === $state ? 'aria-hidden="true"' : ''; ?>>

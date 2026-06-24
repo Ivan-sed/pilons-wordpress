@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
                     </li>
                     <li class="benefits__row benefits__row--split benefits__row--tight">
                         <span class="benefits__item">Загрузка контента с планшета</span>
-                        <span class="benefits__item">Нужна только розетка 220 В</span>
+                        <span class="benefits__item">Нужна только розетка 220 Вт</span>
                     </li>
                 </ul>
 

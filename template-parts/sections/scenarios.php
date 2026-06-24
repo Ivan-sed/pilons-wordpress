@@ -191,14 +191,9 @@ if (!defined('ABSPATH')) {
                                         <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-b.png'); ?>">
                                     </div>
                                     <div class="scenarios__gallery-item">
-                                        <button class="scenarios__video-preview" type="button" data-video-open data-video-src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>" aria-label="Смотреть видео">
-                                            <video class="scenarios__gallery-img scenarios__video-thumb" muted autoplay loop playsinline preload="metadata" src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>"></video>
-                                            <span class="scenarios__video-play" aria-hidden="true">
-                                                <svg class="scenarios__video-play-svg" viewBox="0 0 24 24" fill="none">
-                                                    <path d="M8 5.5L18 12L8 18.5V5.5Z" fill="currentColor"/>
-                                                </svg>
-                                            </span>
-                                        </button>
+                                        <div class="scenarios__video-preview">
+                                            <video class="scenarios__gallery-img scenarios__video-thumb" muted autoplay loop playsinline disablePictureInPicture controlsList="nofullscreen" preload="metadata" src="<?php echo esc_url(screenl_asset('svadba.mp4')); ?>"></video>
+                                        </div>
                                     </div>
                                     <div class="scenarios__gallery-item">
                                         <img class="scenarios__gallery-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/gallery-clip-overlay-d.png'); ?>">

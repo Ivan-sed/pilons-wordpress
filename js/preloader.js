@@ -72,6 +72,14 @@
     baseLayer.appendChild(heroSvg.cloneNode(true));
     glowLayer.appendChild(heroSvg.cloneNode(true));
 
+    function updateScreenlWidth() {
+      if (!mark) return;
+      mark.style.setProperty('--site-preloader-screenl-width', mark.offsetWidth + 'px');
+    }
+
+    updateScreenlWidth();
+    window.addEventListener('resize', updateScreenlWidth);
+
     window.requestAnimationFrame(function () {
       var mountedSvg = baseLayer.querySelector('svg');
       var box = mountedSvg ? mountedSvg.getBoundingClientRect() : null;
