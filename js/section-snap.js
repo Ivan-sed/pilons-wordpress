@@ -67,6 +67,7 @@
   var snapTween = null;
   var wasInsideScenarios = false;
   var exitedScenariosDirection = 0;
+  var skipPostSnapCorrection = false;
 
   function canSnap() {
     return Boolean(
@@ -205,6 +206,7 @@
       if (scenariosIndex >= 0) {
         next = clampIndex(scenariosIndex + exitedScenariosDirection);
       }
+      skipPostSnapCorrection = true;
       exitedScenariosDirection = 0;
       lastKnownDirection = 0;
     } else if (source === 'idle' && Math.abs(lastKnownDirection) === 1) {
@@ -217,7 +219,11 @@
     var target = slides[next].targetTop;
     var dist = Math.abs(target - scrollY);
 
-    if (dist > 3) {
+    // Allow a larger tolerance after a snap animation finishes so tiny
+    // rounding/scroll differences do not trigger another snap.
+    var threshold = source === 'idle' ? 3 : 20;
+
+    if (dist > threshold) {
       snapTo(next, target > scrollY ? 1 : -1);
     }
   }
@@ -243,7 +249,11 @@
         fallbackTimer = null;
       }
       setAnimating(false);
-      correctPosition('complete');
+      var shouldSkip = skipPostSnapCorrection;
+      skipPostSnapCorrection = false;
+      if (!shouldSkip) {
+        correctPosition('complete');
+      }
     }
 
     fallbackTimer = window.setTimeout(function () {
