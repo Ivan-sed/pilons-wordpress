@@ -62,6 +62,8 @@
   var wheelTimer = null;
   var scenariosTrigger = null;
   var idleSnapTimer = null;
+  var exitScenariosTimer = null;
+  var EXIT_SCENARIOS_DELAY = 120;
   var lastKnownDirection = 0;
   var lastScrollY = 0;
   var snapTween = null;
@@ -114,7 +116,9 @@
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
     // The lower bound is inclusive so that the very first wheel after
     // snapping to the Scenarios slide is handled by the pin-stack.
-    return scrollY >= st.start - 2 && scrollY < st.end - 2;
+    // Extend the upper bound slightly to protect against accidental
+    // overscroll leaving the pin-stack before the snap should take over.
+    return scrollY >= st.start - 2 && scrollY <= st.end + 60;
   }
 
   function buildSlides() {
@@ -308,14 +312,16 @@
     var velocity = event && typeof event.velocity === 'number' ? event.velocity : 0;
     if (Math.abs(velocity) > 0.08) return;
 
-    if (idleSnapTimer) {
-      window.clearTimeout(idleSnapTimer);
-    }
+    if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
+    if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
 
-    idleSnapTimer = window.setTimeout(function () {
+    // Wait a short moment after leaving the Scenarios pin-stack before snapping.
+    // This prevents accidental overscroll from skipping the next slide.
+    exitScenariosTimer = window.setTimeout(function () {
+      exitScenariosTimer = null;
       if (isAnimating || snapDisabled || isOverlayLocked() || isInsideScenarios()) return;
       correctPosition('idle');
-    }, 80);
+    }, EXIT_SCENARIOS_DELAY);
   }
 
   /**
@@ -338,18 +344,16 @@
       exitedScenariosDirection = lastKnownDirection;
     }
 
-    if (idleSnapTimer) {
-      window.clearTimeout(idleSnapTimer);
-    }
+    if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
+    if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
 
-    if (isSafari) {
+    // Wait a short moment after leaving the Scenarios pin-stack before snapping.
+    // This prevents accidental overscroll from skipping the next slide.
+    exitScenariosTimer = window.setTimeout(function () {
+      exitScenariosTimer = null;
+      if (isAnimating || snapDisabled || isOverlayLocked() || isInsideScenarios()) return;
       correctPosition('idle');
-    } else {
-      idleSnapTimer = window.setTimeout(function () {
-        if (isAnimating || snapDisabled || isOverlayLocked() || isInsideScenarios()) return;
-        correctPosition('idle');
-      }, 80);
-    }
+    }, EXIT_SCENARIOS_DELAY);
 
     lastScrollY = scrollY;
   }
