@@ -65,6 +65,8 @@
   var lastKnownDirection = 0;
   var lastScrollY = 0;
   var snapTween = null;
+  var wasInsideScenarios = false;
+  var exitedScenariosDirection = 0;
 
   function canSnap() {
     return Boolean(
@@ -192,10 +194,23 @@
     var current = getCurrentIndex();
     var next = current;
 
-    // After free scrolling through the Scenarios pin range we may land closer
-    // to the previous slide while the user's intent was to keep going forward.
-    // In that case use the last known scroll direction to pick the next slide.
-    if (source === 'idle' && Math.abs(lastKnownDirection) === 1) {
+    // When we leave the Scenarios pin-stack, snap exactly one slide away from
+    // Scenarios in the direction we were scrolling. Without this, the stored
+    // direction gets applied to the nearest slide and can skip Configs/Content.
+    if (exitedScenariosDirection !== 0) {
+      var scenariosIndex = -1;
+      slides.forEach(function (slide, index) {
+        if (slide.id === 'scenarios') scenariosIndex = index;
+      });
+      if (scenariosIndex >= 0) {
+        next = clampIndex(scenariosIndex + exitedScenariosDirection);
+      }
+      exitedScenariosDirection = 0;
+      lastKnownDirection = 0;
+    } else if (source === 'idle' && Math.abs(lastKnownDirection) === 1) {
+      // After free scrolling through the Scenarios pin range we may land closer
+      // to the previous slide while the user's intent was to keep going forward.
+      // In that case use the last known scroll direction to pick the next slide.
       next = clampIndex(current + lastKnownDirection);
     }
 
@@ -268,9 +283,16 @@
   function onLenisScroll(event) {
     if (!canSnap() || isAnimating || snapDisabled || isOverlayLocked()) return;
 
-    if (isInsideScenarios()) {
+    var inside = isInsideScenarios();
+    if (inside) {
       lastKnownDirection = event && event.direction ? event.direction : lastKnownDirection;
+      wasInsideScenarios = true;
       return;
+    }
+
+    if (wasInsideScenarios) {
+      wasInsideScenarios = false;
+      exitedScenariosDirection = lastKnownDirection;
     }
 
     var velocity = event && typeof event.velocity === 'number' ? event.velocity : 0;
@@ -293,10 +315,17 @@
     if (!canSnap() || isAnimating || snapDisabled || isOverlayLocked()) return;
 
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    if (isInsideScenarios()) {
+    var inside = isInsideScenarios();
+    if (inside) {
       lastKnownDirection = scrollY > lastScrollY ? 1 : -1;
       lastScrollY = scrollY;
+      wasInsideScenarios = true;
       return;
+    }
+
+    if (wasInsideScenarios) {
+      wasInsideScenarios = false;
+      exitedScenariosDirection = lastKnownDirection;
     }
 
     if (idleSnapTimer) {
