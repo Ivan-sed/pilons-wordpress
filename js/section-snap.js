@@ -69,6 +69,7 @@
   var snapTween = null;
   var wasInsideScenarios = false;
   var exitedScenariosDirection = 0;
+  var isExitingScenarios = false;
   var skipPostSnapCorrection = false;
 
   function canSnap() {
@@ -211,6 +212,7 @@
         next = clampIndex(scenariosIndex + exitedScenariosDirection);
       }
       skipPostSnapCorrection = true;
+      isExitingScenarios = false;
       exitedScenariosDirection = 0;
       lastKnownDirection = 0;
     } else if (source === 'idle' && Math.abs(lastKnownDirection) === 1) {
@@ -307,6 +309,7 @@
     if (wasInsideScenarios) {
       wasInsideScenarios = false;
       exitedScenariosDirection = lastKnownDirection;
+      isExitingScenarios = true;
     }
 
     var velocity = event && typeof event.velocity === 'number' ? event.velocity : 0;
@@ -342,6 +345,7 @@
     if (wasInsideScenarios) {
       wasInsideScenarios = false;
       exitedScenariosDirection = lastKnownDirection;
+      isExitingScenarios = true;
     }
 
     if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
@@ -367,6 +371,14 @@
     if (!canSnap()) return;
     if (isAnimating || snapDisabled || isOverlayLocked()) return;
     if (isInsideScenarios()) return;
+
+    // While the page is settling after leaving the Scenarios pin-stack,
+    // ignore wheel impulses so they don't fight the scheduled snap.
+    if (isExitingScenarios) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
 
     var deltaY = event.deltaY;
     var deltaX = event.deltaX;
