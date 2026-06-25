@@ -1635,6 +1635,12 @@ body {
     height: 51.875rem;
 }
 
+.scenarios__brand-bg-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
 .scenarios__brand-bg {
     position: absolute;
     inset: 0;
@@ -1646,7 +1652,7 @@ body {
     will-change: transform;
 }
 
-.scenarios__brand-circle,
+.scenarios__brand-circle-wrap,
 .scenarios__brand-mask {
     position: absolute;
     top: 6.4375rem;
@@ -1655,17 +1661,27 @@ body {
     max-width: none;
 }
 
-.scenarios__brand-circle {
+.scenarios__brand-circle-wrap {
     left: -19.625rem;
-    animation: scenarios-brand-circle 12s ease-in-out infinite alternate;
+    overflow: hidden;
+}
+
+.scenarios__brand-circle {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    animation: scenarios-brand-photo 12s ease-in-out infinite alternate;
     will-change: transform;
 }
 
 .scenarios__brand-mask {
     left: -0.09375rem;
     transform: rotate(180deg) scaleY(-1);
-    animation: scenarios-brand-mask 12s ease-in-out infinite alternate;
-    will-change: transform;
+    animation: none;
+    will-change: auto;
 }
 
 @keyframes scenarios-brand-bg {
@@ -1674,27 +1690,17 @@ body {
     }
 
     to {
-        transform: scale3d(1.035, 1.035, 1);
+        transform: scale3d(1.07, 1.07, 1);
     }
 }
 
-@keyframes scenarios-brand-circle {
+@keyframes scenarios-brand-photo {
     from {
-        transform: translate3d(0, -0.75rem, 0) scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
     }
 
     to {
-        transform: translate3d(1.25rem, 0.875rem, 0) scale3d(1.025, 1.025, 1);
-    }
-}
-
-@keyframes scenarios-brand-mask {
-    from {
-        transform: rotate(180deg) scaleY(-1) translate3d(0, 0.75rem, 0);
-    }
-
-    to {
-        transform: rotate(180deg) scaleY(-1) translate3d(-1.25rem, -0.875rem, 0);
+        transform: scale3d(1.18, 1.18, 1);
     }
 }
 
@@ -5311,17 +5317,20 @@ body {
         object-position: 58% center;
     }
 
-    .scenarios__brand-circle,
+    .scenarios__brand-circle-wrap,
     .scenarios__brand-mask {
         top: 50%;
         width: 11rem;
         height: 22rem;
-        animation: none;
+    }
+
+    .scenarios__brand-circle-wrap {
+        left: 8%;
+        transform: translateY(-50%);
     }
 
     .scenarios__brand-circle {
-        left: 8%;
-        transform: translateY(-50%);
+        animation: none;
     }
 
     .scenarios__brand-mask {
@@ -5329,7 +5338,7 @@ body {
         transform: translateY(-50%) rotate(180deg) scaleY(-1);
     }
 
-    .scenarios__card--dark .scenarios__brand-circle {
+    .scenarios__card--dark .scenarios__brand-circle-wrap {
         left: auto;
         right: 0;
     }

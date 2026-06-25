@@ -93,8 +93,12 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="scenarios__media scenarios__media--brand" aria-hidden="true">
-                        <img class="scenarios__brand-bg" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-background.png'); ?>">
-                        <img class="scenarios__brand-circle" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-circle.png'); ?>">
+                        <div class="scenarios__brand-bg-wrap">
+                            <img class="scenarios__brand-bg" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-background.png'); ?>">
+                        </div>
+                        <div class="scenarios__brand-circle-wrap">
+                            <img class="scenarios__brand-circle" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-decor-circle.png'); ?>">
+                        </div>
                         <svg class="scenarios__brand-mask" fill="none" preserveAspectRatio="none" viewBox="0 0 312.5 625">
                             <path d="M312.5 625C139.911 625 0 485.089 0 312.5C0 139.911 139.911 0 312.5 0V625Z" fill="#060B20"/>
                         </svg>
