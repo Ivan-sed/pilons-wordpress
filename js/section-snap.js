@@ -144,10 +144,13 @@
     var st = getScenariosTrigger();
 
     slides.forEach(function (slide) {
-      // The Scenarios slide uses the ScrollTrigger pin start so the snap
-      // target matches the exact moment the pin-stack begins.
+      // The Scenarios pin-stack has two snap targets:
+      // - entering from above (scrolling down) lands at the start/first card;
+      // - entering from below (scrolling up) lands at the end/last card,
+      //   so the cards unstack in reverse order instead of jumping to the top.
       if (slide.id === 'scenarios' && st) {
         slide.targetTop = Math.max(0, st.start);
+        slide.targetBottom = Math.max(0, st.end);
         return;
       }
 
@@ -286,7 +289,12 @@
     setAnimating(true);
     killSnapTween();
 
+    // When re-entering the Scenarios stack from below, land on its last card
+    // (end of the pin range) so scrolling up unstack the cards in reverse.
     var target = slide.targetTop;
+    if (slide.id === 'scenarios' && direction < 0 && typeof slide.targetBottom === 'number') {
+      target = slide.targetBottom;
+    }
     var fallbackTimer = null;
     var lenis = getLenis();
 
