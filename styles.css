@@ -1739,7 +1739,7 @@ body {
 }
 
 .scenarios__sport-clip:nth-child(1) {
-    right: 1%;
+    right: 2%;
     top: 1%;
     width: clamp(20rem, 24vw, 30rem);
     height: auto;
@@ -1748,7 +1748,7 @@ body {
 }
 
 .scenarios__sport-clip:nth-child(2) {
-    right: 56%;
+    right: 46%;
     top: 20%;
     width: clamp(16rem, 20vw, 25rem);
     height: auto;
@@ -1757,7 +1757,7 @@ body {
 }
 
 .scenarios__sport-clip:nth-child(3) {
-    right: 2%;
+    right: 3%;
     top: 46%;
     width: clamp(14rem, 17vw, 22rem);
     height: auto;
@@ -1766,7 +1766,7 @@ body {
 }
 
 .scenarios__sport-clip:nth-child(4) {
-    right: 56%;
+    right: 48%;
     top: 74%;
     width: clamp(11rem, 14vw, 18rem);
     height: auto;
@@ -5026,7 +5026,7 @@ body {
 
     .hero__cta-row {
         position: absolute;
-        left: 61.5%;
+        left: 58.5%;
         top: 7.65%;
         bottom: auto;
         z-index: 4;
@@ -5491,14 +5491,23 @@ body {
         opacity: 0;
         pointer-events: none;
         visibility: hidden;
-        transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+        transition: opacity 0.3s ease, visibility 0s linear 0.3s;
     }
 
     .configs__card.is-current {
         opacity: 1;
         pointer-events: auto;
         visibility: visible;
-        transition: opacity 0.25s ease 0.25s, visibility 0s linear 0.25s;
+        transition: opacity 0.3s ease, visibility 0s;
+    }
+
+    .configs__card-photo--inactive {
+        opacity: 0;
+        transition: opacity 0.05s linear;
+    }
+
+    .configs__card-photo--active {
+        transition: opacity 0.3s ease;
     }
 
     .configs__card-button,
@@ -7986,5 +7995,11 @@ body {
     .scenarios__media--marquee .scenarios__gallery-img,
     .scenarios__media--marquee .scenarios__gallery-clip-img {
         object-fit: cover;
+    }
+}
+
+@media (max-width: 992px) and (min-width: 769px) {
+    .hero__cta-row {
+        left: 56%;
     }
 }
