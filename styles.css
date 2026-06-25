@@ -8003,3 +8003,136 @@ body {
         left: 56%;
     }
 }
+
+
+/* Large desktop: keep the full blurred background visible and size the
+   configurator card to the available viewport height. The blur is decoupled
+   from the card content so it can spill behind neighboring sections. */
+@media (min-width: 1440px) {
+    .configs {
+        z-index: auto;
+        isolation: auto;
+    }
+
+    .configs__bg {
+        z-index: 1;
+    }
+
+    .configs__header,
+    .configs__slider {
+        position: relative;
+        z-index: 2;
+    }
+
+    .configs__header {
+        margin-bottom: clamp(1rem, 3vh, 3.5rem);
+    }
+
+    .configs__slider {
+        --configs-card-h: min(49.125rem, calc(100vh - 20rem));
+        min-height: var(--configs-card-h);
+    }
+
+    .configs__viewport {
+        height: var(--configs-card-h);
+    }
+
+    .configs__card {
+        top: calc(var(--configs-card-h) * 3.59375 / 49.125);
+        width: calc(var(--configs-card-h) * 33.6875 / 49.125);
+        height: calc(var(--configs-card-h) * 41.9375 / 49.125);
+    }
+
+    .configs__card.is-current {
+        top: 0;
+        width: calc(var(--configs-card-h) * 42 / 49.125);
+        height: var(--configs-card-h);
+    }
+
+    .configs__card.is-prev {
+        left: calc(50% - (var(--configs-card-h) * 30.78125 / 49.125));
+    }
+
+    .configs__card.is-next {
+        left: calc(50% + (var(--configs-card-h) * 30.78125 / 49.125));
+    }
+
+    .configs__card-button {
+        gap: calc(var(--configs-card-h) * 0.625 / 49.125);
+        padding: calc(var(--configs-card-h) * 2.5 / 49.125) 0;
+    }
+
+    .configs__card.is-current .configs__card-button {
+        gap: calc(var(--configs-card-h) * 1.75 / 49.125);
+        padding: calc(var(--configs-card-h) * 3.75 / 49.125) 0;
+    }
+
+    .configs__card-header {
+        width: calc(var(--configs-card-h) * 15.875 / 49.125);
+        height: auto;
+        min-height: calc(var(--configs-card-h) * 4.0625 / 49.125);
+    }
+
+    .configs__card-size {
+        padding: max(0.5rem, calc(var(--configs-card-h) * 1.25 / 49.125)) max(0.75rem, calc(var(--configs-card-h) * 1.5625 / 49.125));
+        font-size: max(1rem, calc(var(--configs-card-h) * 1.25 / 49.125));
+    }
+
+    .configs__card-badge {
+        top: calc(var(--configs-card-h) * -1.25 / 49.125);
+        left: 50%;
+        transform: translateX(-50%);
+        padding: max(0.375rem, calc(var(--configs-card-h) * 0.625 / 49.125)) max(0.75rem, calc(var(--configs-card-h) * 1.25 / 49.125));
+        font-size: max(0.75rem, calc(var(--configs-card-h) * 0.875 / 49.125));
+    }
+
+    .configs__card-badge--reels {
+        left: 52%;
+        transform: translateX(-50%);
+    }
+
+    .configs__card-media {
+        width: calc(var(--configs-card-h) * 26.5625 / 49.125);
+        height: calc(var(--configs-card-h) * 30 / 49.125);
+        margin-bottom: calc(var(--configs-card-h) * -1.125 / 49.125);
+    }
+
+    .configs__card.is-current .configs__card-media {
+        width: 100%;
+        height: calc(var(--configs-card-h) * 33 / 49.125);
+        margin-bottom: 0;
+    }
+
+    .configs__card-desc {
+        width: calc(var(--configs-card-h) * 28.625 / 49.125);
+        font-size: max(1rem, calc(var(--configs-card-h) * 1.25 / 49.125));
+    }
+
+    .configs__arrows {
+        width: calc(var(--configs-card-h) * 46.375 / 49.125);
+    }
+}
+
+@media (min-width: 1440px) and (min-height: 1001px) {
+    .configs {
+        margin-top: clamp(12rem, 38vh, 32rem);
+    }
+}
+
+@media (min-width: 1440px) and (max-height: 1000px) {
+    .configs {
+        margin-top: clamp(6rem, 16vh, 14rem);
+    }
+}
+
+@media (min-width: 1440px) and (max-height: 845px) {
+    .configs__card-size {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .configs__card-desc {
+        width: 100%;
+        font-size: 0.875rem;
+    }
+}

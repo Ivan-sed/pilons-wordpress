@@ -9,3 +9,4 @@ node_modules/
 
 # Local FTP deploy helper — holds credentials, never commit
 deploy.sh
+/.playwright-mcp
