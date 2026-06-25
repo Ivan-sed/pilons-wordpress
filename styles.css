@@ -2858,11 +2858,11 @@ body {
     opacity: 0;
 }
 
-.trust__logo:hover .trust__logo-img--base {
+.trust__logo--has-hover.is-hover-ready:hover .trust__logo-img--base {
     opacity: 0;
 }
 
-.trust__logo:hover .trust__logo-img--hover {
+.trust__logo--has-hover.is-hover-ready:hover .trust__logo-img--hover {
     opacity: 1;
 }
 
@@ -7498,29 +7498,29 @@ body {
         transform: rotateY(180deg);
     }
 
-    .trust__logo:hover .trust__logo-img--base {
+    .trust__logo--has-hover.is-hover-ready:hover .trust__logo-img--base {
         opacity: 1;
     }
 
-    .trust__logo:hover .trust__logo-img--hover {
+    .trust__logo--has-hover.is-hover-ready:hover .trust__logo-img--hover {
         opacity: 0;
     }
 
-    .trust__logo.is-flipped .trust__logo-img--base {
+    .trust__logo--has-hover.is-hover-ready.is-flipped .trust__logo-img--base {
         opacity: 0;
         transform: rotateY(-180deg);
     }
 
-    .trust__logo.is-flipped .trust__logo-img--hover {
+    .trust__logo--has-hover.is-hover-ready.is-flipped .trust__logo-img--hover {
         opacity: 1;
         transform: rotateY(0deg);
     }
 
-    .trust__logo.is-flipped:hover .trust__logo-img--base {
+    .trust__logo--has-hover.is-hover-ready.is-flipped:hover .trust__logo-img--base {
         opacity: 0;
     }
 
-    .trust__logo.is-flipped:hover .trust__logo-img--hover {
+    .trust__logo--has-hover.is-hover-ready.is-flipped:hover .trust__logo-img--hover {
         opacity: 1;
     }
 }

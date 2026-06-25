@@ -26,14 +26,55 @@
   var activePointerId = null;
   var nudge = null;
 
+  function markHoverReady(img) {
+    var logo = img.closest && img.closest('.trust__logo--has-hover');
+    if (!logo || img.naturalWidth === 0) return;
+
+    logo.classList.add('is-hover-ready');
+  }
+
+  function waitForHoverImage(img) {
+    var markReady = function () {
+      if (typeof img.decode === 'function') {
+        img.decode().then(function () {
+          markHoverReady(img);
+        }).catch(function () {
+          markHoverReady(img);
+        });
+      } else {
+        markHoverReady(img);
+      }
+    };
+
+    if (img.complete) {
+      markReady();
+      return;
+    }
+
+    img.addEventListener('load', markReady, { once: true });
+    img.addEventListener('error', function () {
+      var logo = img.closest && img.closest('.trust__logo--has-hover');
+      if (logo) {
+        logo.classList.add('is-hover-failed');
+      }
+    }, { once: true });
+  }
+
+  function prepareImages(scope) {
+    scope.querySelectorAll('img').forEach(function (img) {
+      img.draggable = false;
+      img.loading = 'eager';
+    });
+
+    scope.querySelectorAll('.trust__logo-img--hover').forEach(waitForHoverImage);
+  }
+
   clone.setAttribute('aria-hidden', 'true');
   clone.querySelectorAll('img').forEach(function (img) {
     img.alt = '';
-    img.draggable = false;
   });
-  row.querySelectorAll('img').forEach(function (img) {
-    img.draggable = false;
-  });
+  prepareImages(row);
+  prepareImages(clone);
   track.appendChild(clone);
   track.setAttribute('data-marquee-ready', 'true');
 
@@ -176,6 +217,7 @@
 
     var logo = event.target.closest && event.target.closest('.trust__logo');
     if (!logo || !marquee.contains(logo)) return;
+    if (!logo.classList.contains('is-hover-ready')) return;
 
     var shouldFlip = !logo.classList.contains('is-flipped');
     clearFlipped(logo);

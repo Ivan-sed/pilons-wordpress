@@ -10,6 +10,30 @@ if (!defined('ABSPATH')) {
 }
 
 $trust_logos = range(1, 33);
+$trust_logo_has_hover = static function (int $index): bool {
+    $base_path  = SCREENL_DIR . '/assets/trust/' . $index . '.png';
+    $hover_path = SCREENL_DIR . '/assets/trust/hover/' . $index . '.png';
+
+    if (!is_readable($base_path) || !is_readable($hover_path)) {
+        return false;
+    }
+
+    $base_size  = filesize($base_path);
+    $hover_size = filesize($hover_path);
+
+    if (false !== $base_size && false !== $hover_size && $base_size !== $hover_size) {
+        return true;
+    }
+
+    $base_hash  = hash_file('sha256', $base_path);
+    $hover_hash = hash_file('sha256', $hover_path);
+
+    if (!is_string($base_hash) || !is_string($hover_hash)) {
+        return true;
+    }
+
+    return !hash_equals($base_hash, $hover_hash);
+};
 ?>
         <!-- TRUST -->
         <section class="trust" id="trust" aria-labelledby="trust-title">
@@ -29,9 +53,19 @@ $trust_logos = range(1, 33);
                 <div class="trust__track">
                     <div class="trust__logos">
                         <?php foreach ($trust_logos as $index) : ?>
-                            <div class="trust__logo trust__logo--<?php echo esc_attr((string) $index); ?>">
-                                <img class="trust__logo-img trust__logo-img--base" alt="<?php echo esc_attr__('Логотип клиента', 'screenl'); ?>" width="230" height="230" loading="lazy" decoding="async" src="<?php echo screenl_asset('trust/' . $index . '.png'); ?>">
-                                <img class="trust__logo-img trust__logo-img--hover" alt="" aria-hidden="true" width="230" height="230" loading="lazy" decoding="async" src="<?php echo screenl_asset('trust/hover/' . $index . '.png'); ?>">
+                            <?php
+                            $has_hover = $trust_logo_has_hover($index);
+                            $classes   = [
+                                'trust__logo',
+                                'trust__logo--' . $index,
+                                $has_hover ? 'trust__logo--has-hover' : 'trust__logo--static',
+                            ];
+                            ?>
+                            <div class="<?php echo esc_attr(implode(' ', $classes)); ?>">
+                                <img class="trust__logo-img trust__logo-img--base" alt="<?php echo esc_attr__('Логотип клиента', 'screenl'); ?>" width="230" height="230" loading="eager" fetchpriority="low" decoding="async" src="<?php echo screenl_asset('trust/' . $index . '.png'); ?>">
+                                <?php if ($has_hover) : ?>
+                                    <img class="trust__logo-img trust__logo-img--hover" alt="" aria-hidden="true" width="230" height="230" loading="eager" fetchpriority="low" decoding="async" src="<?php echo screenl_asset('trust/hover/' . $index . '.png'); ?>">
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
