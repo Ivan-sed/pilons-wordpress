@@ -1174,14 +1174,10 @@ body {
 
 .scenarios {
     position: relative;
-    z-index: 4;
+    z-index: 9;
     margin-top: 12.5rem;
     width: 100%;
     max-width: 115rem;
-}
-
-.scenarios--pinning {
-    z-index: 9;
 }
 
 .scenarios--pinning+.configs {
@@ -1206,6 +1202,10 @@ body {
 .scenarios__pin--pinning {
     z-index: 20;
     isolation: isolate;
+}
+
+.scenarios__pin--pinning .scenarios__card {
+    will-change: transform;
 }
 
 .scenarios__stack {
@@ -1916,6 +1916,7 @@ body {
     filter: blur(5.26875rem);
     mix-blend-mode: darken;
     pointer-events: none;
+    transition: opacity 0.15s ease;
 }
 
 .configs__bg-img {

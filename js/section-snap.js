@@ -43,6 +43,10 @@
   var WHEEL_DEBOUNCE_MS = 30;
   // Minimum accumulated delta to trigger a slide change.
   var WHEEL_THRESHOLD = 30;
+  // Cooldown after a snap finishes before we accept another wheel gesture.
+  // Safari trackpad momentum often keeps emitting wheel events after the
+  // animation ends, which can trigger a second unwanted slide.
+  var WHEEL_COOLDOWN_MS = 300;
 
   var slideConfigs = [
     { id: 'hero', selector: '#hero' },
@@ -63,7 +67,7 @@
   var scenariosTrigger = null;
   var idleSnapTimer = null;
   var exitScenariosTimer = null;
-  var EXIT_SCENARIOS_DELAY = 120;
+  var EXIT_SCENARIOS_DELAY = isSafari ? 250 : 120;
   var lastKnownDirection = 0;
   var lastScrollY = 0;
   var snapTween = null;
@@ -71,6 +75,8 @@
   var exitedScenariosDirection = 0;
   var isExitingScenarios = false;
   var skipPostSnapCorrection = false;
+  var lastSnapFinishTime = 0;
+  var refreshTimer = null;
 
   function canSnap() {
     return Boolean(
@@ -125,6 +131,14 @@
    * In that range we let the existing ScrollTrigger scrub animation handle
    * the wheel naturally; snapping is bypassed.
    */
+  function getScenariosOverscrollBuffer() {
+    // Safari trackpad momentum often carries the page well past the end of
+    // the pin-stack. A larger buffer prevents the snap controller from
+    // taking over while the next section is still sliding over the cards.
+    if (!isSafari) return 60;
+    return Math.max(120, Math.round(window.innerHeight * 0.12));
+  }
+
   function isInsideScenarios() {
     var st = getScenariosTrigger();
     if (!st) return false;
@@ -134,7 +148,7 @@
     // snapping to the Scenarios slide is handled by the pin-stack.
     // Extend the upper bound slightly to protect against accidental
     // overscroll leaving the pin-stack before the snap should take over.
-    return scrollY >= st.start - 2 && scrollY <= st.end + 60;
+    return scrollY >= st.start - 2 && scrollY <= st.end + getScenariosOverscrollBuffer();
   }
 
   function buildSlides() {
@@ -283,6 +297,7 @@
       // to the previous slide while the user's intent was to keep going forward.
       // In that case use the last known scroll direction to pick the next slide.
       next = clampIndex(current + lastKnownDirection);
+      lastKnownDirection = 0;
     }
 
     var target = slides[next].targetTop;
@@ -323,6 +338,8 @@
         fallbackTimer = null;
       }
       setAnimating(false);
+      lastSnapFinishTime = Date.now();
+      lastKnownDirection = 0;
       var shouldSkip = skipPostSnapCorrection;
       skipPostSnapCorrection = false;
       if (!shouldSkip) {
@@ -402,9 +419,12 @@
     if (!canSnap() || isAnimating || snapDisabled || isOverlayLocked()) return;
 
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var diff = scrollY - lastScrollY;
+    var direction = Math.abs(diff) > 0.5 ? (diff > 0 ? 1 : -1) : lastKnownDirection;
+
     var inside = isInsideScenarios();
     if (inside) {
-      lastKnownDirection = scrollY > lastScrollY ? 1 : -1;
+      lastKnownDirection = direction;
       lastScrollY = scrollY;
       wasInsideScenarios = true;
       return;
@@ -438,6 +458,11 @@
   function onWheel(event) {
     if (!canSnap()) return;
     if (isAnimating || snapDisabled || isOverlayLocked()) return;
+    if (Date.now() - lastSnapFinishTime < WHEEL_COOLDOWN_MS) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
     if (isInsideScenarios()) return;
 
     // While the page is settling after leaving the Scenarios pin-stack,
@@ -565,8 +590,40 @@
     getScenariosTrigger();
   }
 
+  function debouncedRefresh() {
+    if (refreshTimer) window.clearTimeout(refreshTimer);
+
+    // Refreshing ScrollTrigger while the Scenarios pin-stack is active can
+    // cause a visible jump in Safari. Defer the refresh until the user has
+    // left the stack.
+    if (isInsideScenarios()) {
+      refreshTimer = window.setTimeout(function () {
+        refreshTimer = null;
+        debouncedRefresh();
+      }, 200);
+      return;
+    }
+
+    refreshTimer = window.setTimeout(function () {
+      refreshTimer = null;
+      refresh();
+    }, 150);
+  }
+
+  function observeSlideHeights() {
+    if (typeof ResizeObserver === 'undefined' || !slides.length) return;
+
+    var ro = new ResizeObserver(function () {
+      debouncedRefresh();
+    });
+
+    slides.forEach(function (slide) {
+      if (slide && slide.element) ro.observe(slide.element);
+    });
+  }
+
   function onResize() {
-    window.requestAnimationFrame(refresh);
+    debouncedRefresh();
   }
 
   function bindQueries() {
@@ -597,6 +654,7 @@
     if (!canSnap()) return;
 
     buildSlides();
+    observeSlideHeights();
     lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
 
     window.addEventListener('wheel', onWheel, { passive: false, capture: true });
@@ -614,7 +672,7 @@
     window.addEventListener('load', refresh);
 
     if (window.ScrollTrigger) {
-      window.ScrollTrigger.addEventListener('refresh', refresh);
+      window.ScrollTrigger.addEventListener('refresh', debouncedRefresh);
     }
   }
 

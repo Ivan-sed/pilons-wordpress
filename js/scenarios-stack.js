@@ -16,10 +16,14 @@
 
   var timeline = null;
   var refreshFrame = null;
+  var resizeSyncFrame = null;
 
   function canPin() {
     return desktopQuery.matches && !reducedMotionQuery.matches;
   }
+
+  var isSafari = /Apple Computer/.test(navigator.vendor || '') &&
+    !/(CriOS|FxiOS)/.test(navigator.userAgent || '');
 
   function numberOr(value, fallback) {
     var parsed = parseFloat(value);
@@ -52,15 +56,21 @@
     return label.offsetHeight + getGap() + getCardHeight();
   }
 
+  var wasStacking = false;
+  var wasPinning = false;
+
   function setStacking(active) {
+    if (active === wasStacking) return;
+    wasStacking = active;
     root.classList.toggle('scenarios--stacking', active);
     pin.classList.toggle('scenarios__pin--stacking', active);
   }
 
   function setPinning(active) {
+    if (active === wasPinning) return;
+    wasPinning = active;
     root.classList.toggle('scenarios--pinning', active);
     pin.classList.toggle('scenarios__pin--pinning', active);
-    pin.style.zIndex = active ? '20' : '';
   }
 
   function syncFlowHeight() {
@@ -114,6 +124,11 @@
       refreshFrame = null;
     }
 
+    if (resizeSyncFrame) {
+      window.clearTimeout(resizeSyncFrame);
+      resizeSyncFrame = null;
+    }
+
     if (timeline) {
       if (timeline.scrollTrigger) {
         timeline.scrollTrigger.kill();
@@ -144,9 +159,9 @@
         },
         pin: pin,
         pinSpacing: false,
-        anticipatePin: 1,
+        anticipatePin: isSafari ? 0 : 1,
         scrub: true,
-        fastScrollEnd: true,
+        fastScrollEnd: !isSafari,
         invalidateOnRefresh: true,
         onRefreshInit: function () {
           resetPinState();
@@ -199,12 +214,25 @@
     }
   });
 
+  function scheduleSyncMode() {
+    if (resizeSyncFrame) return;
+    // Use a timeout so we don't poll at rAF frequency while pinned.
+    resizeSyncFrame = window.setTimeout(function () {
+      resizeSyncFrame = null;
+      // Avoid rebuilding the pin-stack while it is actively pinned — that
+      // causes a visible jump in Safari. Wait until the user scrolls out.
+      if (timeline && timeline.scrollTrigger && timeline.scrollTrigger.isActive) {
+        scheduleSyncMode();
+        return;
+      }
+      syncMode();
+    }, 200);
+  }
+
   bindQuery(desktopQuery);
   bindQuery(reducedMotionQuery);
   window.addEventListener('load', requestRefresh);
-  window.addEventListener('resize', function () {
-    requestAnimationFrame(syncMode);
-  });
+  window.addEventListener('resize', scheduleSyncMode);
 
   syncMode();
 })();
