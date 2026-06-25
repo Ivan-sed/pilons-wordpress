@@ -122,8 +122,20 @@ if (!defined('ABSPATH')) {
                     </div>
 
                     <div class="scenarios__media scenarios__media--sport" aria-hidden="true">
-                        <img class="scenarios__sport-img scenarios__sport-img--front" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-sport-front.png'); ?>">
-                        <img class="scenarios__sport-img scenarios__sport-img--back" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/card-sport-back.png'); ?>">
+                        <div class="scenarios__sport-clips">
+                            <div class="scenarios__sport-clip">
+                                <video class="scenarios__sport-clip-video" muted autoplay loop playsinline disablePictureInPicture controlsList="nofullscreen" preload="metadata" src="<?php echo esc_url(screenl_asset('scenarios/2.mp4')); ?>"></video>
+                            </div>
+                            <div class="scenarios__sport-clip">
+                                <img class="scenarios__sport-clip-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/1.png'); ?>">
+                            </div>
+                            <div class="scenarios__sport-clip">
+                                <img class="scenarios__sport-clip-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/3.jpeg'); ?>">
+                            </div>
+                            <div class="scenarios__sport-clip">
+                                <img class="scenarios__sport-clip-img" alt="" decoding="auto" src="<?php echo screenl_asset('scenarios/4.jpeg'); ?>">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </article>

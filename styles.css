@@ -1507,7 +1507,7 @@ body {
     .scenarios__brand-bg,
     .scenarios__brand-circle,
     .scenarios__brand-mask,
-    .scenarios__sport-img,
+    .scenarios__sport-clip,
     .scenarios__shot-img {
         animation: none;
     }
@@ -1649,6 +1649,7 @@ body {
     max-width: none;
     object-fit: cover;
     animation: scenarios-brand-bg 18s ease-in-out infinite alternate;
+    animation-delay: 0s;
     will-change: transform;
 }
 
@@ -1674,6 +1675,7 @@ body {
     max-width: none;
     object-fit: cover;
     animation: scenarios-brand-photo 12s ease-in-out infinite alternate;
+    animation-delay: -6s;
     will-change: transform;
 }
 
@@ -1685,66 +1687,110 @@ body {
 }
 
 @keyframes scenarios-brand-bg {
-    from {
-        transform: scale3d(1, 1, 1);
+    0% {
+        transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
     }
 
-    to {
-        transform: scale3d(1.07, 1.07, 1);
+    50% {
+        transform: scale3d(1.07, 1.07, 1) translate3d(-1%, 1%, 0);
+    }
+
+    100% {
+        transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
     }
 }
 
 @keyframes scenarios-brand-photo {
+    0% {
+        transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: scale3d(1.18, 1.18, 1) translate3d(-2%, -1%, 0);
+    }
+
+    100% {
+        transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+}
+
+.scenarios__media--sport {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.scenarios__sport-clips {
+    position: absolute;
+    inset: 0;
+}
+
+.scenarios__sport-clip {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    box-shadow: 0 1.5rem 4rem rgba(0, 12, 71, 0.18);
+    animation: scenarios-sport-clip 10s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+.scenarios__sport-clip:nth-child(1) {
+    right: 1%;
+    top: 1%;
+    width: clamp(20rem, 24vw, 30rem);
+    height: auto;
+    z-index: 2;
+    animation-delay: 0s;
+}
+
+.scenarios__sport-clip:nth-child(2) {
+    right: 56%;
+    top: 20%;
+    width: clamp(16rem, 20vw, 25rem);
+    height: auto;
+    z-index: 3;
+    animation-delay: -3.33s;
+}
+
+.scenarios__sport-clip:nth-child(3) {
+    right: 2%;
+    top: 46%;
+    width: clamp(14rem, 17vw, 22rem);
+    height: auto;
+    z-index: 1;
+    animation-delay: -6.66s;
+}
+
+.scenarios__sport-clip:nth-child(4) {
+    right: 56%;
+    top: 74%;
+    width: clamp(11rem, 14vw, 18rem);
+    height: auto;
+    z-index: 4;
+    animation-delay: -10s;
+}
+
+.scenarios__sport-clip-img,
+.scenarios__sport-clip-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+}
+
+@keyframes scenarios-sport-clip {
     from {
         transform: scale3d(1, 1, 1);
     }
 
     to {
-        transform: scale3d(1.18, 1.18, 1);
-    }
-}
-
-.scenarios__media--sport {
-    inset: 0;
-}
-
-.scenarios__sport-img {
-    position: absolute;
-    left: calc(25% + 26.3125rem);
-    width: 53.6875rem;
-    height: 53.6875rem;
-    max-width: none;
-}
-
-.scenarios__sport-img--front {
-    top: 50%;
-    animation: scenarios-sport-front 10s ease-in-out infinite alternate;
-    will-change: transform;
-}
-
-.scenarios__sport-img--back {
-    top: -27.75rem;
-    animation: scenarios-sport-back 10s ease-in-out infinite alternate;
-    will-change: transform;
-}
-
-@keyframes scenarios-sport-front {
-    from {
-        transform: translate3d(0, -0.5rem, 0) scale3d(1, 1, 1);
-    }
-
-    to {
-        transform: translate3d(0, -2.25rem, 0) scale3d(1.018, 1.018, 1);
-    }
-}
-
-@keyframes scenarios-sport-back {
-    from {
-        transform: translate3d(0, 0.5rem, 0) scale3d(1, 1, 1);
-    }
-
-    to {
-        transform: translate3d(0, 2.25rem, 0) scale3d(1.018, 1.018, 1);
+        transform: scale3d(1.05, 1.05, 1);
     }
 }
 
@@ -1840,7 +1886,7 @@ body {
     .scenarios .scenarios__brand-bg,
     .scenarios .scenarios__brand-circle,
     .scenarios .scenarios__brand-mask,
-    .scenarios .scenarios__sport-img,
+    .scenarios .scenarios__sport-clip,
     .scenarios .scenarios__shot-img {
         animation: none;
     }
@@ -5347,25 +5393,37 @@ body {
         display: none;
     }
 
-    .scenarios__sport-img {
-        width: min(19rem, 42%);
+    .scenarios__media--sport {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .scenarios__sport-clips {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        align-content: center;
+        justify-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .scenarios__sport-clip,
+    .scenarios__sport-clip:nth-child(1),
+    .scenarios__sport-clip:nth-child(2),
+    .scenarios__sport-clip:nth-child(3),
+    .scenarios__sport-clip:nth-child(4) {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: min(10rem, 42vw);
         height: auto;
         aspect-ratio: 1;
-        max-width: none;
         animation: none;
-    }
-
-    .scenarios__sport-img--front {
-        top: 50%;
-        left: 28%;
-        transform: translate(-50%, -50%);
-    }
-
-    .scenarios__sport-img--back {
-        top: 50%;
-        left: 72%;
-        opacity: 1;
-        transform: translate(-50%, -50%);
+        box-shadow: 0 0.75rem 2rem rgba(0, 12, 71, 0.14);
     }
 
     .scenarios__media--shots {
@@ -7046,18 +7104,12 @@ body {
         height: 14.5rem;
     }
 
-    .scenarios__sport-img {
-        width: min(10.75rem, 40%);
-    }
-
-    .scenarios__sport-img--front {
-        top: 50%;
-        left: 27%;
-    }
-
-    .scenarios__sport-img--back {
-        top: 50%;
-        left: 73%;
+    .scenarios__sport-clip,
+    .scenarios__sport-clip:nth-child(1),
+    .scenarios__sport-clip:nth-child(2),
+    .scenarios__sport-clip:nth-child(3),
+    .scenarios__sport-clip:nth-child(4) {
+        width: min(7.5rem, 40vw);
     }
 
     .configs__slider {
@@ -7827,5 +7879,112 @@ body {
         order: 3;
         align-self: center;
         margin-top: clamp(1.5rem, 6vw, 2.25rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .scenarios__media--sport {
+        height: auto;
+        min-height: 22rem;
+        padding: 1rem;
+        border-radius: 1.5rem;
+    }
+
+    .scenarios__sport-clips {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto auto;
+        gap: 0.75rem;
+        width: 100%;
+        height: auto;
+    }
+
+    .scenarios__sport-clip,
+    .scenarios__sport-clip:nth-child(1),
+    .scenarios__sport-clip:nth-child(2),
+    .scenarios__sport-clip:nth-child(3),
+    .scenarios__sport-clip:nth-child(4) {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        border-radius: 1.25rem;
+        aspect-ratio: 1 / 1;
+        box-shadow: 0 0.5rem 1.25rem rgba(0, 12, 71, 0.12);
+        animation: scenarios-sport-clip 10s ease-in-out infinite alternate;
+    }
+
+    .scenarios__sport-clip:nth-child(1) {
+        grid-column: 1 / -1;
+        aspect-ratio: 16 / 9;
+        animation-delay: 0s;
+    }
+
+    .scenarios__sport-clip:nth-child(2),
+    .scenarios__sport-clip:nth-child(3),
+    .scenarios__sport-clip:nth-child(4) {
+        aspect-ratio: 1 / 1;
+    }
+
+    .scenarios__sport-clip:nth-child(2) {
+        animation-delay: -2.5s;
+    }
+
+    .scenarios__sport-clip:nth-child(3) {
+        animation-delay: -5s;
+    }
+
+    .scenarios__sport-clip:nth-child(4) {
+        animation-delay: -7.5s;
+    }
+
+    @keyframes scenarios-sport-photo-zoom {
+        0% {
+            transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+        }
+
+        50% {
+            transform: scale3d(1.18, 1.18, 1) translate3d(-2%, 1%, 0);
+        }
+
+        100% {
+            transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+        }
+    }
+
+    .scenarios__sport-clip:nth-child(2) .scenarios__sport-clip-img,
+    .scenarios__sport-clip:nth-child(3) .scenarios__sport-clip-img,
+    .scenarios__sport-clip:nth-child(4) .scenarios__sport-clip-img {
+        animation: scenarios-sport-photo-zoom 6s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .scenarios__sport-clip:nth-child(2) .scenarios__sport-clip-img {
+        animation-delay: 0s;
+    }
+
+    .scenarios__sport-clip:nth-child(3) .scenarios__sport-clip-img {
+        animation-delay: -2s;
+    }
+
+    .scenarios__sport-clip:nth-child(4) .scenarios__sport-clip-img {
+        animation-delay: -4s;
+    }
+}
+
+@media (max-width: 768px) {
+    .scenarios__media--marquee {
+        height: clamp(22rem, 60vw, 30rem);
+    }
+
+    .scenarios__media--marquee .scenarios__gallery-item {
+        height: clamp(18rem, 40vw, 22rem);
+    }
+
+    .scenarios__media--marquee .scenarios__gallery-img,
+    .scenarios__media--marquee .scenarios__gallery-clip-img {
+        object-fit: cover;
     }
 }
