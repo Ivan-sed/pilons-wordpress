@@ -7,10 +7,19 @@
   var legalHero = document.querySelector('.legal-page__hero');
   var legalLayout = document.querySelector('.legal-page__layout');
   var ticking = false;
+  var isHidden = header.classList.contains('hero__header--hidden');
   var isScrolled = header.classList.contains('hero__header--scrolled');
 
-  // With slide-by-slide scrolling the header should always stay visible.
-  header.classList.remove('hero__header--hidden');
+  // Desktop header stays always visible with slide-by-page scrolling.
+  // Mobile keeps the original slide-in / slide-out behaviour.
+  var mobileQuery = window.matchMedia('(max-width: 768px)');
+
+  // Mobile slide-in state.
+  var hideAfter = 120;
+  var topOffset = 24;
+  var deltaThreshold = 8;
+  var lastY = getScrollY();
+  var knownY = lastY;
 
   function getScrollY() {
     return Math.max(window.pageYOffset || document.documentElement.scrollTop || 0, 0);
@@ -51,13 +60,37 @@
   function applyState() {
     ticking = false;
 
-    var y = getScrollY();
+    var y = knownY;
     var nextScrolled = y > getScrolledAfter();
 
     isScrolled = setClass('hero__header--scrolled', nextScrolled, isScrolled);
+
+    if (mobileQuery.matches) {
+      var delta = y - lastY;
+      var forceVisible = y <= topOffset || hasHeaderFocus() || isMenuOpen();
+      var nextHidden = isHidden;
+
+      if (forceVisible || y <= hideAfter) {
+        nextHidden = false;
+      } else if (delta > deltaThreshold) {
+        nextHidden = true;
+      } else if (delta < -deltaThreshold) {
+        nextHidden = false;
+      }
+
+      isHidden = setClass('hero__header--hidden', nextHidden, isHidden);
+
+      if (forceVisible || y <= hideAfter || Math.abs(delta) > deltaThreshold) {
+        lastY = y;
+      }
+    } else {
+      header.classList.remove('hero__header--hidden');
+      isHidden = false;
+    }
   }
 
   function requestState() {
+    knownY = getScrollY();
     if (!ticking) {
       ticking = true;
       window.requestAnimationFrame(applyState);
@@ -66,6 +99,15 @@
 
   window.addEventListener('scroll', requestState, { passive: true });
   window.addEventListener('resize', requestState);
+  header.addEventListener('focusin', requestState);
+  header.addEventListener('focusout', requestState);
+
+  if (menu && 'MutationObserver' in window) {
+    new MutationObserver(requestState).observe(menu, {
+      attributes: true,
+      attributeFilter: ['class', 'aria-hidden']
+    });
+  }
 
   requestState();
 })();
