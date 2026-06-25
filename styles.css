@@ -8136,3 +8136,32 @@ body {
         font-size: 0.875rem;
     }
 }
+
+/* Short desktop viewport: rearrange FAQ into a balanced grid so all items fit */
+@media (min-width: 1025px) and (max-height: 990px) {
+    .faq {
+        gap: 2.5rem;
+    }
+
+    .faq__header {
+        gap: 2rem;
+    }
+
+    .faq__body {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-flow: row;
+        align-items: start;
+        gap: 1.25rem 2rem;
+    }
+
+    .faq__column {
+        display: contents;
+        gap: 0;
+    }
+
+    .faq__item {
+        width: fit-content;
+        justify-self: start;
+    }
+}
