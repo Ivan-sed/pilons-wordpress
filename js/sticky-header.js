@@ -6,14 +6,11 @@
   var hero = document.querySelector('.hero');
   var legalHero = document.querySelector('.legal-page__hero');
   var legalLayout = document.querySelector('.legal-page__layout');
-  var hideAfter = 120;
-  var topOffset = 24;
-  var deltaThreshold = 8;
-  var lastY = getScrollY();
-  var knownY = lastY;
   var ticking = false;
-  var isHidden = header.classList.contains('hero__header--hidden');
   var isScrolled = header.classList.contains('hero__header--scrolled');
+
+  // With slide-by-slide scrolling the header should always stay visible.
+  header.classList.remove('hero__header--hidden');
 
   function getScrollY() {
     return Math.max(window.pageYOffset || document.documentElement.scrollTop || 0, 0);
@@ -54,30 +51,13 @@
   function applyState() {
     ticking = false;
 
-    var y = knownY;
-    var delta = y - lastY;
-    var forceVisible = y <= topOffset || hasHeaderFocus() || isMenuOpen();
-    var nextHidden = isHidden;
+    var y = getScrollY();
     var nextScrolled = y > getScrolledAfter();
 
-    if (forceVisible || y <= hideAfter) {
-      nextHidden = false;
-    } else if (delta > deltaThreshold) {
-      nextHidden = true;
-    } else if (delta < -deltaThreshold) {
-      nextHidden = false;
-    }
-
     isScrolled = setClass('hero__header--scrolled', nextScrolled, isScrolled);
-    isHidden = setClass('hero__header--hidden', nextHidden, isHidden);
-
-    if (forceVisible || y <= hideAfter || Math.abs(delta) > deltaThreshold) {
-      lastY = y;
-    }
   }
 
   function requestState() {
-    knownY = getScrollY();
     if (!ticking) {
       ticking = true;
       window.requestAnimationFrame(applyState);
@@ -86,15 +66,6 @@
 
   window.addEventListener('scroll', requestState, { passive: true });
   window.addEventListener('resize', requestState);
-  header.addEventListener('focusin', requestState);
-  header.addEventListener('focusout', requestState);
-
-  if (menu && 'MutationObserver' in window) {
-    new MutationObserver(requestState).observe(menu, {
-      attributes: true,
-      attributeFilter: ['class', 'aria-hidden']
-    });
-  }
 
   requestState();
 })();
