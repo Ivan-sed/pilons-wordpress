@@ -176,6 +176,47 @@
     return Math.max(0, Math.min(index, slides.length - 1));
   }
 
+  function getMaxScrollY() {
+    var doc = document.documentElement;
+    var body = document.body;
+    var scrollHeight = Math.max(
+      body ? body.scrollHeight : 0,
+      body ? body.offsetHeight : 0,
+      doc ? doc.clientHeight : 0,
+      doc ? doc.scrollHeight : 0,
+      doc ? doc.offsetHeight : 0
+    );
+
+    return Math.max(0, scrollHeight - window.innerHeight);
+  }
+
+  function getLastSlide() {
+    return slides.length ? slides[slides.length - 1] : null;
+  }
+
+  function shouldLetLastSlideScroll(direction) {
+    var lastSlide = getLastSlide();
+    if (!lastSlide || direction === 0 || lastSlide.targetTop == null) return false;
+
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var maxScrollY = getMaxScrollY();
+
+    if (maxScrollY <= lastSlide.targetTop + 2) return false;
+    if (scrollY < lastSlide.targetTop - 2) return false;
+
+    if (direction > 0) return true;
+
+    return scrollY > lastSlide.targetTop + 2;
+  }
+
+  function isInsideLastSlideFreeScroll() {
+    var lastSlide = getLastSlide();
+    if (!lastSlide || lastSlide.targetTop == null) return false;
+
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    return scrollY > lastSlide.targetTop + 2 && getMaxScrollY() > lastSlide.targetTop + 2;
+  }
+
   function setAnimating(value) {
     isAnimating = value;
     document.body.classList.toggle('is-section-snapping', value);
@@ -195,6 +236,7 @@
    */
   function correctPosition(source) {
     if (!canSnap() || isAnimating || snapDisabled || isOverlayLocked() || isInsideScenarios()) return;
+    if (isInsideLastSlideFreeScroll()) return;
 
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
     var current = getCurrentIndex();
@@ -386,6 +428,12 @@
     // Ignore mostly-horizontal gestures (trackpad swipes inside sliders, etc.).
     if (Math.abs(deltaX) > Math.abs(deltaY) * 1.2) return;
 
+    var direction = deltaY > 0 ? 1 : -1;
+    if (shouldLetLastSlideScroll(direction)) {
+      lastKnownDirection = direction;
+      return;
+    }
+
     wheelAccumulator += deltaY;
 
     if (wheelTimer) {
@@ -432,6 +480,16 @@
       typeof target.closest === 'function' &&
       target.closest('.configs__slider, .trust__marquee')
     ) {
+      return;
+    }
+
+    var keyDirection = 0;
+    if (key === 'ArrowDown' || key === 'PageDown' || (key === ' ' && !event.shiftKey)) keyDirection = 1;
+    else if (key === 'ArrowUp' || key === 'PageUp' || (key === ' ' && event.shiftKey)) keyDirection = -1;
+    else if (key === 'End') keyDirection = 1;
+
+    if (shouldLetLastSlideScroll(keyDirection)) {
+      lastKnownDirection = keyDirection;
       return;
     }
 
