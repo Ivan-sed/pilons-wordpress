@@ -8113,18 +8113,6 @@ body {
     }
 }
 
-@media (min-width: 1440px) and (min-height: 1001px) {
-    .configs {
-        margin-top: clamp(12rem, 38vh, 32rem);
-    }
-}
-
-@media (min-width: 1440px) and (max-height: 1000px) {
-    .configs {
-        margin-top: clamp(6rem, 16vh, 14rem);
-    }
-}
-
 @media (min-width: 1440px) and (max-height: 845px) {
     .configs__card-size {
         padding: 0.5rem 0.75rem;
@@ -8163,5 +8151,17 @@ body {
     .faq__item {
         width: fit-content;
         justify-self: start;
+    }
+}
+
+/* Large gaps between desktop slides (one slide per screen) */
+@media (min-width: 1025px) {
+    .benefits,
+    .scenarios,
+    .configs,
+    .content,
+    .faq,
+    .trust {
+        margin-top: clamp(12rem, 30vh, 30rem);
     }
 }

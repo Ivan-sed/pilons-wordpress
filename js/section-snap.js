@@ -89,10 +89,25 @@
     return document.body.classList.contains(OVERLAY_LOCKED_CLASS);
   }
 
-  function getHeaderOffset() {
+  function getHeaderTopSpace() {
     var header = document.querySelector('.hero__header');
     if (!header) return 0;
-    return -(Math.ceil(header.getBoundingClientRect().height) + 48);
+    return Math.ceil(header.getBoundingClientRect().height) + 48;
+  }
+
+  function getSlideHeight(slide) {
+    if (slide.id !== 'trust-contacts') {
+      return slide.element.offsetHeight;
+    }
+
+    // The last logical slide is trust + contacts; center the whole group.
+    var trust = slide.element;
+    var contacts = document.querySelector('#contacts');
+    if (!contacts) return trust.offsetHeight;
+
+    var trustRect = trust.getBoundingClientRect();
+    var contactsRect = contacts.getBoundingClientRect();
+    return Math.ceil(contactsRect.bottom - trustRect.top);
   }
 
   function getScenariosTrigger() {
@@ -140,7 +155,8 @@
   }
 
   function updateSlideTargets() {
-    var headerOffset = getHeaderOffset();
+    var headerTopSpace = getHeaderTopSpace();
+    var viewportHeight = window.innerHeight;
     var st = getScenariosTrigger();
 
     slides.forEach(function (slide) {
@@ -155,7 +171,9 @@
       }
 
       var rect = slide.element.getBoundingClientRect();
-      slide.targetTop = Math.max(0, window.pageYOffset + rect.top + headerOffset);
+      var slideHeight = getSlideHeight(slide);
+      var topSpace = Math.max(headerTopSpace, (viewportHeight - slideHeight) / 2);
+      slide.targetTop = Math.max(0, window.pageYOffset + rect.top - topSpace);
     });
   }
 
