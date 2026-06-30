@@ -1389,13 +1389,13 @@ body {
 
 .scenarios__card-pill--gray {
     background:
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 45%),
-        rgba(26, 86, 219, 0.55);
-    backdrop-filter: blur(0.75rem) saturate(180%);
-    -webkit-backdrop-filter: blur(0.75rem) saturate(180%);
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.22) 0%, transparent 45%),
+        rgba(56, 64, 76, 0.9);
+    backdrop-filter: blur(0.75rem) saturate(160%);
+    -webkit-backdrop-filter: blur(0.75rem) saturate(160%);
     border: 0.0625rem solid rgba(255, 255, 255, 0.22);
     box-shadow:
-        0 0.25rem 1rem rgba(26, 86, 219, 0.35),
+        0 0.25rem 1rem rgba(0, 0, 0, 0.18),
         inset 0 0.0625rem 0 rgba(255, 255, 255, 0.2);
     color: white;
 }
@@ -5292,8 +5292,8 @@ body {
 
     .scenarios__card-pill--gray {
         background:
-            radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.28) 0%, transparent 45%),
-            rgba(26, 86, 219, 0.55);
+            radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 45%),
+            rgba(56, 64, 76, 0.9);
         color: white;
     }
 
