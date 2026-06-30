@@ -29,15 +29,19 @@ function screenl_preload_critical_assets(): void
     }
 
     $images = [
-        screenl_asset('hero/background-gradient.png'),
-        screenl_asset('benefits/pillar-product.png'),
-        screenl_asset('content/screen-panel.png'),
-        screenl_asset('shared/section-bg-blur.png'),
+        // Critical first-screen backgrounds: serve WebP to capable browsers,
+        // fall back to PNG for legacy ones via the templates.
+        screenl_asset('hero/background-gradient.webp'),
+        screenl_asset('shared/section-bg-gradient-primary.webp'),
+        screenl_asset('shared/section-bg-gradient-secondary.webp'),
+        screenl_asset('benefits/pillar-product.webp'),
+        screenl_asset('content/screen-panel.webp'),
+        screenl_asset('shared/section-bg-blur.webp'),
     ];
 
     foreach ($images as $url) {
         printf(
-            '<link rel="preload" href="%s" as="image">' . "\n",
+            '<link rel="preload" href="%s" as="image" type="image/webp">' . "\n",
             esc_url($url)
         );
     }

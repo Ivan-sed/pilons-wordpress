@@ -12,8 +12,14 @@ if (!defined('ABSPATH')) {
         <!-- BENEFITS -->
         <section class="benefits" id="benefits" aria-labelledby="benefits-title">
             <div class="benefits__bg" aria-hidden="true">
-                <span class="benefits__bg-img benefits__bg-img--primary"></span>
-                <span class="benefits__bg-img benefits__bg-img--secondary"></span>
+                <picture>
+                    <source srcset="<?php echo esc_url(SCREENL_URI . '/assets/shared/section-bg-gradient-primary.webp'); ?>" type="image/webp">
+                    <img alt="" class="benefits__bg-img benefits__bg-img--primary" src="<?php echo esc_url(SCREENL_URI . '/assets/shared/section-bg-gradient-primary.png'); ?>" decoding="async" loading="eager">
+                </picture>
+                <picture>
+                    <source srcset="<?php echo esc_url(SCREENL_URI . '/assets/shared/section-bg-gradient-secondary.webp'); ?>" type="image/webp">
+                    <img alt="" class="benefits__bg-img benefits__bg-img--secondary" src="<?php echo esc_url(SCREENL_URI . '/assets/shared/section-bg-gradient-secondary.png'); ?>" decoding="async" loading="eager">
+                </picture>
             </div>
 
             <div class="benefits__content">

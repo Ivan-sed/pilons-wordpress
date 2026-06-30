@@ -971,6 +971,7 @@ body {
 
 .benefits {
     position: relative;
+    isolation: isolate;
     margin-top: 12.5rem;
     width: 100%;
     min-height: 50.25rem;
@@ -994,6 +995,7 @@ body {
     position: absolute;
     inset: 0;
     max-width: none;
+    object-fit: fill;
     object-position: bottom;
     width: 100%;
     height: 100%;
@@ -1002,14 +1004,9 @@ body {
     background-repeat: no-repeat;
 }
 
-.benefits__bg-img--primary {
-    background-image: url("assets/shared/section-bg-gradient-primary.png");
-    background-image: image-set(url("assets/shared/section-bg-gradient-primary.webp") type("image/webp"), url("assets/shared/section-bg-gradient-primary.png") type("image/png"));
-}
-
+.benefits__bg-img--primary,
 .benefits__bg-img--secondary {
-    background-image: url("assets/shared/section-bg-gradient-secondary.png");
-    background-image: image-set(url("assets/shared/section-bg-gradient-secondary.webp") type("image/webp"), url("assets/shared/section-bg-gradient-secondary.png") type("image/png"));
+    pointer-events: none;
 }
 
 .benefits__content {
@@ -4221,12 +4218,15 @@ body {
         opacity: 0.95;
     }
 
-    .benefits__bg-img,
     .configs__bg-img,
     .content__bg-img,
     .contacts__bg-img {
         object-fit: cover;
         object-position: center bottom;
+    }
+
+    .benefits__bg-img {
+        object-fit: fill;
     }
 
     .benefits__content {

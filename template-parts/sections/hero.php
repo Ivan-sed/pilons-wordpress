@@ -28,7 +28,10 @@ $hero_bezels = [
         <!-- HERO BACKGROUND -->
         <section class="hero__bg" aria-hidden="true">
             <div class="hero__bg-wrap">
-                <img alt="" class="hero__bg-img" src="<?php echo screenl_asset('hero/background-gradient.png'); ?>">
+                <picture>
+                    <source srcset="<?php echo esc_url(SCREENL_URI . '/assets/hero/background-gradient.webp'); ?>" type="image/webp">
+                    <img alt="" class="hero__bg-img" src="<?php echo esc_url(SCREENL_URI . '/assets/hero/background-gradient.png'); ?>" decoding="async" fetchpriority="high">
+                </picture>
             </div>
             <div class="hero__bg-fade"></div>
         </section>
