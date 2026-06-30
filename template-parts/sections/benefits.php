@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
                     <li class="benefits__row">
                         <span class="benefits__item">Разрешение одного пилона - 320х1080</span>
                     </li>
-                    <li class="benefits__row benefits__row--split">
+                    <li class="benefits__row benefits__row--split benefits__row--wide-left">
                         <span class="benefits__item">Бесшовное соединение пилонов</span>
                         <span class="benefits__item">Толщина 4 см</span>
                     </li>

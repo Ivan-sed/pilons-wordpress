@@ -6109,11 +6109,21 @@ body {
         display: none !important;
     }
 
-    .hero .bezel[data-bezel="0"],
-    .hero .bezel[data-bezel="5"],
     .hero .shadow-group[data-shadow="0"],
     .hero .shadow-group[data-shadow="1"] {
         width: 50% !important;
+        transform: none !important;
+    }
+
+    .hero .bezel[data-bezel="0"] {
+        left: 0 !important;
+        width: calc(50% - 1px) !important;
+        transform: none !important;
+    }
+
+    .hero .bezel[data-bezel="5"] {
+        left: calc(50% + 1px) !important;
+        width: calc(50% - 1px) !important;
         transform: none !important;
     }
 
@@ -6122,12 +6132,10 @@ body {
         width: 100% !important;
     }
 
-    .hero .bezel[data-bezel="0"],
     .hero .shadow-group[data-shadow="0"] {
         left: 0 !important;
     }
 
-    .hero .bezel[data-bezel="5"],
     .hero .shadow-group[data-shadow="1"] {
         left: 50% !important;
     }
@@ -6477,7 +6485,7 @@ body {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
         gap: clamp(1.55rem, 4.5vw, 2.2rem);
-        width: calc(100% - clamp(2rem, 6vw, 2.5rem));
+        width: 100%;
         min-height: clamp(44rem, 124vw, 62rem);
         margin-top: 0;
         padding: clamp(2.75rem, 8vw, 4rem) clamp(1.5rem, 5vw, 2rem) clamp(1.75rem, 5vw, 2.5rem);
@@ -6493,14 +6501,15 @@ body {
     .benefits__bg {
         position: absolute;
         display: block;
-        left: 4%;
-        top: 2%;
+        inset: 0;
         z-index: 0;
-        width: 113%;
-        height: 54%;
+        width: auto;
+        height: auto;
+        background-color: #0058e3;
+        mix-blend-mode: normal;
         opacity: 1;
-        /* filter: none; */
-        transform: scale(1.1);
+        filter: none;
+        transform: none;
         pointer-events: none;
     }
 
@@ -6511,26 +6520,30 @@ body {
         width: 100%;
         height: 100%;
         max-width: none;
-        background-color: #0058e3;
-        background-image:
-            linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
-            url("assets/scenarios/card-bg-secondary.png"),
-            url("assets/scenarios/card-bg-primary.png");
-        background-image:
-            linear-gradient(to right, rgba(0, 88, 227, 0.86), rgba(0, 88, 227, 0)),
-            image-set(url("assets/scenarios/card-bg-secondary.webp") type("image/webp"), url("assets/scenarios/card-bg-secondary.png") type("image/png")),
-            image-set(url("assets/scenarios/card-bg-primary.webp") type("image/webp"), url("assets/scenarios/card-bg-primary.png") type("image/png"));
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
+        object-fit: cover;
+        object-position: center;
         opacity: 1;
-        filter: none;
-        transform: scaleX(-1) rotate(8deg);
-        transform-origin: center;
+    }
+
+    .benefits__bg-img--primary {
+        display: none;
     }
 
     .benefits__bg-img--secondary {
-        display: none;
+        display: block;
+    }
+
+    .benefits__bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(to bottom,
+            #f2f3f6 0%,
+            rgba(242, 243, 246, 0) 15%,
+            rgba(242, 243, 246, 0) 85%,
+            #f2f3f6 100%);
+        pointer-events: none;
     }
 
     .benefits__content {
@@ -6553,8 +6566,8 @@ body {
         position: relative;
         z-index: 2;
         order: 2;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         width: 100%;
         gap: clamp(0.75rem, 2.3vw, 1.05rem);
         height: auto;
@@ -6562,25 +6575,40 @@ body {
     }
 
     .benefits__row,
-    .benefits__row--tight {
-        display: contents;
-        margin-top: 0;
-    }
-
+    .benefits__row--tight,
     .benefits__row--split {
         display: contents;
         margin-top: 0;
     }
 
     .benefits__row--split>.benefits__item {
-        flex: none;
-        min-width: 100%;
+        grid-column: auto;
+        min-width: 0;
         width: 100%;
-        align-self: auto;
+        align-self: stretch;
+    }
+
+    .benefits__row:not(.benefits__row--split)>.benefits__item {
+        grid-column: 1 / -1;
     }
 
     .benefits__row:nth-child(n+4) {
         display: contents;
+    }
+
+    /* Wider first pill for the "seamless join" row; both pills in the row keep
+       the same height via the nested grid. */
+    .benefits__row.benefits__row--wide-left {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-column: 1 / -1;
+        gap: clamp(0.75rem, 2.3vw, 1.05rem);
+    }
+
+    .benefits__row--wide-left>.benefits__item {
+        grid-column: auto;
+        width: 100%;
+        align-self: stretch;
     }
 
     .benefits__item,
@@ -6635,6 +6663,11 @@ body {
     .benefits__item--reels,
     .benefits__item--hd {
         margin-top: 0.65rem;
+    }
+
+    .benefits__row--split>.benefits__item--reels,
+    .benefits__row--split>.benefits__item--hd {
+        margin-top: 0;
     }
 
     .benefits__item-text {
@@ -7004,7 +7037,7 @@ body {
     }
 
     .benefits {
-        width: calc(100% - 2rem);
+        width: 100%;
         min-height: clamp(46rem, 132vw, 60rem);
         padding: clamp(2.5rem, 8vw, 3.4rem) clamp(1.5rem, 5vw, 1.75rem) clamp(1.75rem, 5vw, 2.25rem);
     }
@@ -7223,7 +7256,7 @@ body {
     }
 
     .benefits {
-        width: calc(100% - 1.5rem);
+        width: 100%;
         min-height: clamp(44rem, 140vw, 58rem);
         padding: 2.25rem 1.25rem 1.5rem;
     }
@@ -7325,7 +7358,7 @@ body {
     }
 
     .benefits {
-        width: calc(100% - 1rem);
+        width: 100%;
     }
 
     .benefits__title,
