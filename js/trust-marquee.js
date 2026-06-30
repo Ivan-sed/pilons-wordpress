@@ -9,6 +9,8 @@
 
   var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var tapFlipQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+  var mobileQuery = window.matchMedia('(max-width: 768px)');
+  var marqueeSpeedDivisor = mobileQuery.matches ? 54 : 36;
   var prevButton = document.querySelector('[data-trust-prev]');
   var nextButton = document.querySelector('[data-trust-next]');
   var clone = row.cloneNode(true);
@@ -136,7 +138,7 @@
           nudge = null;
         }
       } else if (!isDragging && !isHovering && !reduceMotionQuery.matches && time > pausedUntil) {
-        offset += (segmentWidth / 36) * dt;
+        offset += (segmentWidth / marqueeSpeedDivisor) * dt;
       }
 
       render();
@@ -252,6 +254,16 @@
     nextButton.addEventListener('click', function () {
       startNudge(1);
     });
+  }
+
+  function updateMarqueeSpeed() {
+    marqueeSpeedDivisor = mobileQuery.matches ? 54 : 36;
+  }
+
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', updateMarqueeSpeed);
+  } else if (mobileQuery.addListener) {
+    mobileQuery.addListener(updateMarqueeSpeed);
   }
 
   window.addEventListener('resize', function () {

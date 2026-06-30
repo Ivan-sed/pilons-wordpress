@@ -6050,9 +6050,9 @@ body {
     }
 
     .hero__screen-anim>.screen-group {
-        left: var(--hero-mobile-panel-gutter) !important;
+        left: calc(var(--hero-mobile-panel-gutter) + 3px) !important;
         top: var(--hero-mobile-panel-top) !important;
-        width: calc(100% - var(--hero-mobile-panel-gutter) - var(--hero-mobile-panel-gutter)) !important;
+        width: calc(100% - var(--hero-mobile-panel-gutter) - var(--hero-mobile-panel-gutter) - 6px) !important;
         height: var(--hero-mobile-panel-height) !important;
         overflow: hidden;
         border: 0.125rem solid #29292b;
@@ -6072,7 +6072,7 @@ body {
     }
 
     .hero .panel-mask:not([data-panel="1"]):not([data-panel="2"]),
-    .hero .bezel:not([data-bezel="0"]):not([data-bezel="1"]),
+    .hero .bezel:not([data-bezel="0"]):not([data-bezel="5"]),
     .hero .shadow-group:not([data-shadow="0"]):not([data-shadow="1"]) {
         display: none;
     }
@@ -6110,7 +6110,7 @@ body {
     }
 
     .hero .bezel[data-bezel="0"],
-    .hero .bezel[data-bezel="1"],
+    .hero .bezel[data-bezel="5"],
     .hero .shadow-group[data-shadow="0"],
     .hero .shadow-group[data-shadow="1"] {
         width: 50% !important;
@@ -6127,7 +6127,7 @@ body {
         left: 0 !important;
     }
 
-    .hero .bezel[data-bezel="1"],
+    .hero .bezel[data-bezel="5"],
     .hero .shadow-group[data-shadow="1"] {
         left: 50% !important;
     }
@@ -6143,6 +6143,23 @@ body {
 
     .hero .shadow-group[data-shadow="1"] .shadow-group__svg {
         left: -100% !important;
+    }
+
+    /* Use the actual side-right bezel on mobile so the stand corner is correct,
+       and lighten the heavy drop shadows under the screen. */
+    .hero .bezel__svg {
+        filter: drop-shadow(0 0.375rem 0.625rem rgba(0, 0, 0, 0.3)) !important;
+    }
+
+    .hero .shadow-group[data-shadow="0"] .shadow-group__svg,
+    .hero .shadow-group[data-shadow="1"] .shadow-group__svg {
+        opacity: 0.55;
+    }
+
+    .hero__screen-anim>.screen-group {
+        box-shadow:
+            -0.5rem 0 1rem rgba(0, 18, 61, 0.12),
+            -2rem 0 2rem rgba(0, 18, 61, 0.06);
     }
 
     .hero,
@@ -7981,6 +7998,17 @@ body {
 
     .scenarios__sport-clip:nth-child(4) .scenarios__sport-clip-img {
         animation-delay: -4s;
+    }
+
+    /* Speed up the passive zoom on the business/branding card on mobile and
+       bring the circle photo back to life at the same pace. */
+    .scenarios__brand-bg {
+        animation-duration: 6s;
+    }
+
+    .scenarios__brand-circle {
+        animation: scenarios-brand-photo 6s ease-in-out infinite alternate;
+        animation-delay: -3s;
     }
 }
 
