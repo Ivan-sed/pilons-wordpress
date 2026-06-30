@@ -8165,4 +8165,77 @@ body {
     .trust {
         margin-top: clamp(12rem, 30vh, 30rem);
     }
+
+    /* Sport card on desktop: same grid arrangement as mobile
+       (video on top, 3 photos below), scaled to the right media column. */
+    .scenarios__media--sport {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(1rem, 2vw, 2rem);
+        border-radius: clamp(1rem, 1.8vw, 1.75rem);
+    }
+
+    .scenarios__sport-clips {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto auto;
+        gap: clamp(0.75rem, 1.2vw, 1.25rem);
+        width: 100%;
+        height: auto;
+    }
+
+    .scenarios__sport-clip,
+    .scenarios__sport-clip:nth-child(1),
+    .scenarios__sport-clip:nth-child(2),
+    .scenarios__sport-clip:nth-child(3),
+    .scenarios__sport-clip:nth-child(4) {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        border-radius: clamp(1rem, 1.8vw, 1.75rem);
+        aspect-ratio: 1 / 1;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 12, 71, 0.14);
+    }
+
+    .scenarios__sport-clip:nth-child(1) {
+        grid-column: 1 / -1;
+        aspect-ratio: 16 / 9;
+    }
+
+    .scenarios__sport-clip:nth-child(2) .scenarios__sport-clip-img,
+    .scenarios__sport-clip:nth-child(3) .scenarios__sport-clip-img,
+    .scenarios__sport-clip:nth-child(4) .scenarios__sport-clip-img {
+        animation: scenarios-sport-photo-zoom 6s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .scenarios__sport-clip:nth-child(2) .scenarios__sport-clip-img {
+        animation-delay: 0s;
+    }
+
+    .scenarios__sport-clip:nth-child(3) .scenarios__sport-clip-img {
+        animation-delay: -2s;
+    }
+
+    .scenarios__sport-clip:nth-child(4) .scenarios__sport-clip-img {
+        animation-delay: -4s;
+    }
+
+    @keyframes scenarios-sport-photo-zoom {
+        0% {
+            transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+        }
+
+        50% {
+            transform: scale3d(1.18, 1.18, 1) translate3d(-2%, 1%, 0);
+        }
+
+        100% {
+            transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+        }
+    }
 }
