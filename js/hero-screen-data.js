@@ -103,7 +103,7 @@ window.HERO_SCREEN_DATA = {
     topRatio: -0.105,
   },
   timing: {
-    duration: 1.9,
+    duration: 1.55,
     ease: 'power2.inOut',
     hold: 0,
     delay: 0.45,
