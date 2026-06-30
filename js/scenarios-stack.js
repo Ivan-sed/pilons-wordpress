@@ -56,6 +56,25 @@
     return label.offsetHeight + getGap() + getCardHeight();
   }
 
+  function getPinStart() {
+    var vh = window.innerHeight;
+    var pinnedHeight = getPinnedHeight();
+    var header = document.querySelector('.hero__header');
+    var headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    var clearance = 48;
+    var availableHeight = vh - headerHeight - clearance;
+
+    // If the pinned content does not fit below the fixed header, keep the
+    // original top-top pinning so nothing is cut off. Otherwise center it
+    // vertically in the available viewport area.
+    if (pinnedHeight >= availableHeight) {
+      return 'top top';
+    }
+
+    var offset = Math.max(0, Math.round(headerHeight + clearance + (availableHeight - pinnedHeight) / 2));
+    return 'top ' + offset + 'px';
+  }
+
   var wasStacking = false;
   var wasPinning = false;
 
@@ -153,7 +172,7 @@
     timeline = gsap.timeline({
       scrollTrigger: {
         trigger: root,
-        start: 'top top',
+        start: getPinStart,
         end: function () {
           return '+=' + getStackDistance();
         },
