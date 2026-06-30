@@ -52,6 +52,17 @@
     return (cards.length - 1) * getStep();
   }
 
+  function getTrailingBuffer() {
+    // Extra scroll distance after the last card has fully stacked. This gives
+    // the user a moment to feel the Scenarios section is finished before the
+    // page snaps to the next slide.
+    return Math.max(120, Math.round(window.innerHeight * 0.7));
+  }
+
+  function getPinDistance() {
+    return getStackDistance() + getTrailingBuffer();
+  }
+
   function getPinnedHeight() {
     return label.offsetHeight + getGap() + getCardHeight();
   }
@@ -94,7 +105,7 @@
 
   function syncFlowHeight() {
     if (!canPin()) return;
-    root.style.height = (getPinnedHeight() + getStackDistance()) + 'px';
+    root.style.height = (getPinnedHeight() + getPinDistance()) + 'px';
   }
 
   function resetPinState() {
@@ -174,7 +185,7 @@
         trigger: root,
         start: getPinStart,
         end: function () {
-          return '+=' + getStackDistance();
+          return '+=' + getPinDistance();
         },
         pin: pin,
         pinSpacing: false,
@@ -208,6 +219,15 @@
         force3D: true,
       }, index);
     });
+
+    // Hold the fully-stacked state for the trailing buffer distance so the
+    // user feels the section is finished before the snap moves on.
+    timeline.to({}, {
+      duration: function () {
+        return getTrailingBuffer() / getStep();
+      },
+      ease: 'none',
+    }, cards.length - 1);
   }
 
   function syncMode() {
