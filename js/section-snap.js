@@ -71,6 +71,7 @@
   var lastKnownDirection = 0;
   var lastScrollY = 0;
   var snapTween = null;
+  var activeSnapFallbackTimer = null;
   var wasInsideScenarios = false;
   var exitedScenariosDirection = 0;
   var isExitingScenarios = false;
@@ -234,12 +235,16 @@
     if (!lastSlide || direction === 0 || lastSlide.targetTop == null) return false;
 
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var maxScrollY = getMaxScrollY();
 
-    if (maxScrollY <= lastSlide.targetTop + 2) return false;
     if (scrollY < lastSlide.targetTop - 2) return false;
 
-    if (direction > 0) return true;
+    if (direction > 0) {
+      // Allow scrolling down through the combined slide only if there is still
+      // room below. At the very bottom we hand the event back to the browser
+      // so Safari's rubber-band bounce does not trigger an unwanted snap.
+      var maxScrollY = getMaxScrollY();
+      return scrollY < maxScrollY - 2;
+    }
 
     return scrollY > lastSlide.targetTop + 2;
   }
@@ -249,7 +254,19 @@
     if (!lastSlide || lastSlide.targetTop == null) return false;
 
     var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    return scrollY > lastSlide.targetTop + 2 && getMaxScrollY() > lastSlide.targetTop + 2;
+    return scrollY > lastSlide.targetTop + 2;
+  }
+
+  function isAtBottomOfLastSlide() {
+    var lastSlide = getLastSlide();
+    if (!lastSlide || lastSlide.targetTop == null) return false;
+
+    var current = getCurrentIndex();
+    if (current !== slides.length - 1) return false;
+
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var maxScrollY = getMaxScrollY();
+    return scrollY >= maxScrollY - 2;
   }
 
   function setAnimating(value) {
@@ -261,6 +278,10 @@
     if (snapTween) {
       snapTween.kill();
       snapTween = null;
+    }
+    if (activeSnapFallbackTimer) {
+      window.clearTimeout(activeSnapFallbackTimer);
+      activeSnapFallbackTimer = null;
     }
   }
 
@@ -337,6 +358,7 @@
         window.clearTimeout(fallbackTimer);
         fallbackTimer = null;
       }
+      activeSnapFallbackTimer = null;
       setAnimating(false);
       lastSnapFinishTime = Date.now();
       lastKnownDirection = 0;
@@ -349,9 +371,12 @@
 
     fallbackTimer = window.setTimeout(function () {
       fallbackTimer = null;
+      activeSnapFallbackTimer = null;
       setAnimating(false);
       correctPosition('fallback');
     }, SNAP_DURATION * 1000 + 250);
+
+    activeSnapFallbackTimer = fallbackTimer;
 
     if (lenis) {
       // lock: true prevents the user from interrupting the snap mid-transition.
@@ -397,6 +422,18 @@
       isExitingScenarios = true;
     }
 
+    // While freely scrolling inside the combined trust/contacts slide, do not
+    // schedule any snap corrections and clear stale direction and Scenarios
+    // exit state so wheel events are not accidentally blocked.
+    if (isInsideLastSlideFreeScroll()) {
+      if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
+      if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
+      isExitingScenarios = false;
+      exitedScenariosDirection = 0;
+      lastKnownDirection = 0;
+      return;
+    }
+
     var velocity = event && typeof event.velocity === 'number' ? event.velocity : 0;
     if (Math.abs(velocity) > 0.08) return;
 
@@ -436,6 +473,19 @@
       isExitingScenarios = true;
     }
 
+    // While freely scrolling inside the combined trust/contacts slide, do not
+    // schedule any snap corrections and clear stale direction and Scenarios
+    // exit state so an upward gesture is not pulled back down.
+    if (isInsideLastSlideFreeScroll()) {
+      if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
+      if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
+      isExitingScenarios = false;
+      exitedScenariosDirection = 0;
+      lastKnownDirection = 0;
+      lastScrollY = scrollY;
+      return;
+    }
+
     if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
     if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
 
@@ -457,12 +507,40 @@
    */
   function onWheel(event) {
     if (!canSnap()) return;
-    if (isAnimating || snapDisabled || isOverlayLocked()) return;
-    if (Date.now() - lastSnapFinishTime < WHEEL_COOLDOWN_MS) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+
+    // Let the user interrupt a running GSAP fallback snap immediately. This
+    // prevents the snap animation from fighting a trackpad scroll on Safari.
+    if (snapTween) {
+      killSnapTween();
+      setAnimating(false);
+      if (wheelTimer) window.clearTimeout(wheelTimer);
+      if (exitScenariosTimer) window.clearTimeout(exitScenariosTimer);
+      if (idleSnapTimer) window.clearTimeout(idleSnapTimer);
+      wheelAccumulator = 0;
+      isExitingScenarios = false;
+      exitedScenariosDirection = 0;
+      lastKnownDirection = 0;
       return;
     }
+
+    if (isAnimating || snapDisabled || isOverlayLocked()) return;
+
+    var deltaY = event.deltaY;
+    var deltaX = event.deltaX;
+    var isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
+    var direction = isHorizontal ? 0 : (deltaY > 0 ? 1 : -1);
+
+    // Cooldown after a completed snap. Horizontal gestures and free scrolling
+    // inside the combined trust/contacts slide are allowed to pass through so
+    // the page does not feel glued to the bottom on Safari.
+    if (Date.now() - lastSnapFinishTime < WHEEL_COOLDOWN_MS) {
+      if (direction !== 0 && !shouldLetLastSlideScroll(direction)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+    }
+
     if (isInsideScenarios()) return;
 
     // While the page is settling after leaving the Scenarios pin-stack,
@@ -473,13 +551,17 @@
       return;
     }
 
-    var deltaY = event.deltaY;
-    var deltaX = event.deltaX;
-
     // Ignore mostly-horizontal gestures (trackpad swipes inside sliders, etc.).
-    if (Math.abs(deltaX) > Math.abs(deltaY) * 1.2) return;
+    if (isHorizontal) return;
 
-    var direction = deltaY > 0 ? 1 : -1;
+    // Swallow downward impulses at the bottom of the last slide. On Safari
+    // this avoids a rubber-band bounce being interpreted as intent to scroll.
+    if (direction > 0 && isAtBottomOfLastSlide()) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+
     if (shouldLetLastSlideScroll(direction)) {
       lastKnownDirection = direction;
       return;
