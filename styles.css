@@ -519,6 +519,49 @@ body {
     list-style: disc;
 }
 
+.legal-page__table {
+    width: 100%;
+    margin-top: 0.875rem;
+    border-collapse: collapse;
+    font-family: "NeueHaasMedium", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555565;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.legal-page__table th,
+.legal-page__table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    vertical-align: top;
+    border: 0.0625rem solid rgba(6, 11, 32, 0.1);
+}
+
+.legal-page__table td:first-child {
+    width: 30%;
+    font-family: "Benzin", sans-serif;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: #060b20;
+    background: rgba(6, 11, 32, 0.04);
+}
+
+.legal-page__table td ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+}
+
+.legal-page__table td p {
+    margin: 0;
+}
+
 /* ========================= HERO BG ========================= */
 
 .hero__bg {

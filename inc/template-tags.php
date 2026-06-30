@@ -99,7 +99,6 @@ function screenl_render_lead_form(string $variant, bool $with_head = false): voi
     }
 
     $c          = $classes[$variant];
-    $consent_url = function_exists('screenl_legal_url') ? screenl_legal_url('personal-data-consent') : home_url('/personal-data-consent/');
     $privacy_url = function_exists('screenl_legal_url') ? screenl_legal_url('privacy-policy') : home_url('/privacy-policy/');
     $messengers = [
         'Telegram' => 'Telegram',
@@ -141,7 +140,7 @@ function screenl_render_lead_form(string $variant, bool $with_head = false): voi
         <p class="<?php echo esc_attr($c['error']); ?> js-form-error" role="alert" aria-live="polite" hidden></p>
         <button class="<?php echo esc_attr($c['submit']); ?>" type="submit">Получить расчёт</button>
         <p class="lead-consent lead-consent--<?php echo esc_attr($variant); ?>">
-            Нажимая кнопку «Получить расчёт», вы соглашаетесь с <a href="<?php echo esc_url($consent_url); ?>" target="_blank" rel="noopener">согласием на обработку персональных данных</a> и <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener">политикой конфиденциальности</a>.
+            Нажимая кнопку «Получить расчёт», вы соглашаетесь с <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener">политикой в отношении обработки персональных данных</a>.
         </p>
         <div class="<?php echo esc_attr($c['success']); ?> js-form-success" hidden>
             <p class="<?php echo esc_attr($c['success_title']); ?>">Спасибо! Заявка отправлена</p>

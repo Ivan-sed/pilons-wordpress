@@ -18,10 +18,11 @@ function screenl_legal_pages(): array
 
     return [
         'privacy-policy'       => [
-            'title'    => 'Политика конфиденциальности',
+            'title'    => 'Политика в отношении обработки персональных данных',
             'eyebrow'  => 'Документ SCREENL',
-            'lead'     => 'Как мы собираем, используем и защищаем данные, которые вы оставляете на сайте.',
+            'lead'     => 'Порядок обработки персональных данных и меры по обеспечению их безопасности.',
             'updated'  => 'Редакция от 05.06.2026',
+            'template' => 'legal/privacy-policy-content',
             'sections' => [
                 [
                     'title' => '1. Общие положения',
@@ -73,59 +74,6 @@ function screenl_legal_pages(): array
                     'title' => '7. Контакты оператора',
                     'text'  => [
                         'По вопросам обработки персональных данных можно обратиться по e-mail ' . $operator_email . ' или телефону ' . $operator_phone . '.',
-                    ],
-                ],
-            ],
-        ],
-        'personal-data-consent' => [
-            'title'    => 'Согласие на обработку персональных данных',
-            'eyebrow'  => 'Документ SCREENL',
-            'lead'     => 'Условия согласия, которое пользователь предоставляет при отправке формы заявки.',
-            'updated'  => 'Редакция от 05.06.2026',
-            'sections' => [
-                [
-                    'title' => '1. Согласие пользователя',
-                    'text'  => [
-                        'Заполняя форму на сайте ' . $site_url . ' и нажимая кнопку «Получить расчёт», пользователь свободно, своей волей и в своём интересе даёт ' . $operator_name . ' согласие на обработку своих персональных данных.',
-                        'Согласие действует в отношении данных, которые пользователь указывает в форме заявки.',
-                    ],
-                ],
-                [
-                    'title' => '2. Перечень данных',
-                    'list'  => [
-                        'имя;',
-                        'номер телефона, e-mail или иной контакт для связи;',
-                        'выбранный мессенджер или способ связи;',
-                        'технические сведения об отправке заявки: дата, время, IP-адрес, URL страницы.',
-                    ],
-                ],
-                [
-                    'title' => '3. Цели обработки',
-                    'list'  => [
-                        'связь с пользователем по его заявке;',
-                        'подготовка коммерческого предложения или расчёта;',
-                        'уточнение деталей события, конфигурации оборудования и условий аренды;',
-                        'ведение внутреннего учёта обращений.',
-                    ],
-                ],
-                [
-                    'title' => '4. Действия с персональными данными',
-                    'text'  => [
-                        'Пользователь разрешает сбор, запись, систематизацию, накопление, хранение, уточнение, использование, передачу лицам, привлечённым для обработки заявки, обезличивание, блокирование, удаление и уничтожение персональных данных.',
-                        'Обработка может выполняться с использованием средств автоматизации и без их использования.',
-                    ],
-                ],
-                [
-                    'title' => '5. Срок действия и отзыв',
-                    'text'  => [
-                        'Согласие действует до достижения целей обработки или до его отзыва пользователем.',
-                        'Отозвать согласие можно письмом на ' . $operator_email . '. После получения отзыва оператор прекращает обработку и уничтожает данные, если отсутствуют иные законные основания для обработки.',
-                    ],
-                ],
-                [
-                    'title' => '6. Связанные документы',
-                    'text'  => [
-                        'Подробный порядок обработки данных описан в Политике конфиденциальности, размещённой на сайте.',
                     ],
                 ],
             ],
@@ -218,25 +166,29 @@ function screenl_render_legal_page(string $key): void
                     <a class="legal-page__aside-link" href="mailto:rent@screenl.ru">rent@screenl.ru</a>
                 </aside>
 
-                <article class="legal-page__content">
-                    <?php foreach ($page['sections'] as $section) : ?>
-                        <section class="legal-page__section">
-                            <h2><?php echo esc_html($section['title']); ?></h2>
-                            <?php if (!empty($section['text'])) : ?>
-                                <?php foreach ($section['text'] as $paragraph) : ?>
-                                    <p><?php echo esc_html($paragraph); ?></p>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                            <?php if (!empty($section['list'])) : ?>
-                                <ul>
-                                    <?php foreach ($section['list'] as $item) : ?>
-                                        <li><?php echo esc_html($item); ?></li>
+                <?php if (!empty($page['template'])) : ?>
+                    <?php get_template_part('template-parts/' . $page['template']); ?>
+                <?php else : ?>
+                    <article class="legal-page__content">
+                        <?php foreach ($page['sections'] as $section) : ?>
+                            <section class="legal-page__section">
+                                <h2><?php echo esc_html($section['title']); ?></h2>
+                                <?php if (!empty($section['text'])) : ?>
+                                    <?php foreach ($section['text'] as $paragraph) : ?>
+                                        <p><?php echo esc_html($paragraph); ?></p>
                                     <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                        </section>
-                    <?php endforeach; ?>
-                </article>
+                                <?php endif; ?>
+                                <?php if (!empty($section['list'])) : ?>
+                                    <ul>
+                                        <?php foreach ($section['list'] as $item) : ?>
+                                            <li><?php echo esc_html($item); ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
+                            </section>
+                        <?php endforeach; ?>
+                    </article>
+                <?php endif; ?>
             </div>
         </div>
     </main>
