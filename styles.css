@@ -8343,3 +8343,73 @@ body {
         }
     }
 }
+
+/* Cookie notice */
+.cookie-notice {
+  position: fixed;
+  left: clamp(1rem, 3vw, 1.5rem);
+  right: clamp(1rem, 3vw, 1.5rem);
+  bottom: clamp(1rem, 3vw, 1.5rem);
+  z-index: 9999;
+  transform: translateY(calc(100% + 2rem));
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.cookie-notice.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cookie-notice__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0.875rem 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 11, 32, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(6, 11, 32, 0.08);
+  color: #060b20;
+  font-family: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk Text Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.cookie-notice__text {
+  margin: 0;
+}
+
+.cookie-notice__btn {
+  flex-shrink: 0;
+  padding: 0.625rem 1.25rem;
+  background: #1a56db;
+  color: #fff;
+  border-radius: 0.625rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cookie-notice__btn:hover {
+  background: #1647b8;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .cookie-notice__inner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .cookie-notice__btn {
+    width: 100%;
+  }
+}
