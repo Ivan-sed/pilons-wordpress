@@ -17,6 +17,14 @@ function screenl_legal_pages(): array
     $site_url       = home_url('/');
 
     return [
+        'cookie-policy'        => [
+            'title'    => 'Политика использования файлов cookie',
+            'eyebrow'  => 'Документ SCREENL',
+            'lead'     => 'Порядок использования файлов cookie и аналогичных технологий на сайте.',
+            'updated'  => 'Редакция от 01.07.2026',
+            'template' => 'legal/cookie-policy-content',
+            'sections' => [],
+        ],
         'privacy-policy'       => [
             'title'    => 'Политика в отношении обработки персональных данных',
             'eyebrow'  => 'Документ SCREENL',

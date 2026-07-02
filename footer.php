@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="cookie-notice" id="cookieNotice" role="dialog" aria-label="<?php echo esc_attr('Уведомление о cookies'); ?>">
     <div class="cookie-notice__inner">
-        <p class="cookie-notice__text">Мы используем cookies, чтобы сайт работал быстрее и удобнее.</p>
+        <p class="cookie-notice__text">Мы используем <a href="<?php echo esc_url(function_exists('screenl_legal_url') ? screenl_legal_url('cookie-policy') : home_url('/cookie-policy/')); ?>" target="_blank" rel="noopener">cookies</a>, чтобы сайт работал быстрее и удобнее.</p>
         <button class="cookie-notice__btn" id="cookieAccept" type="button">Принять</button>
     </div>
 </div>

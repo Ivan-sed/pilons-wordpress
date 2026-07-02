@@ -145,6 +145,12 @@
           var success = form.querySelector('.js-form-success');
           if (success) success.hidden = false;
           form.classList.add('is-sent');
+
+          // Yandex.Metrika goal
+          if (typeof ym === 'function') {
+            ym(110315911, 'reachGoal', 'lead_form');
+          }
+
           setSubmitting(form, false);
         })
         .catch(function (err) {

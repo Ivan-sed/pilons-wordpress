@@ -8387,6 +8387,17 @@ body {
   margin: 0;
 }
 
+.cookie-notice__text a {
+  color: #1a56db;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.cookie-notice__text a:hover {
+  color: #1647b8;
+}
+
 .cookie-notice__btn {
   flex-shrink: 0;
   padding: 0.625rem 1.25rem;
